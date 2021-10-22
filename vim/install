@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+ln -sv "${DOTFILES_HOME}/vim/.vim" ~
+ln -sv "${DOTFILES_HOME}/vim/.vimrc" ~
+

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+$homebrew_location = $(which brew)
+if [ ! -f "${homebrew_location}" ]; then
+  echo 'Installing Homebrew"
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+  brew tap caskroom/cask
+  brew tap caskroom/versions
+fi
+brew update
+brew upgrade
+

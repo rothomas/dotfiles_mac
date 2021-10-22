@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+$pyenv_location=$(which pyenv)
+if [ ! -f "${pyenv_location}" ]; then
+  if [ $PLATFORM == 'Darwin' ]; then
+    brew install pyenv
+  else
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    cd ~/.pyenv
+    src/configure
+    make -C src
+    cd -
+  fi
+fi
+ln -sv "${DOTFILES_HOME}/python/.pyenv.sh" ~
+source ~/.pyenv.sh
+cd ~/.pyenv
+git pull
+cd -
+pyenv install 3.7.12
+pyenv global 3.7.12
+pip install --upgrade pip
+

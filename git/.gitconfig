@@ -1,0 +1,8 @@
+[user]
+        name = Rob Thomas
+        email = rob@formswift.com
+[core]
+        autocrlf = input
+[pull]
+        ff = only
+
