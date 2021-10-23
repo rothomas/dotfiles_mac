@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-$rvm_location=$(which rvm)
+rvm_location=$(which rvm)
 if [ -f "${rvm_location}" ]; then
   rvm get stable
 else

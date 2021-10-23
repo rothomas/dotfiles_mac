@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-$gpg2_location=$(which gpg2)
+gpg2_location=$(which gpg2)
 if [ ! -f "${gpg2_location}" ]; then
-  $gpg_location=$(which gpg)
+  gpg_location=$(which gpg)
   if [ ! -f "${gpg_location}" ]; then
     if [ $PLATFORM == 'Darwin' ]; then
       brew install gnupg

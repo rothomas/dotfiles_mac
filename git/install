@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 echo "Configuring git"
-$git_location = $(which git)
+git_location=$(which git)
 
 if [ ! -f "${git_location}" ]; then
   if [ $PLATFORM == 'Darwin' ]; then
     brew install git
-  elif [ -f "$(which apt-get)" && ${SUDOER} -eq 1 ]; then
+  elif [ -f "$(which apt-get)" ] && [ "${SUDOER}" -eq 1 ]; then
     sudo apt-get install -y -q git
   fi
 fi

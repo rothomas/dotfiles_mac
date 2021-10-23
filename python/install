@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-$pyenv_location=$(which pyenv)
+pyenv_location=$(which pyenv)
 if [ ! -f "${pyenv_location}" ]; then
   if [ $PLATFORM == 'Darwin' ]; then
     brew install pyenv
@@ -17,7 +17,11 @@ source ~/.pyenv.sh
 cd ~/.pyenv
 git pull
 cd -
-pyenv install 3.7.12
+if [ $(pyenv versions | grep -c 3.7.12) == 1 ]; then
+  echo 'Python 3.7.12 already installed.'
+else
+  pyenv install 3.7.12
+fi
 pyenv global 3.7.12
 pip install --upgrade pip
 

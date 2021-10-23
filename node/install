@@ -6,11 +6,10 @@ if [ ! -f "${nvm_location}" ]; then
     brew install nvm
   else
     curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-    source ~/.profile
   fi
 fi
 ln -sv "${DOTFILES_HOME}/node/.nvm.sh" ~
 source ~/.nvm.sh
 nvm install v12.14.1
-nvm global v12.14.1
+nvm alias default v12.14.1
 
