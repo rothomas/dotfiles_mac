@@ -7,8 +7,8 @@ if [ -f "${zsh_location}" ]; then
   if [ ! -f "~/.oh-my-zsh" ]; then
     curl -L http://install.ohmyz.sh | sh
   fi
-  ln -sv "${DOTFILES_HOME}/zsh/.zshrc" ~
-  ln -sv "${DOTFILES_HOME}/zsh/.iterm2_shell_integration.zsh" ~
+  ln -svf "${DOTFILES_HOME}/zsh/.zshrc" ~
+  ln -svf "${DOTFILES_HOME}/zsh/.iterm2_shell_integration.zsh" ~
   if [ ! -f "~/.oh-my-zsh/custom/plugins/zsh-autosuggest" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggest
   fi

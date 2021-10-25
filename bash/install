@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-ln -sv "${DOTFILES_PATH}/bash/.bash_logout" ~
-ln -sv "${DOTFILES_PATH}/bash/.bash_profile" ~
-ln -sv "${DOTFILES_PATH}/bash/.bashrc" ~
-ln -sv "${DOTFILES_PATH}/bash/.profile" ~
+ln -svf "${DOTFILES_HOME}/bash/.bash_logout" ~
+ln -svf "${DOTFILES_HOME}/bash/.bash_profile" ~
+ln -svf "${DOTFILES_HOME}/bash/.bashrc" ~
+ln -svf "${DOTFILES_HOME}/bash/.profile" ~
 
