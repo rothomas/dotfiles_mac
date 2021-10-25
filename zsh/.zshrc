@@ -103,3 +103,6 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.pyenv.sh
 source ~/.rvm.sh
 source ~/.nvm.sh
+
+eval $(ssh-agent -s)
+ssh-add

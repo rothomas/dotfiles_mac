@@ -2,6 +2,7 @@
 
 echo 'Running common configuration'
 
+source ${DOTFILES_HOME}/ssh/install
 source ${DOTFILES_HOME}/bash/install
 source ${DOTFILES_HOME}/git/install
 source ${DOTFILES_HOME}/zsh/install

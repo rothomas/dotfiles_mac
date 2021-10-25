@@ -5,3 +5,6 @@ source ~/.rvm.sh
 source ~/.pyenv.sh
 source ~/.nvm.sh
 
+eval $(ssh-agent -s)
+ssh-add
+
