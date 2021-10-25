@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export DOTFILES_HOME=$(dirname "$0")
+export DOTFILES_HOME="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 export PLATFORM=$(uname)
 
 echo 'Attempting to get sudo access.  Your password may be required.  Some features may not be available if you are not a sudoer.'
