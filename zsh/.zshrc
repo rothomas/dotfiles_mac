@@ -100,9 +100,15 @@ source ~/.iterm2_shell_integration.zsh
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-source ~/.pyenv.sh
-source ~/.rvm.sh
-source ~/.nvm.sh
+if [ -f ~/.pyenv.sh ]; then
+  source ~/.pyenv.sh
+fi
+if [ -f ~/.rvm.sh ]; then
+  source ~/.rvm.sh
+fi
+if [ -f ~/.nvm.sh ]; then
+  source ~/.nvm.sh
+fi
 
 eval $(ssh-agent -s)
 ssh-add
