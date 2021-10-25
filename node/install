@@ -11,5 +11,6 @@ fi
 ln -sv "${DOTFILES_HOME}/node/.nvm.sh" ~
 source ~/.nvm.sh
 nvm install v12.14.1
+nvm use --delete-prefix v12.14.1
 nvm alias default v12.14.1
 

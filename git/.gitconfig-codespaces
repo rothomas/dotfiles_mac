@@ -1,0 +1,9 @@
+[user]
+        name = Rob Thomas
+        email = rob@formswift.com
+[core]
+        autocrlf = input
+        editor = /home/codespace/.local/bin/git-ed.sh
+[pull]
+        ff = only
+

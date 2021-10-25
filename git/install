@@ -11,6 +11,10 @@ if [ ! -f "${git_location}" ]; then
   fi
 fi
 
+if [ $CODESPACES == 'true' ]; then
+  ln -svf "${DOTFILES_HOME}/git/.gitconfig-codespaces" ~/.gitconfig
+else
+  ln -svf "${DOTFILES_HOME}/git/.gitconfig" ~
+fi
 
-ln -sv "${DOTFILES_HOME}/git/.gitconfig" ~
 

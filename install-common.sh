@@ -8,6 +8,6 @@ source ${DOTFILES_HOME}/zsh/install
 source ${DOTFILES_HOME}/gpg2/install
 source ${DOTFILES_HOME}/vim/install
 source ${DOTFILES_HOME}/ruby/install
-source ${DOTFILES_HOME}/python/install
+#source ${DOTFILES_HOME}/python/install
 source ${DOTFILES_HOME}/node/install
 
