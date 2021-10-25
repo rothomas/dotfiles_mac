@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export DOTFILES_HOME=${HOME}/.dotfiles
+export DOTFILES_HOME=$(dirname "$0")
 export PLATFORM=$(uname)
 
 echo 'Attempting to get sudo access.  Your password may be required.  Some features may not be available if you are not a sudoer.'
