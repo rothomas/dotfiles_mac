@@ -11,11 +11,11 @@ else
   export SUDOER=0
 fi
 
-if [ $PLATFORM == 'Linux' ]; then
+if [ $PLATFORM = 'Linux' ]; then
   source ${DOTFILES_HOME}/install-linux.sh
 fi
 
-if [ $PLATFORM == 'Darwin' ]; then
+if [ $PLATFORM = 'Darwin' ]; then
   source ${DOTFILES_HOME}/install-osx.sh
 fi
 

@@ -26,7 +26,11 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-source ~/.pyenv.sh
+if [ -f ~/.pyenv.sh ]; then
+  source ~/.pyenv.sh
+  pyenv_init --profile
+fi
+
 source ~/.rvm.sh
 source ~/.nvm.sh
 

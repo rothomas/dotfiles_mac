@@ -1,12 +1,36 @@
-#!/usr/bin/env bash
+function pyenv_init {
+  homebrew_install=0
+  if [ "$(uname)" = 'Darwin' ] && [ -f $(which brew) ]; then
+    homebrew_install=$(brew list | grep pyenv | wc -l)
+  fi
 
-if [ $PLATFORM == 'Darwin' ]; then
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-else
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
-fi
-pyenv virtualenvwrapper
+  case $1 in
+    "--bash_profile")
+      ;;
+   "--bashrc")
+      eval "$(pyenv init -)"
+      pyenv virtualenvwrapper
+      ;;
+    "--profile")
+      if [ $homebrew_install = "0" ]; then
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+      fi
+      eval "$(pyenv init --path)"
+      ;;
+    "--zprofile")
+      if [ $homebrew_install = "0" ] ;then
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+      fi
+      eval "$(pyenv init --path)"
+      ;;
+    "--zshrc")
+      eval "$(pyenv init -)"
+      pyenv virtualenvwrapper
+      ;;
+     *)
+      ;;
+  esac
+}
 

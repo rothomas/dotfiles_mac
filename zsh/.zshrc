@@ -102,6 +102,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 if [ -f ~/.pyenv.sh ]; then
   source ~/.pyenv.sh
+  pyenv_init --zshrc
 fi
 if [ -f ~/.rvm.sh ]; then
   source ~/.rvm.sh

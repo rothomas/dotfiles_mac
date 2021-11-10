@@ -121,6 +121,7 @@ if [ -f ~/.rvm.sh ]; then
 fi
 if [ -f ~/.pyenv.sh ]; then
   source ~/.pyenv.sh
+  pyenv_init --bashrc
 fi
 if [ -f ~/.nvm.sh ]; then
   source ~/.nvm.sh

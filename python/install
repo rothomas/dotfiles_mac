@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-pyenv_location=$(which pyenv)
-if [ ! -f "${pyenv_location}" ]; then
-  if [ $PLATFORM == 'Darwin' ]; then
+PYTHON_VERSION=3.7.12
+
+pyenv_type=$(type -t pyenv)
+if [[ ! "$pyenv_type" =~ ^(file|function)$ ]]; then
+  if [ $PLATFORM = 'Darwin' ]; then
     brew install pyenv
+    brew install pyenv-virtualenvwrapper
   else
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git ~/.pyenv/plugins/pyenv-virtualenvwrapper
     cd ~/.pyenv
     src/configure
     make -C src
@@ -17,12 +21,11 @@ source ~/.pyenv.sh
 cd ~/.pyenv
 git pull
 cd -
-if [ $(pyenv versions | grep -c 3.7.12) == 1 ]; then
-  echo 'Python 3.7.12 already installed.'
+if [ $(pyenv versions | grep -c $PYTHON_VERSION | wc -l) = 1 ]; then
+  echo "Python ${PYTHON_VERSION} already installed."
 else
-  pyenv install 3.7.12
+  pyenv install $PYTHON_VERSION
 fi
-pyenv global 3.7.12
+pyenv global $PYTHON_VERSION
 pip install --upgrade pip
 pip install --upgrade virtualenvwrapper
-
