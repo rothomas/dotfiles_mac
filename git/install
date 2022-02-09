@@ -15,6 +15,7 @@ if [ "$CODESPACES" == "true" ]; then
   ln -svf "${DOTFILES_HOME}/git/.gitconfig-codespaces" ~/.gitconfig
 else
   ln -svf "${DOTFILES_HOME}/git/.gitconfig" ~
+  ln -svf "${DOTFILES_HOME}/git/.gitignore" ~
 fi
 
 
