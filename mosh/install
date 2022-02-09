@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [[ ! -f "$(which mosh-server)" ]]; then
+  if [ $PLATFORM = 'Darwin' ]; then
+    brew install mosh
+  else
+    sudo apt install mosh
+  fi
+fi
+

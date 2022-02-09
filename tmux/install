@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [[ ! -f "$(which tmux)" ]]; then
+  if [ $PLATFORM = 'Darwin' ]; then
+    brew install tmux
+  else
+    sudo apt install tmux
+  fi
+fi
+

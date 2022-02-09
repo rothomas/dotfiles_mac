@@ -17,11 +17,12 @@ if [[ ! "$pyenv_type" =~ ^(file|function)$ ]]; then
   fi
 fi
 ln -sv "${DOTFILES_HOME}/python/.pyenv.sh" ~
-source ~/.pyenv.sh
+source ~/.pyenv.sh --environment
+source ~/.pyenv.sh --init
 cd ~/.pyenv
 git pull
 cd -
-if [ $(pyenv versions | grep -c $PYTHON_VERSION | wc -l) = 1 ]; then
+if [[ "$(pyenv versions | grep -c $PYTHON_VERSION)" == "1" ]]; then
   echo "Python ${PYTHON_VERSION} already installed."
 else
   pyenv install $PYTHON_VERSION
@@ -29,3 +30,5 @@ fi
 pyenv global $PYTHON_VERSION
 pip install --upgrade pip
 pip install --upgrade virtualenvwrapper
+pyenv virtualenvwrapper
+

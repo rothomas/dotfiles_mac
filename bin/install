@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+mkdir -p ~/bin
+ln -svf "${DOTFILES_HOME}/bin/enter-tmux" ~/bin/enter-tmux
+

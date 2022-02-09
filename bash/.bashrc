@@ -120,8 +120,7 @@ if [ -f ~/.rvm.sh ]; then
   source ~/.rvm.sh
 fi
 if [ -f ~/.pyenv.sh ]; then
-  source ~/.pyenv.sh
-  pyenv_init --bashrc
+  source ~/.pyenv.sh --init
 fi
 if [ -f ~/.nvm.sh ]; then
   source ~/.nvm.sh
@@ -130,3 +129,10 @@ fi
 eval $(ssh-agent -s)
 ssh-add
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

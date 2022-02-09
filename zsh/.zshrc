@@ -60,7 +60,6 @@ ZSH_THEME="agnoster"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -101,8 +100,7 @@ source ~/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 if [ -f ~/.pyenv.sh ]; then
-  source ~/.pyenv.sh
-  pyenv_init --zshrc
+  source ~/.pyenv.sh --init
 fi
 if [ -f ~/.rvm.sh ]; then
   source ~/.rvm.sh
@@ -113,3 +111,7 @@ fi
 
 eval $(ssh-agent -s)
 ssh-add
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -8,6 +8,7 @@ else
   \curl -sSL https://get.rvm.io | bash -s stable
 fi
 ln -sv "${DOTFILES_HOME}/ruby/.rvm.sh" ~
+ln -sv "${DOTFILES_HOME}/ruby/.rvmrc" ~
 source ~/.rvm.sh
 cd $HOME
 rvm install ruby-2.5.3

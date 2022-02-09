@@ -27,10 +27,14 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 if [ -f ~/.pyenv.sh ]; then
-  source ~/.pyenv.sh
-  pyenv_init --profile
+  source ~/.pyenv.sh --environment
 fi
 
 source ~/.rvm.sh
 source ~/.nvm.sh
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

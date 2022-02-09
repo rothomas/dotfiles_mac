@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [ ! -f "$(which vim)" ]; then
+  sudo apt install -y vim
+fi
+
 ln -sv "${DOTFILES_HOME}/vim/.vim" ~
 ln -sv "${DOTFILES_HOME}/vim/.vimrc" ~
 

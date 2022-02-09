@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+rm ~/.bash_logout
+rm ~/.bash_profile
+rm ~/.bashrc
+rm ~/.profile
+rm ~/.bash_history
+rm ~/.mkshrc

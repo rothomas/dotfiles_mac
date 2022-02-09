@@ -1,0 +1,2 @@
+# RVM complains if it isn't the very first thing in the PATH. This shuts it up.
+rvm_silence_path_mismatch_check_flag=1
