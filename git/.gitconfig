@@ -1,8 +1,9 @@
 [user]
-        name = Rob Thomas
-        email = rob@formswift.com
+	name = Rob Thomas
+	email = rob@formswift.com
 [core]
-        autocrlf = input
+	autocrlf = input
+	excludesfile = ~/.gitignore
 [pull]
-        ff = only
+	ff = only
 
