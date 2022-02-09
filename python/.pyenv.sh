@@ -13,7 +13,6 @@ case "$1" in
     ;;
   "--init")
     eval "$(pyenv init -)"
-    pyenv virtualenvwrapper
     ;;
   *)
     ;;

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PYTHON_VERSION=3.7.12
+PYTHON_VERSION=3.9.9
 
 pyenv_type=$(type -t pyenv)
 if [[ ! "$pyenv_type" =~ ^(file|function)$ ]]; then
@@ -9,7 +9,6 @@ if [[ ! "$pyenv_type" =~ ^(file|function)$ ]]; then
     brew install pyenv-virtualenvwrapper
   else
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-    git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git ~/.pyenv/plugins/pyenv-virtualenvwrapper
     cd ~/.pyenv
     src/configure
     make -C src
@@ -29,6 +28,5 @@ else
 fi
 pyenv global $PYTHON_VERSION
 pip install --upgrade pip
-pip install --upgrade virtualenvwrapper
-pyenv virtualenvwrapper
+pip install --upgrade pipenv
 
