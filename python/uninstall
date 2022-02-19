@@ -1,6 +1,0 @@
-#!/usr/bin/env bash                                                                                                                          
-
-rm -rf ~/.pyenv
-rm ~/.pyenv.sh
-rm -rf ~/.cache/pip
-

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-ln -svf "${DOTFILES_HOME}/bash/.bash_logout" ~
-ln -svf "${DOTFILES_HOME}/bash/.bash_profile" ~
-ln -svf "${DOTFILES_HOME}/bash/.bashrc" ~
-ln -svf "${DOTFILES_HOME}/bash/.mkshrc" ~
-ln -svf "${DOTFILES_HOME}/bash/.profile" ~
-

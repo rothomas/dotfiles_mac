@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if [ "${CODESPACES}" = "true" ] && [ ! -z "${SSH_PRIVATE_KEY}" ]; then
-  cat <<< $SSH_PRIVATE_KEY > "${HOME}/.ssh/id_rsa"
-  chmod 600 "${HOME}/.ssh/id_rsa"
-fi
-

@@ -1,6 +1,0 @@
-#!/usr/bin/env bash                                                                                                                          
-                                                                                                                                             
-rm ~/.vim
-rm ~/.viminfo
-rm ~/.vimrc
-

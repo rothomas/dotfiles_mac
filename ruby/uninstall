@@ -1,7 +1,0 @@
-#!/usr/bin/env bash                                                                                                                          
-                                                                                                                                             
-rm -rf ~/.rvm
-rm ~/.rvmrc
-rm ~/.rvm.sh
-rm -rf ~/.gem
-
