@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-source "{{ .chezmoi.sourcePath }}/.helpers/install_functions"
+source "{{ .chezmoi.sourceDir }}/.helpers/install_functions"
 
 install 1password-cli
 install age
