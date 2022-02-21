@@ -30,14 +30,12 @@ homebrew_install_yum_prereqs() {
 }
 
 homebrew_install_linux_prereqs() {
-  if installed apt; then
-    homebrew_install_apt_prereqs
-  elif installed yum; then
-    homebrew_install_yum_prereqs
-  else
-    echo "No supported package manager found for Linux prerequisites"
-    exit 1
-  fi
+  {{- if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
+  homebrew_install_apt_prereqs
+  {{- end -}}
+  {{- if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
+  homebrew_install_yum_prereqs
+  {{- end -}}
 }
 
 homebrew_install() {
