@@ -88,17 +88,17 @@ is_apt_updated() {
 
 installed_apt() {
   echo "installed_apt $@"
-  local package=$1
-  if [ `apt list $package | grep -cF '[installed]'` == "0" ]; then
-    return 0
+  local package=$1 installed=`dpkg --get-selections $package 2>/dev/null | grep -c 'install$'`
+  if [ $installed = "0" ]; then
+    return 1
   fi
-  return 1
+  return 0
 }
 
 update_apt() {
   echo "update_apt $@"
   if ! is_apt_updated -a is_admin; then
-    $SUDO apt update -q
+    $SUDO apt-get update -q
     export APT_UPDATED=yes
   fi
 }
@@ -110,7 +110,7 @@ install_package_apt() {
     echo "$package: installing from apt"
     if is_admin; then
       update_apt
-      $SUDO apt install -y -q $package
+      $SUDO apt-get install -y -q $package
     else
       echo "$package: sudo required"
       return 1
