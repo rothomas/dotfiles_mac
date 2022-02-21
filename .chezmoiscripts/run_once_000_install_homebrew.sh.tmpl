@@ -2,50 +2,26 @@
 
 . {{ .chezmoi.sourceDir }}/.helpers/prereq_functions
 
-homebrew_install_apt_prereqs() {
-  #################################################################################################
-  #   APT PLATFORMS (Debian, Ubuntu)
-  #################################################################################################
-  require build-essential
-  require procps
-  require curl
-  require file
-  require git
-  require bash
-}
+require curl
+require file
+require git
+require bash
 
-homebrew_install_yum_prereqs() {
-  #################################################################################################
-  #   YUM PLATFORMS (CentOS, RHEL, Fedora)
-  #################################################################################################
-  yum_install_group 'Development Tools'
-  require procps-ng
-  require curl
-  require file
-  require git
-  require bash
-  {{- if (eq .chezmoi.osRelease.id "fedora") -}}
-  require libxcrypt-compat
-  {{- end -}}
-}
+{{- if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
+require build-essential
+require procps
+{{- end -}}
 
-homebrew_install_linux_prereqs() {
-  {{- if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
-  homebrew_install_apt_prereqs
-  {{- end -}}
-  {{- if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
-  homebrew_install_yum_prereqs
-  {{- end -}}
-}
+{{- if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
+yum_install_group 'Development Tools'
+require procps-ng
+{{- end -}}
 
-homebrew_install() {
-  if ! installed brew; then
-    {{- if (eq .chezmoi.os "linux") -}}
-    homebrew_install_linux_prereqs
-    {{- end -}}
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
-}
+{{- if (eq .chezmoi.osRelease.id "fedora") -}}
+require libxcrypt-compat
+{{- end -}}
 
-homebrew_install
+if ! installed brew; then
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
