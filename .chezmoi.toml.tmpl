@@ -1,0 +1,31 @@
+{{- $username := "" -}}
+{{- if (hasKey . "username") -}}
+{{-   $username = .username -}}
+{{- else -}}
+{{-   $username = env "USER" | printf "username [%s]" | promptString -}}
+{{-   if (eq (len $username) 0) -}}
+{{-     $username = env "USER" -}}
+{{-   end -}}
+{{- end -}}
+{{- $email := "" -}}
+{{- if (hasKey . "email") -}}
+{{-   $email = .email -}}
+{{- else -}}
+{{-   $email = $username | printf "email [%s@formswift.com]" | promptString -}}
+{{-   if (eq (len $email) 0) -}}
+{{-     $email = $username | printf "%s@formswift.com" -}}
+{{-   end -}}
+{{- end -}}
+{{- $fullname := "" -}}
+{{- if (hasKey . "fullname") -}}
+{{-   $fullname = .fullname -}}
+{{- else -}}
+{{-   $fullname = promptString "full name" -}}
+{{- end -}}
+
+[data]
+branch = {{ $current_branch | quote }}
+username = {{ $username | quote }}
+email = {{ $email | quote }}
+fullname = {{ $fullname | quote }}
+

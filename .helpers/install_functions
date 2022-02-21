@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+install_if_absent() {
+  if [[ -z "$(command -v $1)" ]]; then
+    install $1
+  fi
+}
+
+# Discover an installed Mac application.
+# Derived from an answer here:
+# https://stackoverflow.com/questions/6682335/how-can-check-if-particular-application-software-is-installed-in-mac-os
+# Removed support for direct lookup by bundleid and error output on failed match.
+whichapp() {
+  local appname=$1 bundleid='' full_path=''
+  # Translate to a bundle ID first.
+  >&2 echo "looking up bundle id for $appname"
+  bundleid=$(osascript -e "id of application \"$appname\"") #2>/dev/null)
+  >&2 echo "bundle id for $appname is $bundleid"
+  if [[ ! -z "$bundleid" ]]; then
+    >&2 echo "looking up app path for $bundleid"
+    full_path=$(osascript -e "tell application \"Finder\" to POSIX path of (get application file id \"$bundleid\" as alias)") 2>/dev/null || ''
+  fi
+  >&2 echo "application path for $appname ($bundleid) is $full_path"
+  echo $full_path
+}
+
+install_app_if_absent() {
+  local searchterm=$1 brewname=$2 apppath=$(whichapp "$1")
+  if [[ -z "$apppath" ]]; then
+    install "$brewname"
+  fi
+}
+
+install_cask_app_if_absent() {
+  local searchterm=$1 brewname=$2 apppath=$(whichapp "$1")
+  if [[ -z "$apppath" ]]; then
+    install_cask "$brewname"
+  fi
+}
+
+install_mas() {
+  local searchterm=$1 appid=$2 apppath=$(whichapp "$1")
+  if [[ -z "$apppath" ]]; then
+    mas install "$appid"
+  fi
+}
+
+install_nvm() {
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  if [[ "$(nvm ls | grep -v 'N/A' | grep -c "$1")" == "0" ]]; then
+    nvm install --latest-npm $1
+  fi
+  nvm use --delete-prefix $1
+  nvm alias default $1
+}
+
+install_npm() {
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  npm install -g $1
+}
+
+

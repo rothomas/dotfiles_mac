@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+cd {{ .chezmoi.sourceDir }}
+
+if [[ "$(git branch --no-color --show-current)" != "{{ .username }}" ]]; then
+  if [[ "$(git branch -r --no-color | grep -c \"^\\s*origin/{{ .username }}\\s*$\")" == "0" ]]; then
+    git checkout -b {{ .username }}
+    #git push -u origin {{ .username }}
+  else
+    git checkout {{ .username }}
+  fi
+fi
+
+cd -
+

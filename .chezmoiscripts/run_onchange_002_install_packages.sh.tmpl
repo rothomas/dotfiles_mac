@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+source "$(chezmoi source-path)/.helpers/install_functions"
+
+install 1password-cli
+install age
+install awscli@1
+install_cask aws-vault
+install gh
+install_if_absent git
+install_if_absent gpg2
+install gradle
+install maven
+install mosh
+install nvm
+install openjdk
+install pipenv
+install pyenv
+install syncthing
+install_if_absent telnet
+install terraform
+install tmux
+install_cask vagrant
+install_if_absent vim
+install_if_absent zsh
+install_nvm "v14.19.0"
+install_npm npm@latest
+install_npm @commitlint/cli 
+
+{{ if (eq .chezmoi.os "darwin") }}
+install mas
+install_app_if_absent '1Password 7' 1password
+install_app_if_absent iterm2 iterm2
+install_app_if_absent chrome google-chrome
+install_app_if_absent firefox firefox
+install_app_if_absent virtualbox virtualbox
+install_app_if_absent 'Sequel Pro' sequel-pro
+install_app_if_absent rectangle rectangle
+install_cask_app_if_absent Docker docker
+install_app_if_absent "Visual Studio Code" visual-studio-code
+install_mas Amphetamine '937984704'
+install_mas Bear '1091189122'
+install_mas Flycut '442160987'
+install_mas Slack '803453959'
+install_mas Spark '1176895641'
+{{ end }}
+

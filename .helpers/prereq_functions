@@ -1,0 +1,198 @@
+#!/bin/sh
+
+installed() {
+  echo "installed $@"
+  command -v "$1"
+}
+
+get_sudo() {
+  echo "get_sudo $@"
+  if [ \( `whoami` != "root" \) -a \( -z "$SUDOER" \) ]; then
+    if installed sudo; then
+      export SUDO=`command -v sudo`
+      echo 'Attempting to get sudo access.  Your password may be required.'
+      echo 'Some features may not be available if you are not a sudoer.'
+      if $SUDO -v; then
+        export SUDOER=1
+        return 0
+      else
+        export SUDOER=0
+        return 1
+      fi
+    else
+      echo "sudo: not installed -- expect failures"
+      return 0
+    fi
+  fi
+}
+
+is_admin() {
+  echo "is_admin $@"
+  if [ \( "$USER" = "root" \) -o \( "$SUDOER" = "1" \) ]; then
+    return 0
+  elif [ -z "$SUDOER" ]; then
+    get_sudo
+    return $?
+  else
+    return 1
+  fi
+}
+
+installed_brew() {
+  echo "installed_brew $@"
+  local package=$1 regex='^'$1'$'
+  [ `brew list | grep -c $regex` = "0" ]
+}
+
+update_brew() {
+  echo "update_brew $@"
+  if [ -z "$BREW_UPDATED" ]; then
+    brew update -q
+    export BREW_UPDATED=yes
+  fi
+}
+
+install_package_brew() {
+  echo "install_package_brew $@"
+  local package=$1 
+  if ! installed_brew "$package"; then
+    echo "$package: installing from brew"
+    update_brew
+    brew install -q $package
+  fi
+}
+
+install_package_brew_cask() {
+  echo "install_package_brew_cask $@"
+  local_package=$1
+  if ! installed_brew "$package"; then
+    echo "$package: installing from brew cask"
+    update_brew
+    brew install -q --cask $package
+  fi
+}
+
+install_brew_service() {
+  echo "install_brew_service $@"
+  brew services start $1
+}
+
+is_apt_updated() {
+  echo "is_apt_updated $@"
+  if [ -z "$APT_UPDATED" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+installed_apt() {
+  echo "installed_apt $@"
+  local package=$1
+  if [ `apt list $package | grep -cF '[installed]'` == "0" ]; then
+    return 0
+  fi
+  return 1
+}
+
+update_apt() {
+  echo "update_apt $@"
+  if ! is_apt_updated -a is_admin; then
+    $SUDO apt update -q
+    export APT_UPDATED=yes
+  fi
+}
+
+install_package_apt() {
+  echo "install_package_apt $@"
+  local package=$1
+  if ! installed_apt $package; then
+    echo "$package: installing from apt"
+    if is_admin; then
+      update_apt
+      $SUDO apt install -y -q $package
+    else
+      echo "$package: sudo required"
+      return 1
+    fi
+  fi
+}
+
+is_yum_updated() {
+  echo "is_yum_updated $@"
+  if [ -z "$YUM_UPDATED" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+update_yum() {
+  echo "update_yum $@"
+  if \( ! is_yum_updated \) -a is_admin; then
+    $SUDO yum update
+    export YUM_UPDATED=yes
+  fi
+}
+
+install_package_yum() {
+  echo "install_package_yum $@"
+  local package=$1
+  if is_admin; then
+    echo "$package: installing from yum"
+    update_yum
+    $SUDO yum install -y $package
+  else
+    echo "$package: sudo required"
+    return 1 
+  fi
+}
+
+install_package() {
+  echo "install_package $@"
+  local package=$1 command
+  if [ -z "$2" ]; then
+    command=$package
+  else
+    command=$2
+  fi
+  if ! installed $command; then
+    if installed brew; then
+      if install_package_brew $package; then
+        echo "$package: installed"
+      else
+        echo "$package: not installed"
+      fi
+    elif installed apt; then
+      if install_package_apt $package; then
+        echo "$package: installed"
+      else
+        echo "$package: not installed"
+      fi
+    elif installed yum; then
+      if install_package_yum $package; then
+        echo "$package: installed"
+      else
+        echo "$package: not installed"
+      fi
+    else
+      echo "No supported package manager found to install $1. Can't continue."
+      exit 1
+    fi
+  else
+    echo "$package: found"
+  fi
+}
+
+install_nvm() {
+  return 1
+}
+
+require() {
+  echo "require $@"
+  if ! install_package $1 $2; then
+    echo "$1: prerequisite not satisfied"
+    exit 1
+  fi
+}
+
