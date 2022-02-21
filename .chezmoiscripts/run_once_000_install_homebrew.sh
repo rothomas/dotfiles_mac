@@ -33,9 +33,9 @@ homebrew_install_yum_prereqs() {
 homebrew_install_linux_prereqs() {
   source /etc/os-release
   if [[ ! -z "$(command -v apt)" ]]; then
-    install_apt_prereqs
+    homebrew_install_apt_prereqs
   elif [[ ! -z "$(command -v yum)" ]]; then
-    install_yum_prereqs
+    homebrew_install_yum_prereqs
   else
     echo "No supported package manager found for Linux prerequisites"
     exit 1
