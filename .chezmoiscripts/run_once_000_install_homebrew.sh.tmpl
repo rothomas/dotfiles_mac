@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 . {{ .chezmoi.sourceDir }}/.helpers/prereq_functions
 
@@ -11,30 +11,28 @@ homebrew_install_apt_prereqs() {
   require curl
   require file
   require git
+  require bash
 }
 
 homebrew_install_yum_prereqs() {
   #################################################################################################
   #   YUM PLATFORMS (CentOS, RHEL, Fedora)
   #################################################################################################
-  if [[ "$(yum -C grouplist 'Development Tools' 2>/dev/null | grep -c 'Installed')" == "0" ]]; then
-    echo "Installing development tools (sudo required)"
-    sudo yum groupinstall -y 'Development Tools'
-  fi
+  yum_install_group 'Development Tools'
   require procps-ng
   require curl
   require file
   require git
-  if [[ "$ID" == "fedora" && "$(yum list installed libxcrypt-compat 2>/dev/null | grep -c $(uname -m))" != "1" ]]; then
-    require libxcrypt-compat
-  fi
+  require bash
+  {{- if (eq .chezmoi.id "fedora") -}}
+  require libxcrypt-compat
+  {{- end -}}
 }
 
 homebrew_install_linux_prereqs() {
-  source /etc/os-release
-  if [[ ! -z "$(command -v apt)" ]]; then
+  if installed apt; then
     homebrew_install_apt_prereqs
-  elif [[ ! -z "$(command -v yum)" ]]; then
+  elif installed yum; then
     homebrew_install_yum_prereqs
   else
     echo "No supported package manager found for Linux prerequisites"
@@ -43,11 +41,10 @@ homebrew_install_linux_prereqs() {
 }
 
 homebrew_install() {
-  if [[ -z "$(command -v brew)" || ! "$(brew --version | head -1)" =~ "^Homebrew" ]]; then
-    if [[ "$(uname)" == "Linux" ]]; then
-      homebrew_install_linux_prereqs
-    fi
-
+  if ! installed brew; then
+    {{- if (eq .chezmoi.os "linux") -}}
+    homebrew_install_linux_prereqs
+    {{- end -}}
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 }

@@ -148,6 +148,15 @@ install_package_yum() {
   fi
 }
 
+install_group_yum() {
+  echo "install_group_yum $@"
+  local group=$1 installed=`yum -C grouplist "$group" 2>/dev/null | grep -c 'Installed'`
+   if [ $installed = "0" ]; then
+    echo "Installing development tools (sudo required)"
+    $SUDO yum groupinstall -y "$group"
+  fi
+}
+
 install_package() {
   echo "install_package $@"
   local package=$1 command
