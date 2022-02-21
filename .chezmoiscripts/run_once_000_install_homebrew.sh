@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. `dirname $0`/.helpers/prereq_functions
+. `chezmoi source-path`/.helpers/prereq_functions
 
 homebrew_install_apt_prereqs() {
   #################################################################################################
