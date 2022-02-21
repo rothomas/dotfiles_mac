@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-. `chezmoi source-path`/.helpers/prereq_functions
+echo "I AM IN $(pwd)"
+. .helpers/prereq_functions
 
 homebrew_install_apt_prereqs() {
   #################################################################################################
