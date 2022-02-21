@@ -24,7 +24,7 @@ homebrew_install_yum_prereqs() {
   require file
   require git
   require bash
-  {{- if (eq .chezmoi.id "fedora") -}}
+  {{- if (eq .chezmoi.osRelease.id "fedora") -}}
   require libxcrypt-compat
   {{- end -}}
 }
