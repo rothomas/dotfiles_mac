@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+echo "start $0"
+
+{{ if (eq .chezmoi.os "linux") }}
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ end }}
+
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+
+which age || brew install age
+brew install awscli@1
+brew install aws-vault
+brew install gh
+which git || brew install git
+which gpg2 || brew install gpg2
+brew install gradle
+brew install maven
+brew install mosh
+brew install nvm
+brew install openjdk
+brew install pipenv
+brew install pyenv
+which syncthing || (brew install syncthing && brew services start syncthing)
+brew install terraform@0.12
+which tmux || brew install tmux
+which vim || brew install vim
+which zsh || brew install zsh
+
+nvm install "v14.19.0"
+npm install npm@latest
+npm install @commitlint/cli 
+
+pyenv install 3.9.9
+
+echo "end $0"
+

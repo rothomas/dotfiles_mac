@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+{{ if (eq .chezmoi.os "darwin") }}
+
+echo "start $0"
+
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+
+brew install --cask 1password-cli
+brew install telnet
+brew install --cask vagrant
+whichapp '1Password 7' || brew install --cask 1password
+whichapp iTerm2 || brew install --cask iterm2
+whichapp Chrome || brew install --cask google-chrome
+whichapp Firefox || brew install --cask firefox
+whichapp VirtualBox || brew install --cask virtualbox
+whichapp 'Sequel Pro' || brew install --cask sequel-pro
+whichapp Rectangle || brew install --cask rectangle
+whichapp Docker || brew install --cask docker
+whichapp 'Visual Studio Code' || brew install --cask visual-studio-code
+whichapp Slack || brew install --cask slack
+whichapp Flycut || brew install --cask flycut
+whichapp Spark || brew install --cask spark
+
+brew install mas
+whichapp Amphetamine || mas install '937984704'
+whichapp Bear || mas install '1091189122'
+
+echo "end $0"
+
+{{ end }}
+
