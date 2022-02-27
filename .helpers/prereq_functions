@@ -41,7 +41,7 @@ is_admin() {
 
 installed_brew() {
   echo "installed_brew $@"
-  local package=$1 regex='^'$1'$' installed=`brew list | grep -c $regex` 
+  local package=$1 regex='^'$1'$' installed=`brew list | grep -c "$regex"` 
   if [ "$installed" = "0" ]; then
     return 1
   fi
