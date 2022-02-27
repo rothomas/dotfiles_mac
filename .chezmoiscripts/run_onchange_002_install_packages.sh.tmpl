@@ -3,27 +3,27 @@
 echo "start $0"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-source "{{ .chezmoi.sourceDir }}/.helpers/install_functions"
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 
-install 1password-cli
-install age
-install awscli@1
-install_cask aws-vault
-install gh
+install_package_brew_cask 1password-cli
+install_package_brew age
+install_package_brew awscli@1
+install_package_brew_cask aws-vault
+install_package_brew gh
 install_if_absent git
 install_if_absent gpg2
-install gradle
-install maven
-install mosh
-install nvm
-install openjdk
-install pipenv
-install pyenv
-install syncthing
+install_package_brew gradle
+install_package_brew maven
+install_package_brew mosh
+install_package_brew nvm
+install_package_brew openjdk
+install_package_brew pipenv
+install_package_brew pyenv
+install_package_brew syncthing
 install_if_absent telnet
-install terraform
-install tmux
-install_cask vagrant
+install_package_brew terraform
+install_package_brew tmux
+install_package_brew_cask vagrant
 install_if_absent vim
 install_if_absent zsh
 install_nvm "v14.19.0"
