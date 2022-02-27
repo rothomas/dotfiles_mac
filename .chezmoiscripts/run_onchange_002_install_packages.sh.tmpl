@@ -5,29 +5,29 @@ echo "start $0"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 
-install_package_brew_cask 1password-cli
-install_package_brew age
-install_package_brew awscli@1
-install_package_brew_cask aws-vault
-install_package_brew gh
-install_if_absent git
-install_if_absent gpg2
-install_package_brew gradle
-install_package_brew maven
-install_package_brew mosh
-install_package_brew nvm
-install_package_brew openjdk
-install_package_brew pipenv
-install_package_brew pyenv
-install_package_brew syncthing
-install_if_absent telnet
-install_package_brew terraform
-install_package_brew tmux
-install_package_brew_cask vagrant
-install_if_absent vim
-install_if_absent zsh
+brew install --cask 1password-cli
+brew install age
+brew install awscli@1
+brew install --cask aws-vault
+brew install  gh
+brew install git
+brew install gpg2
+brew install gradle
+brew install maven
+brew install mosh
+brew install nvm
+brew install openjdk
+brew install pipenv
+brew install pyenv
+brew install syncthing
+brew install telnet
+brew install terraform
+brew install tmux
+brew install --cask vagrant
+brew install vim
+brew install zsh
 install_nvm "v14.19.0"
-install_npm npm@latest
+binstall_npm npm@latest
 install_npm @commitlint/cli 
 
 {{ if (eq .chezmoi.os "darwin") }}
