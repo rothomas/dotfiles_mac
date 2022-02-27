@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "start $0"
+
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 source "{{ .chezmoi.sourceDir }}/.helpers/install_functions"
 
@@ -45,4 +47,6 @@ install_mas Flycut '442160987'
 install_mas Slack '803453959'
 install_mas Spark '1176895641'
 {{ end }}
+
+echo "end $0"
 
