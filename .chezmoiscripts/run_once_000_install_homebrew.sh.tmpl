@@ -26,7 +26,9 @@ require libxcrypt-compat
 {{ end }}
 
 if ! installed brew; then
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  bash_location=`command -v bash`
+  brew_script=`curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh`
+  NONINTERACTIVE=1 $bash_location -c "$brew_script"
 fi
 
 echo "end $0"
