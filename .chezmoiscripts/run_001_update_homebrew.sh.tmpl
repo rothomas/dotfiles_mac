@@ -1,8 +1,13 @@
-#!/usr/bin/env bash
+ #!/usr/bin/env bash
 echo "start $0"
+
+{{ if eq .chezmoi.os "linux" }}
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ end }}
+
 brew update
 brew upgrade
 brew cleanup
+
 echo "end $0"
 
