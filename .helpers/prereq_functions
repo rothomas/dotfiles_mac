@@ -216,7 +216,7 @@ require() {
 whichapp() {
   local appname=$1 bundleid='' full_path=''
   # Translate to a bundle ID first.
-  bundleid=`osascript -e "id of application \"$appname\"") 2>/dev/null`
+  bundleid=`osascript -e "id of application \"$appname\""` 2>/dev/null`
   if [ ! -z "$bundleid" ]; then
     full_path=`osascript -e "tell application \"Finder\" to POSIX path of (get application file id \"$bundleid\" as alias)"` 2>/dev/null || ''
   fi
