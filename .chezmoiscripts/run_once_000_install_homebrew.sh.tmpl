@@ -2,6 +2,8 @@
 
 echo "start $0"
 
+cat `dirname $0`/*
+
 . {{ .chezmoi.sourceDir }}/.helpers/prereq_functions
 
 require curl
