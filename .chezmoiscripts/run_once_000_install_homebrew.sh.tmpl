@@ -9,6 +9,7 @@ require file
 require git
 require bash
 
+{{ if eq .chezmoi.os "linux" }}
 {{ if eq .chezmoi.osRelease.id "ubuntu" "debian" }}
 require build-essential
 require procps
@@ -21,6 +22,7 @@ require procps-ng
 
 {{ if (eq .chezmoi.osRelease.id "fedora") }}
 require libxcrypt-compat
+{{ end }}
 {{ end }}
 
 if ! installed brew; then
