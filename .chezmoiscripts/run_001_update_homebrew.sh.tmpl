@@ -1,6 +1,10 @@
  #!/usr/bin/env bash
 echo "start $0"
 
+echo "BEFORE: $(which brew)"
+rehash
+echo "AFTER: $(which brew)"
+
 {{ if eq .chezmoi.os "linux" }}
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 {{ end }}
