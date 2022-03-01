@@ -7,6 +7,6 @@ require curl
 
 if ! installed chezmoi; then
   chezmoi_script=`curl -fsLS chezmoi.io/get`
-  sh -c "${chezmoi_script}" -- init --apply rothomas
+  sh -c "${chezmoi_script}" -- init --verbose --apply rothomas
 fi
 
