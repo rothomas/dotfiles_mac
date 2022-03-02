@@ -7,10 +7,10 @@
 # Store zsh dotfiles (apart from this one) in a directory instead of HOME
 export ZDOTDIR="$HOME/.config/zsh"
 
-{{ if eq .chezmoi.os "linux" }}
+{{ if eq .chezmoi.os "linux" -}}
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-{{ end }}
-{{ if eq .chezmoi.os "darwin" }}
+{{ end -}}
+{{ if eq .chezmoi.os "darwin" -}}
 eval "$(/usr/local/bin/brew shellenv)"
 {{ end }}
 

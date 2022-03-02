@@ -2,21 +2,21 @@
 
 . {{ .chezmoi.sourceDir }}/.helpers/prereq_functions
 
-{{- if eq .chezmoi.os "linux" -}}
-{{-   if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
+{{ if eq .chezmoi.os "linux" -}}
+{{   if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
 $SUDO apt-get install -y bash build-essential curl file git procps zsh
-{{-   end -}}
-{{-   if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
+{{   end -}}
+{{   if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
 $SUDO yum groupinstall -y 'Development Tools'
 $SUDO yum install -y bash curl file git procops-ng zsh
-{{-     if eq .chezmoi.osRelease.id "fedora" -}}
+{{     if eq .chezmoi.osRelease.id "fedora" -}}
 $SUDO yum install -y libxcrypt-compat
-{{-     end -}}
-{{-   end -}}
-{{-   if eq .chezmoi.osRelease.id "alpine" -}}
+{{     end -}}
+{{   end -}}
+{{   if eq .chezmoi.osRelease.id "alpine" -}}
 $SUDO apk add --update bash build-base curl file git procps zsh
-{{-   end -}}
-{{- end -}}
+{{   end -}}
+{{ end }}
 
 if ! installed brew; then
   get_sudo
