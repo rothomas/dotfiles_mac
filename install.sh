@@ -17,6 +17,7 @@ download() {
 }
 
 if ! installed chezmoi; then
-  script=`download chezmoi.io/get`
+  >&2 echo "Installing chezmoi"
+  chezmoi_script=`download chezmoi.io/get`
   sh -c "${chezmoi_script}" -- init --verbose --apply rothomas
 fi
