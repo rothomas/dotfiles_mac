@@ -1,28 +1,24 @@
 #!/usr/bin/env bash
 {{ if (eq .chezmoi.os "darwin") }}
 
-echo "start $0"
-
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+use_homebrew
 
 brew install --cask 1password-cli
 brew install telnet
 brew install --cask vagrant
-whichapp '1Password 7' || brew install --cask 1password
-whichapp iTerm2 || brew install --cask iterm2
-whichapp Chrome || brew install --cask google-chrome
-whichapp Firefox || brew install --cask firefox
-whichapp VirtualBox || brew install --cask virtualbox
+which_app '1Password 7' || brew install --cask 1password
+which_app iTerm2 || brew install --cask iterm2
+which_app Chrome || brew install --cask google-chrome
+which_app Firefox || brew install --cask firefox
+which_app VirtualBox || brew install --cask virtualbox
 brew install --cask virtualbox-extension-pack
-whichapp 'Sequel Pro' || brew install --cask sequel-pro
-whichapp Rectangle || brew install --cask rectangle
-whichapp Docker || brew install --cask docker
-whichapp 'Visual Studio Code' || brew install --cask visual-studio-code
-whichapp Slack || brew install --cask slack
-whichapp Flycut || brew install --cask flycut
-whichapp 'Jetbrains Toolbox' || brew install --cask jetbrains-toolbox
-
-echo "end $0"
+which_app 'Sequel Pro' || brew install --cask sequel-pro
+which_app Rectangle || brew install --cask rectangle
+which_app Docker || brew install --cask docker
+which_app 'Visual Studio Code' || brew install --cask visual-studio-code
+which_app Slack || brew install --cask slack
+which_app Flycut || brew install --cask flycut
+which_app 'Jetbrains Toolbox' || brew install --cask jetbrains-toolbox
 
 {{ end }}
-

@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
-echo "start $0"
 
-{{ if eq .chezmoi.os "linux" }}
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-{{ end }}
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+use_homebrew
 
 brew update
 brew upgrade
 brew cleanup
-
-echo "end $0"
-
