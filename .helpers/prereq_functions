@@ -22,9 +22,9 @@ download_run_script() {
 }
 
 use_homebrew() {
-  if [ "$uname" = "Linux" ]; then
+  if [ `uname` = "Linux" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  elif [ "$uname" = "Darwin" ]; then
+  elif [ `uname` = "Darwin" ]; then
     eval "$(/usr/local/bin/brew shellenv)"
   else
     >&2 echo "Unsupported OS type. Cannot continue."
