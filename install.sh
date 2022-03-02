@@ -16,6 +16,7 @@ download() {
   fi
 }
 
+>&2 echo "Installing..."
 if ! installed chezmoi; then
   >&2 echo "Installing chezmoi"
   chezmoi_script=`download chezmoi.io/get`
