@@ -7,7 +7,7 @@ installed() {
 download() {
   local url=$1
   if installed curl; then
-    curl -so- "$url"
+    curl -Lso- "$url"
   elif installed wget; then
     wget -qO- "$url"
   else
