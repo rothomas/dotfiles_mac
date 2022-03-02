@@ -1,0 +1,16 @@
+# WARNING: Any changes you make to PATH here will be overwritten by Darwin's
+#          /etc/zprofile, which is executed after this. Set up paths as needed
+#          here for prerequisites, but expect that you'll need to make the
+#          same changes again later. Recommend using your own .zprofile, which
+#          runs before your .zshrc.
+
+# Store zsh dotfiles (apart from this one) in a directory instead of HOME
+export ZDOTDIR="$HOME/.config/zsh"
+
+{{ if eq .chezmoi.os "linux" }}
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ end }}
+{{ if eq .chezmoi.os "darwin" }}
+eval "$(/usr/local/bin/brew shellenv)"
+{{ end }}
+
