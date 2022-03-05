@@ -3,14 +3,17 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 use_homebrew
 
-local current=$SHELL proposed="$(command -v {{ .shell }})"
+current=$SHELL proposed="$(command -v {{ .shell }})"
 
->&2 echo "Checking for need to update shell to {{ .shell }}..."
-if installed {{ .shell }} && grep $proposed /etc/shells; then
-  >&2 echo "Current shell is ${current}. Proposed shell is ${proposed}."
-  if [[ "$current" != "$proposed" ]]; then
-    >&2 echo "Setting user shell to $proposed."
-    chsh -s $proposed
+>&2 echo "Current shell is ${current}. Proposed shell is ${proposed}."
+if installed {{ .shell }}; then
+  >&2 echo "{{ .shell }}: proposed shell installed at $proposed"
+  if grep $proposed /etc/shells; then
+    >&2 echo "{{ .shell }}: $proposed is a valid shell"
+    if [[ "$current" != "$proposed" ]]; then
+      >&2 echo "{{ .shell }}: setting as current"
+      chsh -s $proposed
+    fi
   fi
 fi
 
