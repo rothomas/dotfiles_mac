@@ -1,6 +1,7 @@
 #!/usr/bin/env bash 
 
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+use_homebrew
 
 pyenv install {{ .python_version }}
 
