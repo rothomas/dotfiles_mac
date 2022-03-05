@@ -3,6 +3,11 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 use_homebrew
 
-pyenv install {{ .python_version | quote }}
-pyenv global {{ .python_version | quote }}
+if ! pyenv versions | grep -sqF "{{ .python_version }}"; then
+  pyenv install {{ .python_version | quote }}
+fi
+
+if ! pyenv versions | grep -sqF '* {{ .python_version }}'; then
+  pyenv global {{ .python_version | quote }}
+fi
 
