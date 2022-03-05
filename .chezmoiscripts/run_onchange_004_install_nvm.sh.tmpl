@@ -2,8 +2,8 @@
 
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 
-NVM_VERSION=0.39.1
-NODE_VERSION=lts
+NVM_VERSION="0.39.1"
+NODE_VERSION="lts"
 
 download https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
 
