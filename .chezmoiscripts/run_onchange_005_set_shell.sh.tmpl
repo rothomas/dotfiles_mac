@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
-if installed {{ .shell }}; then
-  if [[ "$SHELL" != "$(which {{ .shell }})" ]]; then
-    >&2 echo "Setting user shell to $(which {{ .shell }})."
-    chsh -s "$(which {{ .shell }})"
+
+local current=$SHELL proposed="$(command -v {{ .shell }})"
+
+>&2 echo "Checking for need to update shell to {{ .shell }}..."
+if installed {{ .shell }} && grep $proposed /etc/shells; then
+  >&2 echo "Current shell is ${current}. Proposed shell is ${proposed}."
+  if [[ "$current" != "$proposed" ]]; then
+    >&2 echo "Setting user shell to $proposed."
+    chsh -s $proposed
   fi
 fi
 
