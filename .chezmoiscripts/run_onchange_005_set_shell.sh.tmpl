@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "{{ .chezmoi.sourcePath }}/.helpers/prereq_functions"
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 use_homebrew
 
 local current=$SHELL proposed="$(command -v {{ .shell }})"
