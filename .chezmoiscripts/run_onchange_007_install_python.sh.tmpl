@@ -3,5 +3,6 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 use_homebrew
 
-pyenv install {{ .python_version }}
+pyenv install {{ .python_version | quote }}
+pyenv global {{ .python_version | quote }}
 
