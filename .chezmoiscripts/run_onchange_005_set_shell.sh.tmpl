@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if installed {{ .shell }}; then
+  if [[ "$SHELL" != "$(which {{ .shell }})" ]]; then
+    >&2 echo "Setting user shell to $(which {{ .shell }})."
+    chsh -s "$(which {{ .shell }})"
+  fi
+fi
+
