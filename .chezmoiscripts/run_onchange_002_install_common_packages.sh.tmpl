@@ -16,8 +16,8 @@ brew install openjdk
 brew install pipenv
 brew install pyenv
 installed syncthing || (brew install syncthing && brew services start syncthing)
-brew install terraform@0.12
+brew install terraform@{{ .terraform_version }}
 installed tmux || brew install tmux
+installed unzip || brew install unzip
 installed vim || brew install vim
 
-#pyenv install 3.9.9
