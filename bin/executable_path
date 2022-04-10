@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+
+declare -a default_paths=(
+  # the nvm initialization needs to add the path itself
+  /bin
+  /sbin
+  /usr/bin
+  /usr/games
+  /usr/sbin
+  /usr/local/bin
+  /usr/local/games
+  /usr/local/sbin
+  /snap/bin
+  ${HOME}/bin
+  ${HOME}/go/bin
+  ${HOME}/.cargo/bin
+  ${HOME}/.rvm/bin # rvm prefers to go last
+)
+
+IFS=':' read -r -a current_path <<< "${PATH}"
+
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
+build() {
+  echo $(join_by ':' ${current_path[@]})
+}
+
+remove() {
+  local path="$1"
+  declare -a new_path=()
+  for existing_path in ${current_path[@]}; do
+    if [[ "${existing_path}" != "${path}" ]]; then
+      new_path+=( $existing_path )
+    fi
+  done
+  current_path=${new_path[@]}
+  echo export PATH=$(build)
+}
+
+append() {
+  local path="$1"
+  declare -a new_path=()
+  for existing_path in ${current_path[@]}; do
+    if [[ "${existing_path}" != "${path}" ]]; then
+      new_path+=( $existing_path )
+    fi
+  done
+  new_path+=( $path )
+  current_path=${new_path[@]}
+  echo export PATH=$(build)
+}
+
+prepend() {
+  local path="$1"
+  declare -a new_path=( $path )
+  for existing_path in ${current_path[@]}; do
+    if [[ "${existing_path}" != "${path}" ]]; then
+      new_path+=( $existing_path )
+    fi
+  done
+  current_path=${new_path[@]}
+  echo export PATH=$(build)
+}
+
+init() {
+  current_path=()
+  current_path="${default_paths[@]}"
+  echo export PATH=$(build)
+}
+
+test() {
+  default_paths=(a b c d e f)
+  init
+  build
+  remove c
+  build
+  prepend d
+  build
+  append b
+  build
+  prepend g
+  build
+  append h
+  build
+  if [[ "$(build)" == "g:d:a:e:f:b:h" ]]; then
+    >&2 echo PASS
+  else
+    >&2 echo FAIL: $(build) != g:d:a:e:f:b:h
+  fi
+  echo export PATH=$(build)
+}
+
+save() {
+  local profile=${1:-default}
+  mkdir -p "${HOME}/.config/path"
+  cat > "${HOME}/.config/path/${profile}" <<< $(build)
+  >&2 echo "Saved current path to ${profile}."
+}
+
+restore() {
+  local profile=${1:-default}
+  mkdir -p "${HOME}/.config/path"
+  if [ -f "${HOME}/.config/path/${profile}" ]; then
+    IFS=':' read -r -a current_path < "${HOME}/.config/path/${profile}"
+    echo export PATH=$(build)
+  else
+    >&2 echo "Profile ${profile} does not exist."
+  fi
+}
+
+push() {
+  mkdir -p "${HOME}/.config/path"
+  touch "${HOME}/.config/path/.path_stack"
+  echo $PATH >> "${HOME}/.config/path/.path_stack"
+  >&2 echo "Pushed current path onto the path stack."
+}
+
+pop() {
+  mkdir -p "${HOME}/.config/path"
+  touch "${HOME}/.config/path/.path_stack"
+  local path=$(tail -1 "${HOME}/.config/path/.path_stack")
+  if [ -z "${path}" ]; then
+    >&2 echo "Path stack is empty."
+  else
+    echo export PATH=${path}
+    sed -i '$ d' "${HOME}/.config/path/.path_stack"
+  fi
+}
+
+declare -a valid_commands=(
+  init
+  append
+  prepend
+  remove
+  test
+  save
+  restore
+  push
+  pop
+)
+
+if [[ ! -z "$1" && "${valid_commands[*]}" =~ "$1" ]]; then
+  "$@"
+else
+  >&2 cat <<USAGE_DOC
+path - a simple path management utility
+Usage:
+  eval \$(path <command> [args])
+Commands:
+- init: set up a default path
+- append <path>: adds path to the end of PATH (*)
+- prepend <path>: adds path to the beginning of PATH (*)
+- remove <path>: removes path from PATH
+- save [profile]: saves the current path to the specified profile (+)
+- restore [profile]: restores the current path from the specified profile (+)
+- push: pushes the current PATH onto the path stack
+- pop: resets PATH from the path stack
+(*) If the specified path already exists in PATH, append and prepend will
+    remove it from the current order and move it to the end or beginning
+    of PATH respectively.
+(+) The default value for the optional profile argument is "default"
+USAGE_DOC
+fi
+
