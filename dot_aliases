@@ -1,0 +1,24 @@
+export JQ_MFA_SELECTOR='.fields[] | select(.type == "OTP").totp'
+alias -g op_formswift_id="op account ls | grep '^formswift ' | sed 's/.* //'"
+alias -g op_loaded='env | grep -q "OP_SESSION_$(op_formswift_id)"'
+alias -g load_op='op_loaded || eval $(op signin --account formswift)'
+alias -g id_mfa='load_op && (op item get --format json "AWS (Identity)" | jq -r "${JQ_MFA_SELECTOR}" | tr -d "\n")'
+
+alias -g ldev='local-developer'
+alias -g lprod='legacy-staging-terraform'
+alias -g lstaging='legacy-staging-terraform'
+
+alias avet='MFA_TOKEN=$(id_mfa) AWS_ROLE=$1 ave -t $MFA_TOKEN $AWS_ROLE -- $@'
+alias avlt='MFA_TOKEN=$(id_mfa) AWS_ROLE=$1 avl -t $MFA_TOKEN $AWS_ROLE'
+alias vi=nvim
+
+alias docker-compose="docker compose"
+alias zellij="${HOME}/bin/zellij-wrapper"
+
+if [[ ! -z "${KITTY_WINDOW_ID}" ]]; then
+  # If using the kitty terminal, this automatically
+  # provides the termcap for its "xterm-kitty" $TERM
+  # to the remote host.
+  alias ssh="kitty +kitten ssh"
+fi
+

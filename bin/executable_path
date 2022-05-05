@@ -10,8 +10,12 @@ declare -a default_paths=(
   /usr/local/bin
   /usr/local/games
   /usr/local/sbin
+{{ if (eq .chezmoi.os "linux") -}}
+  /home/linuxbrew/.linuxbrew/bin
+{{ end }}                          
   /snap/bin
   ${HOME}/bin
+  ${HOME}/.local/bin
   ${HOME}/go/bin
   ${HOME}/.cargo/bin
   ${HOME}/.rvm/bin # rvm prefers to go last

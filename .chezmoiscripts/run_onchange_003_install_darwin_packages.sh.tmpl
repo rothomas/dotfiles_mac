@@ -22,6 +22,8 @@ which_app Flycut || brew install --cask flycut
 which_app 'Jetbrains Toolbox' || brew install --cask jetbrains-toolbox
 which_app 'Kitty' || brew install --cask kitty
 
+mkdir -p ~/.zsh/iterm2_shell_integration
 curl -L https://iterm2.com/shell_integration/install_shell_integration.sh | bash
+mv ~/.iterm2_shell_integration.zsh ~/.zsh/iterm2_shell_integration
 
 {{ end }}
