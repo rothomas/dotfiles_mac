@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
-use_homebrew
 
 {{ if eq .chezmoi.os "linux" -}}
-  non_root="su linuxbrew"
+$SUDO su linuxbrew <<EOF
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
 {{ end }}
 
-$non_root brew update
-$non_root brew upgrade
-$non_root brew cleanup
+use_homebrew
+
+brew update
+brew upgrade
+brew cleanup
+
+{{ if eq .chezmoi.os "linux" -}}
+EOF
+{{ end }}
+

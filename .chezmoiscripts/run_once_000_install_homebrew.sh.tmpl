@@ -6,9 +6,11 @@
 if ! installed brew; then
   get_sudo
 {{ if eq .chezmoi.os "linux" -}}
+
 {{   if eq .chezmoi.osRelease.id "ubuntu" "debian" }}
   $SUDO apt-get install -y bash build-essential curl file git procps zsh
 {{   end -}}
+
 {{   if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" }}
   $SUDO yum groupinstall -y 'Development Tools'
   $SUDO yum install -y bash curl file git procops-ng zsh
@@ -16,18 +18,28 @@ if ! installed brew; then
   $SUDO yum install -y libxcrypt-compat
 {{     end -}}
 {{   end -}}
+
 {{   if eq .chezmoi.osRelease.id "alpine" }}
   $SUDO apk add --update bash build-base curl file git procps zsh
 {{   end -}}
+
 {{ end }}
+
   >&2 echo "homebrew: installing"
   homebrew_script=`download https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh`
+
 {{ if eq .chezmoi.os "linux" -}}
-  adduser --system --shell /bin/bash linuxbrew
-  su linuxbrew ONINTERACTIVE=1 bash -c "${homebrew_script}"
-{{ else }}
-  NONINTERACTIVE=1 bash -c "${homebrew_script}"
+$SUDO adduser --system --gid 0 --shell /bin/bash linuxbrew
+$SUDO su linuxbrew <<EOF
 {{ end }}
+
+NONINTERACTIVE=1 bash -c "${homebrew_script}"
+
+{{ if eq .chezmoi.os "linux" -}}
+EOF
+{{ end }}
+
 else
   >&2 echo "homebrew: already installed"
 fi
+

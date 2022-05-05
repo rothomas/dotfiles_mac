@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+
+{{ if eq .chezmoi.os "linux" -}}
+su linuxbrew <<EOF
+source "{{ .chezmoi.sourceDir }}/.helpers/prereq_functions"
+{{ end }}
+
 use_homebrew
 
 installed age || brew install age
@@ -22,4 +28,8 @@ installed syncthing || (brew install syncthing && brew services start syncthing)
 brew install terraform@{{ .terraform_version }}
 installed unzip || brew install unzip
 brew install zellij
+
+{{ if eq .chezmoi.os "linux" -}}
+EOF
+{{ end }}
 
