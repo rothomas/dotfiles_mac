@@ -1,0 +1,85 @@
+[default]
+region = us-west-1
+
+[profile identity]
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile identity-admin]
+source_profile = identity
+role_arn = arn:aws:iam::951307707842:role/AdminRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile identity-log-viewer]
+source_profile = identity
+role_arn = arn:aws:iam::951307707842:role/LogViewerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile identity-terraform]
+source_profile = identity
+role_arn = arn:aws:iam::951307707842:role/TerraformRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile local-developer]
+role_arn=arn:aws:iam::527656001624:role/LegacyLocalDeveloperRole
+source_profile=identity
+mfa_serial=arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-staging-admin]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyStagingAdminRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-staging-deployer]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyStagingDeployerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-staging-log-viewer]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyStagingLogViewerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-staging-terraform]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyStagingTerraformRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-prod-admin]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyProdAdminRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-prod-deployer]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyProdDeployerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-prod-log-viewer]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyProdLogViewerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile legacy-prod-terraform]
+source_profile = identity
+role_arn = arn:aws:iam::527656001624:role/LegacyProdTerraformRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile staging-admin]
+source_profile = identity
+role_arn = arn:aws:iam::763192335041:role/AdminRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile staging-deployer]
+source_profile = identity
+role_arn = arn:aws:iam::763192335041:role/DeployerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile staging-log-viewer]
+source_profile = identity
+role_arn = arn:aws:iam::763192335041:role/LogViewerRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
+
+[profile staging-terraform]
+source_profile = identity
+role_arn = arn:aws:iam::763192335041:role/TerraformRole
+mfa_serial = arn:aws:iam::951307707842:mfa/{{ $username }}
