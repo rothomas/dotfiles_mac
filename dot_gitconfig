@@ -1,0 +1,11 @@
+[user]
+	name = Rob Thomas
+	email = rob@formswift.com
+[core]
+	autocrlf = input
+	excludesfile = ~/.gitignore
+[pull]
+	ff = only
+
+[init]
+	templatedir = ~/.git-templates

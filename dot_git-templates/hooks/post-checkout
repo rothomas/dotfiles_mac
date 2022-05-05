@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Git hooks always run in the repo root.
+export REPO=$(pwd)
+
+# Identify the repo's context and .git location.
+if [[ -d .git ]]; then
+  export SUBMODULE=0
+  export DOT_GIT=$(realpath "${REPO}/.git")
+elif [[ -f .git ]]; then
+  export SUBMODULE=1
+  export DOT_GIT=$(realpath "${REPO}/$(sed -n 's/gitdir: //p' .git)")
+fi
+
+# Clean up the bootstrap hook.
+rm -- "$0"
+
+if [[ ! -z "${DOT_GIT}" ]]; then
+  export HOOKS_DEST="${DOT_GIT}/hooks"
+  # By convention, any one-time initialization content lives in $REPO/.git-init-repo and is
+  # kicked off by the initialize script inside. Install hooks and such from here.
+  if [[ -d "${REPO}/.git-init-repo" ]] && [[ -x "${REPO}/.git-init-repo/initialize" ]]; then
+    if [[ -f "${DOT_GIT}/trusted" ]]; then
+      trusted=$(cat "${DOT_GIT}/trusted")
+    else
+      echo 'This repository contains initialization scripts in .git-init-repo.'
+      echo 'Running untrusted code automatically can pose a security risk.'
+      read -p 'Trust this project? [y/N]' trusted
+      echo "${trusted}" > "${DOT_GIT}/trusted"
+    fi
+    if [[ "${trusted}" == 'y' || "${trusted}" == 'Y' ]]; then
+      ${REPO}/.git-init-repo/initialize
+    fi
+  fi
+fi
+
