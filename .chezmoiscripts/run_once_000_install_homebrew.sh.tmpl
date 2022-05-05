@@ -23,7 +23,7 @@ if ! installed brew; then
   >&2 echo "homebrew: installing"
   homebrew_script=`download https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh`
 {{ if eq .chezmoi.os "linux" -}}
-  adduser --system --shell /bin/sh linuxbrew
+  adduser --system --shell /bin/bash linuxbrew
   su linuxbrew ONINTERACTIVE=1 bash -c "${homebrew_script}"
 {{ else }}
   NONINTERACTIVE=1 bash -c "${homebrew_script}"
