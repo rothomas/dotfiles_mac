@@ -5,16 +5,21 @@ use_homebrew
 
 current=$SHELL proposed="$(command -v {{ .shell }})"
 
->&2 echo "Current shell is ${current}. Proposed shell is ${proposed}."
 if installed {{ .shell }}; then
-  >&2 echo "{{ .shell }}: proposed shell installed at $proposed"
   if grep $proposed /etc/shells; then
-    >&2 echo "{{ .shell }}: $proposed is a valid shell"
     if [[ "$current" != "$proposed" ]]; then
-      >&2 echo "{{ .shell }}: setting as current"
       chsh -s $proposed
     fi
   fi
 fi
 
-git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+
+{{ if eq .chezmoi.os "darwin" -}}                                                                                                           
+mkdir -p ~/.oh-my-zsh/custom/plugins/iterm2_shell_integration
+curl -L https://iterm2.com/shell_integration/install_shell_integration.sh | bash
+mv ~/.iterm2_shell_integration.zsh ~/.oh-my-zsh/custom/plugins/iterm2_shell_integration
+{{ end }}
+

@@ -109,7 +109,6 @@ source ~/.aliases
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-export DISPLAY=localhost:0.0
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 export PATH="$PATH:/Users/rob/bin"
