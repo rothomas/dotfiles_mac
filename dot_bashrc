@@ -105,6 +105,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -116,23 +120,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f ~/.rvm.sh ]; then
-  source ~/.rvm.sh
-fi
-if [ -f ~/.pyenv.sh ]; then
-  source ~/.pyenv.sh --init
-fi
-if [ -f ~/.nvm.sh ]; then
-  source ~/.nvm.sh
-fi
+eval $(ssh-agent -s) > /dev/null
 
-eval $(ssh-agent -s)
-ssh-add
-
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
