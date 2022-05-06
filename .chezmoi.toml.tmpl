@@ -22,7 +22,7 @@
 {{- else -}}
 {{-   $fullname = promptString "full name" -}}
 {{- end -}}
-{{- $brew := '' -}}
+{{- $brew := "" -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{-   $brew = $username | printf "/home/%s/.linuxbrew/bin/brew" -}}
 {{- else if eq .chezmoi.os "darwin" -}}
