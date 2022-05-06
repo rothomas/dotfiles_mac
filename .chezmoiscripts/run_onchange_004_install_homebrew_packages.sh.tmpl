@@ -19,7 +19,7 @@ eval "$({{ .brew }} shellenv)"
 {{ template "brew_install" . }}
 {{ end }}
 
-{{ range .brew.$os }}
+{{ range (get .brew $os) }}
 {{ template "brew_install" . }}
 {{ end }}
 
