@@ -32,14 +32,9 @@ if ! installed brew; then
 $SUDO adduser --system --gid 0 --shell /bin/bash linuxbrew
 $SUDO usermod -G sudo linuxbrew
 echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-$SUDO su linuxbrew <<EOF
 {{ end }}
 
-NONINTERACTIVE=1 bash -c "${homebrew_script}"
-
-{{ if eq .chezmoi.os "linux" -}}
-EOF
-{{ end }}
+sudo su NONINTERACTIVE=1 bash -c "${homebrew_script}"
 
 else
   >&2 echo "homebrew: already installed"
