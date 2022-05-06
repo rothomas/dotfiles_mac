@@ -47,45 +47,45 @@
 {{- end -}}
 
 
-[data]
-brew: {{ $brew | quote }}
-username: {{ $username | quote }}
-email: {{ $email | quote }}
-fullname: {{ $fullname | quote }}
-shell="zsh"
-sudo={{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
-version:
-    commitlint_cli: {{ $commitlint_cli_version | quote }}
-    node: {{ $node_version | quote }}
-    nvm: {{ $nvm_version | quote }}
-    npm: {{ $npm_version | quote }}
-    op_cli: {{ $op_cli_version | quote }}
-    python2: {{ $python2_version | quote }}
-    python3: {{ $python3_version | quote }}
-    rvm: {{ $rvm_version | quote }}
-    ruby: {{ $ruby_version | quote }}
-    terraform: {{ $terraform_version | quote }}
-repo:
-    - path: ".oh-my-zsh"
-      url: "https://github.com/ohmyzsh/ohmyzsh.git"
-      ref: "master"
-    - path: ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-      url: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-      ref: "master"
-    - path: ".oh-my-zsh/custom/plugins/zsh-autosuggestions"
-      url: "https://github.com/zsh-users/zsh-autosuggestions.git"
-      ref: "master"
-    - path: ".oh-my-zsh/custom/themes/powerlevel10k"
-      url: "https://github.com/romkatv/powerlevel10k.git"
-      ref: "master"
-    - path: ".nvm"
-      url: "https://github.com/nvm-sh/nvm.git"
-      ref: "v{{ $nvm_version }}"
-    - path: ".rvm"
-      url: "https://github.com/rvm/rvm.git"
-      ref: "{{ $rvm_version }}"
+data:
+    brew: {{ $brew | quote }}
+    username: {{ $username | quote }}
+    email: {{ $email | quote }}
+    fullname: {{ $fullname | quote }}
+    shell="zsh"
+    sudo={{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
+    version:
+        commitlint_cli: {{ $commitlint_cli_version | quote }}
+        node: {{ $node_version | quote }}
+        nvm: {{ $nvm_version | quote }}
+        npm: {{ $npm_version | quote }}
+        op_cli: {{ $op_cli_version | quote }}
+        python2: {{ $python2_version | quote }}
+        python3: {{ $python3_version | quote }}
+        rvm: {{ $rvm_version | quote }}
+        ruby: {{ $ruby_version | quote }}
+        terraform: {{ $terraform_version | quote }}
+    repo:
+        - path: ".oh-my-zsh"
+          url: "https://github.com/ohmyzsh/ohmyzsh.git"
+          ref: "master"
+        - path: ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+          url: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+          ref: "master"
+        - path: ".oh-my-zsh/custom/plugins/zsh-autosuggestions"
+          url: "https://github.com/zsh-users/zsh-autosuggestions.git"
+          ref: "master"
+        - path: ".oh-my-zsh/custom/themes/powerlevel10k"
+          url: "https://github.com/romkatv/powerlevel10k.git"
+          ref: "master"
+        - path: ".nvm"
+          url: "https://github.com/nvm-sh/nvm.git"
+          ref: "v{{ $nvm_version }}"
+        - path: ".rvm"
+          url: "https://github.com/rvm/rvm.git"
+          ref: "{{ $rvm_version }}"
 {{- if eq .chezmoi.os "linux" }}
-    - path: ".linuxbrew"
-      url: "https://github.com/Homebrew/brew"
-      ref: "master"
+        - path: ".linuxbrew"
+          url: "https://github.com/Homebrew/brew"
+          ref: "master"
 {{- end }}
