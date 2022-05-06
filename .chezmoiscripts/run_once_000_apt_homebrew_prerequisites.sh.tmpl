@@ -1,0 +1,6 @@
+{{- if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
+#!/bin/sh
+
+{{.sudo}} apt-get update -yq
+{{.sudo}} apt-get install -yqq bash build-essential curl file git procps sudo zsh
+{{- end }}

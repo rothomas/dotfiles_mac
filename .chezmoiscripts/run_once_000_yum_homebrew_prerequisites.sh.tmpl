@@ -1,0 +1,11 @@
+{{- if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
+#!/bin/sh
+
+{{.sudo}} yum groupinstall -y 'Development Tools'
+{{.sudo}} yum install -y bash curl file git procops-ng sudo zsh
+
+{{-   if eq .chezmoi.osRelease.id "fedora" }}
+{{.sudo}} yum install -y libxcrypt-compat
+{{-   end }}
+
+{{- end }}

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+eval "$({{ .brew }} shellenv)"
+
+if ! pyenv versions | grep -sqF "{{ .python2_version }}"; then
+  pyenv install {{ .python2_version }}
+fi
+
+if ! pyenv versions | grep -sqF "{{ .python3_version }}"; then
+  pyenv install {{ .python3_version }}
+fi
+
+pyenv global {{ .python2_version }} {{ .python3_version }}

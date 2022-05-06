@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source "$HOME/.rvm/scripts/rvm"
+
+rvm install {{ .ruby_version | quote }}
+rvm use {{ .ruby_version | quote }}

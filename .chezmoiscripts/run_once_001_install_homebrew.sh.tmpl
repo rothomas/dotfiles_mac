@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+{{ if eq .chezmoi.os "linux" -}}
+
+eval "$({{ .brew }} shellenv)"
+brew update --force --quiet
+chmod -R go-w "$(brew --prefix)/share/zsh"
+
+{{- else if eq .chezmoi.os "darwin" -}}
+
+if ! [ -f "{{ .brew }}" ]; then
+  echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
+else
+  >&2 echo "homebrew: already installed"
+fi
+
+{{- end }}

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+{{ if (eq .chezmoi.os "linux") }}
+
+eval "$({{ .brew }} shellenv)"
+
+{{ end }}

@@ -2,9 +2,9 @@
 {{- if (hasKey . "username") -}}
 {{-   $username = .username -}}
 {{- else -}}
-{{-   $username = env "USER" | printf "username [%s]" | promptString -}}
+{{-   $username = .chezmoi.username | printf "username [%s]" | promptString -}}
 {{-   if (eq (len $username) 0) -}}
-{{-     $username = env "USER" -}}
+{{-     $username = .chezmoi.username -}}
 {{-   end -}}
 {{- end -}}
 {{- $email := "" -}}
@@ -22,15 +22,27 @@
 {{- else -}}
 {{-   $fullname = promptString "full name" -}}
 {{- end -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   $brew = $username | printf "/home/%s/.linuxbrew/bin/brew" -}}
+{{- else if eq .chezmoi.os "darwin" -}}
+{{-   $brew = "/usr/local/bin/brew" -}}
+{{- else -}}
+{{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail -}}
+{{- end -}}
+
 
 [data]
+brew = {{ $brew | quote }}
 username = {{ $username | quote }}
 email = {{ $email | quote }}
 fullname = {{ $fullname | quote }}
-node_version="14"
+commitlint_cli_version="16.2.4"
+node_version="14.19.0"
 nvm_version="0.39.1"
-python_version="3.9.10"
+npm_version="8.9.0"
+python2_version="2.7.18"
+python3_version="3.9.10"
 ruby_version="ruby-3.0.0"
 shell="zsh"
+sudo={{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
 terraform_version="0.12"
-
