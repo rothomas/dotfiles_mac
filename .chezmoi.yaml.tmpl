@@ -89,3 +89,63 @@ data:
           url: "https://github.com/Homebrew/brew"
           ref: "master"
 {{- end }}
+    brew:
+        common:
+            - package: age
+              use_system: true
+            - package: awscli@1
+            - package: aws-vault
+            - package: expect
+            - package: gh
+            - package: git
+            - package: gpg2
+            - package: gradle
+            - package: jq
+            - package: maven
+            - package: mosh
+            - package: nvim
+            - package: openjdk
+            - package: pipenv
+            - package: pyenv
+            - package: syncthing
+              service: true
+              use_system: true
+            - package: terraform@{{ $terraform_version }}
+            - package: unzip
+              use_system: true
+            - package: zellij
+        darwin:
+            - package: 1password-cli
+              cask: true
+            - package: telnet
+            - package: vagrant
+              cask: true
+            - package: 1password
+              cask: true
+            - package: iterm2
+              cask: true
+            - package: google-chrome
+              cask: true
+            - package: firefox
+              cask: true
+            - package: virtualbox
+              cask: true
+            - package: virtualbox-extension-pack
+              cask: true
+            - package: sequel-pro
+              cask: true
+            - package: rectangle
+              cask: true
+            - package: docker
+              cask: true
+            - package: visual-studio-code
+              cask: true
+            - package: slack
+              cask: true
+            - package: flycut
+              cask: true
+            - package: jetbrains-toolbox
+              cask: true
+            - package: kitty
+              cask: true
+        linux: []
