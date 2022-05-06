@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
 >&2 echo "Setting up RVM"
-"${HOME}/.rvm/scripts/install" --path "${HOME}/.rvm"
+cd "${HOME}/.rvm"
+./scripts/install" --path "${HOME}/.rvm"
+cd -
