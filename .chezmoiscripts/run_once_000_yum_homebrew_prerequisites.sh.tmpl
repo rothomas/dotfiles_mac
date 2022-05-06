@@ -8,5 +8,7 @@
 {{-   if eq .chezmoi.osRelease.id "fedora" }}
 {{.sudo}} yum install -y libxcrypt-compat
 {{-   end }}
+rehash
+which git
 
 {{- end }}
