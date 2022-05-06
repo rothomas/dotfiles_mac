@@ -4,5 +4,5 @@
 
 source "$HOME/.rvm/scripts/rvm"
 
-rvm install {{ .ruby_version | quote }}
-rvm use {{ .ruby_version | quote }}
+rvm install {{ .version.ruby | quote }}
+rvm use {{ .version.ruby | quote }}

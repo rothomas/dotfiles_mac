@@ -4,12 +4,12 @@
 
 eval "$({{ .brew }} shellenv)"
 
-if ! pyenv versions | grep -sqF "{{ .python2_version }}"; then
-  pyenv install {{ .python2_version }}
+if ! pyenv versions | grep -sqF "{{ .version.python2 }}"; then
+  pyenv install {{ .version.python2 }}
 fi
 
-if ! pyenv versions | grep -sqF "{{ .python3_version }}"; then
-  pyenv install {{ .python3_version }}
+if ! pyenv versions | grep -sqF "{{ .version.python3 }}"; then
+  pyenv install {{ .version.python3 }}
 fi
 
-pyenv global {{ .python2_version }} {{ .python3_version }}
+pyenv global {{ .version.python2 }} {{ .version.python3 }}

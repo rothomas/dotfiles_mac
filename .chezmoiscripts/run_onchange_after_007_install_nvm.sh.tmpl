@@ -5,7 +5,7 @@
 export NVM_DIR="$HOME/.nvm"
 . "${NVM_DIR}/nvm.sh"
 
-nvm install {{ .node_version }}
-nvm alias default v{{ .node_version }}
-npm install -g npm@{{ .npm_version }}
-npm install -g @commitlint/cli@{{ .commitlint_cli_version }}
+nvm install {{ .version.node }}
+nvm alias default v{{ .version.node }}
+npm install -g npm@{{ .version.npm }}
+npm install -g @commitlint/cli@{{ .version.commitlint_cli }}

@@ -2,7 +2,7 @@
 
 ["bin/op"]
 type = "archive"
-url = "https://cache.agilebits.com/dist/1P/op2/pkg/v{{ .op_cli_version }}/op_linux_amd64_v{{ .op_cli_version }}.zip"
+url = "https://cache.agilebits.com/dist/1P/op2/pkg/v{{ .version.op_cli }}/op_linux_amd64_v{{ .version.op_cli }}.zip"
 exact = true
 refreshPeriod = "168h"
 

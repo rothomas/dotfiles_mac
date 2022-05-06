@@ -21,6 +21,6 @@ brew install openjdk
 brew install pipenv
 brew install pyenv
 {{template "installed" "syncthing"}} || (brew install syncthing && brew services start syncthing)
-brew install terraform@{{ .terraform_version }}
+brew install terraform@{{ .version.terraform }}
 {{template "installed" "unzip"}} || brew install unzip
 brew install zellij
