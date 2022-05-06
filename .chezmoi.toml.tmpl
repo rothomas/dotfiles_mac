@@ -24,7 +24,11 @@
 {{- end -}}
 {{- $brew := "" -}}
 {{- if eq .chezmoi.os "linux" -}}
-{{-   $brew = $username | printf "/home/%s/.linuxbrew/bin/brew" -}}
+{{-   if eq .chezmoi.username "root" -}}
+{{-     $brew = .chezmoi.username | printf "/root/.linuxbrew/bin/brew" -}}
+{{-   else -}}
+{{-     $brew = .chezmoi.username | printf "/home/%s/.linuxbrew/bin/brew" -}}
+{{-   end -}}
 {{- else if eq .chezmoi.os "darwin" -}}
 {{-   $brew = "/usr/local/bin/brew" -}}
 {{- else -}}
@@ -41,8 +45,10 @@ commitlint_cli_version="16.2.4"
 node_version="14.19.0"
 nvm_version="0.39.1"
 npm_version="8.9.0"
+op_cli_version="2.1.0"
 python2_version="2.7.18"
 python3_version="3.9.10"
+rvm_version="stable"
 ruby_version="ruby-3.0.0"
 shell="zsh"
 sudo={{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
