@@ -4,7 +4,6 @@
 >&2 echo "Installing APT dependencies"
 {{.sudo}} apt-get update -yq
 {{.sudo}} apt-get install -yqq bash build-essential curl file git procps sudo zsh
-rehash
 which git
 
 {{- end }}

@@ -1,45 +1,4 @@
-[".oh-my-zsh"]
-type = "git-repo"
-url = "https://github.com/ohmyzsh/ohmyzsh.git"
-exact = true
-refreshPeriod = "168h"
-
-[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
-type = "git-repo"
-url = "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-exact = true
-refreshPeriod = "168h"
-
-[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
-type = "git-repo"
-url = "https://github.com/zsh-users/zsh-autosuggestions.git"
-refreshPeriod = "168h"
-
-[".oh-my-zsh/custom/themes/powerlevel10k"]
-type = "git-repo"
-url = "https://github.com/romkatv/powerlevel10k.git"
-exact = true
-refreshPeriod = "168h"
-
-[".nvm"]
-type = "git-repo"
-url = "https://github.com/nvm-sh/nvm.git"
-clone.args = ["-b", "v{{ .nvm_version }}"]
-exact = true
-
-[".rvm"]
-type = "git-repo"
-url = "https://github.com/rvm/rvm.git"
-clone.args = ["-b", "{{ .rvm_version }}"]
-refreshPeriod = "168h"
-
 {{ if eq .chezmoi.os "linux" -}}
-
-[".linuxbrew"]
-type = "git-repo"
-url = "https://github.com/Homebrew/brew"
-exact = true
-refreshPeriod = "168h"
 
 ["bin/op"]
 type = "archive"

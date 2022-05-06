@@ -1,0 +1,91 @@
+{{- $commitlint_cli_version := "16.2.4" -}}
+{{- $node_version := "14.19.0" -}}
+{{- $nvm_version := "0.39.1" -}}
+{{- $npm_version := "8.9.0" -}}
+{{- $op_cli_version := "2.1.0" -}}
+{{- $python2_version := "2.7.18" -}}
+{{- $python3_version := "3.9.10" -}}
+{{- $rvm_version := "stable" -}}
+{{- $ruby_version := "ruby-3.0.0" -}}
+{{- $terraform_version := "0.12" -}}
+
+{{- $username := "" -}}
+{{- if (hasKey . "username") -}}
+{{-   $username = .username -}}
+{{- else -}}
+{{-   $username = .chezmoi.username | printf "username [%s]" | promptString -}}
+{{-   if (eq (len $username) 0) -}}
+{{-     $username = .chezmoi.username -}}
+{{-   end -}}
+{{- end -}}
+{{- $email := "" -}}
+{{- if (hasKey . "email") -}}
+{{-   $email = .email -}}
+{{- else -}}
+{{-   $email = $username | printf "email [%s@formswift.com]" | promptString -}}
+{{-   if (eq (len $email) 0) -}}
+{{-     $email = $username | printf "%s@formswift.com" -}}
+{{-   end -}}
+{{- end -}}
+{{- $fullname := "" -}}
+{{- if (hasKey . "fullname") -}}
+{{-   $fullname = .fullname -}}
+{{- else -}}
+{{-   $fullname = promptString "full name" -}}
+{{- end -}}
+{{- $brew := "" -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   if eq .chezmoi.username "root" -}}
+{{-     $brew = "/root/.linuxbrew/bin/brew" -}}
+{{-   else -}}
+{{-     $brew = .chezmoi.username | printf "/home/%s/.linuxbrew/bin/brew" -}}
+{{-   end -}}
+{{- else if eq .chezmoi.os "darwin" -}}
+{{-   $brew = "/usr/local/bin/brew" -}}
+{{- else -}}
+{{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail -}}
+{{- end -}}
+
+
+[data]
+brew: {{ $brew | quote }}
+username: {{ $username | quote }}
+email: {{ $email | quote }}
+fullname: {{ $fullname | quote }}
+shell="zsh"
+sudo={{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
+version:
+    commitlint_cli: {{ $commitlint_cli_version | quote }}
+    node: {{ $node_version | quote }}
+    nvm: {{ $nvm_version | quote }}
+    npm: {{ $npm_version | quote }}
+    op_cli: {{ $op_cli_version | quote }}
+    python2: {{ $python2_version | quote }}
+    python3: {{ $python3_version | quote }}
+    rvm: {{ $rvm_version | quote }}
+    ruby: {{ $ruby_version | quote }}
+    terraform: {{ $terraform_version | quote }}
+repo:
+    - path: ".oh-my-zsh"
+      url: "https://github.com/ohmyzsh/ohmyzsh.git"
+      ref: "master"
+    - path: ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+      url: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+      ref: "master"
+    - path: ".oh-my-zsh/custom/plugins/zsh-autosuggestions"
+      url: "https://github.com/zsh-users/zsh-autosuggestions.git"
+      ref: "master"
+    - path: ".oh-my-zsh/custom/themes/powerlevel10k"
+      url: "https://github.com/romkatv/powerlevel10k.git"
+      ref: "master"
+    - path: ".nvm"
+      url: "https://github.com/nvm-sh/nvm.git"
+      ref: "v{{ $nvm_version }}"
+    - path: ".rvm"
+      url: "https://github.com/rvm/rvm.git"
+      ref: "{{ $rvm_version }}"
+{{- if eq .chezmoi.os "linux" }}
+    - path: ".linuxbrew"
+      url: "https://github.com/Homebrew/brew"
+      ref: "master"
+{{- end }}
