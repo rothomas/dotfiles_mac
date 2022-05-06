@@ -33,6 +33,7 @@ $SUDO adduser --system --gid 0 --shell /bin/bash linuxbrew
 $SUDO su linuxbrew <<EOF
 {{ end }}
 
+echo "Running the downloaded homebrew install script"
 NONINTERACTIVE=1 bash -c "${homebrew_script}"
 
 {{ if eq .chezmoi.os "linux" -}}
