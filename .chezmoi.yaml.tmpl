@@ -52,8 +52,8 @@ data:
     username: {{ $username | quote }}
     email: {{ $email | quote }}
     fullname: {{ $fullname | quote }}
-    shell="zsh"
-    sudo={{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
+    shell: "zsh"
+    sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
     version:
         commitlint_cli: {{ $commitlint_cli_version | quote }}
         node: {{ $node_version | quote }}
