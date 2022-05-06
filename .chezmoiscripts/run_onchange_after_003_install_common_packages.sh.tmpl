@@ -1,4 +1,4 @@
-{{ if not eq .chezmoi.username "root" -}}
+{{ if not (eq .chezmoi.username "root") -}}
 {{-define "installed"}}command -v "{{.}}" >/dev/null{{end-}}
 #!/usr/bin/env bash
 

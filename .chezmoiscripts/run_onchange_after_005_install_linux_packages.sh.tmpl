@@ -1,4 +1,4 @@
-{{ if and (eq .chezmoi.os "linux") (not eq .chezmoi.username "root") -}}
+{{ if and (eq .chezmoi.os "linux") (not (eq .chezmoi.username "root")) -}}
 
 #!/usr/bin/env bash
 
