@@ -84,7 +84,7 @@ data:
         - path: ".rvm"
           url: "https://github.com/rvm/rvm.git"
           ref: "{{ $rvm_version }}"
-{{- if eq .chezmoi.os "linux" }}
+{{- if and (eq .chezmoi.os "linux") (not eq .chezmoi.username "root") }}
         - path: ".linuxbrew"
           url: "https://github.com/Homebrew/brew"
           ref: "master"

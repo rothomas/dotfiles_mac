@@ -1,3 +1,4 @@
+{{ if not eq .chezmoi.username "root" -}}
 #!/usr/bin/env bash
 
 >&2 echo "Installing Python"
@@ -13,3 +14,4 @@ if ! pyenv versions | grep -sqF "{{ .version.python3 }}"; then
 fi
 
 pyenv global {{ .version.python2 }} {{ .version.python3 }}
+{{- end }}

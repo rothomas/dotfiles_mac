@@ -1,3 +1,4 @@
+{{ if not eq .chezmoi.username "root" -}}
 {{-define "installed"}}command -v "{{.}}" >/dev/null{{end-}}
 #!/usr/bin/env bash
 
@@ -24,3 +25,4 @@ brew install pyenv
 brew install terraform@{{ .version.terraform }}
 {{template "installed" "unzip"}} || brew install unzip
 brew install zellij
+{{- end }}

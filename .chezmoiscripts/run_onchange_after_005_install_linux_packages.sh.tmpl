@@ -1,8 +1,9 @@
+{{ if and (eq .chezmoi.os "linux") (not eq .chezmoi.username "root") -}}
+
 #!/usr/bin/env bash
-{{ if (eq .chezmoi.os "linux") }}
 
 >&2 echo "Installing Homebrew Linux Packages"
 
 eval "$({{ .brew }} shellenv)"
 
-{{ end }}
+{{- end }}

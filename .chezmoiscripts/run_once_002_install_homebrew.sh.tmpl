@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-{{ if eq .chezmoi.os "linux" -}}
+{{ if and (eq .chezmoi.os "linux") (not eq .chezmoi.username "root") -}}
 
 >&2 echo "Installing Homebrew (Linux)"
 
