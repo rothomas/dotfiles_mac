@@ -9,4 +9,4 @@ else
   mkdir -p "$(dirname {{ .path }})"
   git clone -b "{{ .ref }}" "{{ .url }}" "{{ .path }}"
 fi
-{{- end }}
+{{ end }}
