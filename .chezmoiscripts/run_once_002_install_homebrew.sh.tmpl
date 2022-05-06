@@ -4,6 +4,7 @@
 
 >&2 echo "Installing Homebrew (Linux)"
 
+mkdir -p ".linuxbrew/share/zsh"
 eval "$({{ .brew }} shellenv)"
 brew update --force --quiet
 chmod -R go-w "$(brew --prefix)/share/zsh"
