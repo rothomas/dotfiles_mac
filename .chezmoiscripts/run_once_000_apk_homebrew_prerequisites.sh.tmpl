@@ -1,5 +1,6 @@
 {{- if eq .chezmoi.osRelease.id "alpine" -}}
 #!/bin/sh
 
+>&2 echo "Installing APK dependencies"
 {{.sudo}} apk add --update bash build-base curl file git procps sudo zsh
 {{- end }}

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+>&2 echo "Installing Python"
+
 eval "$({{ .brew }} shellenv)"
 
 if ! pyenv versions | grep -sqF "{{ .python2_version }}"; then

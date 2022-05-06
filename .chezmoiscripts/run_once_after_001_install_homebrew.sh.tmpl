@@ -2,11 +2,15 @@
 
 {{ if eq .chezmoi.os "linux" -}}
 
+>&2 echo "Installing Homebrew (Linux)"
+
 eval "$({{ .brew }} shellenv)"
 brew update --force --quiet
 chmod -R go-w "$(brew --prefix)/share/zsh"
 
 {{- else if eq .chezmoi.os "darwin" -}}
+
+>&2 echo "Installing Homebrew (Darwin)"
 
 if ! [ -f "{{ .brew }}" ]; then
   echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+>&2 echo "Setting user's login shell (if necessary)"
+
 current=$SHELL proposed="$(command -v {{ .shell }})"
 
 if [[ -x {{ "$proposed" }} ]] && grep -q "$proposed" /etc/shells && [[ "$current" != "$proposed" ]]; then

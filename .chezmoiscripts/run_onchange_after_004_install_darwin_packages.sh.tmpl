@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 {{ if (eq .chezmoi.os "darwin") }}
 
+>&2 echo "Installing Homebrew Darwin Packages"
+
 eval "$({{ .brew }} shellenv)"
 
 brew install --cask 1password-cli

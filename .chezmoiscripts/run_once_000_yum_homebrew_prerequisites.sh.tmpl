@@ -1,6 +1,7 @@
 {{- if eq .chezmoi.osRelease.id "centos" "rhel" "fedora" -}}
 #!/bin/sh
 
+>&2 echo "Installing YUM dependencies"
 {{.sudo}} yum groupinstall -y 'Development Tools'
 {{.sudo}} yum install -y bash curl file git procops-ng sudo zsh
 
