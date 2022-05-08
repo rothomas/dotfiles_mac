@@ -2,7 +2,7 @@
 #!/bin/sh
 
 >&2 echo "Installing APT dependencies"
->&2 {{ test "FOO!" }}
+>&2 {{ template "test" "FOO!" }}
 
 {{.sudo}} apt-get update -yq
 {{.sudo}} apt-get install -yqq {{ .package.apt | join " " }}
