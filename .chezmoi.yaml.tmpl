@@ -46,106 +46,132 @@
 {{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail -}}
 {{- end -}}
 
+{{- define "test" -}}
+echo "TEST: {{ . }}"
+{{ fail }}
+{{- end -}}
 
 data:
-    brew: {{ $brew | quote }}
-    username: {{ $username | quote }}
-    email: {{ $email | quote }}
-    fullname: {{ $fullname | quote }}
-    shell: "zsh"
-    sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
-    version:
-        commitlint_cli: {{ $commitlint_cli_version | quote }}
-        node: {{ $node_version | quote }}
-        nvm: {{ $nvm_version | quote }}
-        npm: {{ $npm_version | quote }}
-        op_cli: {{ $op_cli_version | quote }}
-        python2: {{ $python2_version | quote }}
-        python3: {{ $python3_version | quote }}
-        rvm: {{ $rvm_version | quote }}
-        ruby: {{ $ruby_version | quote }}
-        terraform: {{ $terraform_version | quote }}
-    repo:
-        - path: ".oh-my-zsh"
-          url: "https://github.com/ohmyzsh/ohmyzsh.git"
-          ref: "master"
-        - path: ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-          url: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-          ref: "master"
-        - path: ".oh-my-zsh/custom/plugins/zsh-autosuggestions"
-          url: "https://github.com/zsh-users/zsh-autosuggestions.git"
-          ref: "master"
-        - path: ".oh-my-zsh/custom/themes/powerlevel10k"
-          url: "https://github.com/romkatv/powerlevel10k.git"
-          ref: "master"
-        - path: ".nvm"
-          url: "https://github.com/nvm-sh/nvm.git"
-          ref: "v{{ $nvm_version }}"
-        - path: ".rvm"
-          url: "https://github.com/rvm/rvm.git"
-          ref: "{{ $rvm_version }}"
-{{- if and (eq .chezmoi.os "linux") (not (eq .chezmoi.username "root")) }}
-        - path: ".linuxbrew"
-          url: "https://github.com/Homebrew/brew"
-          ref: "master"
-{{- end }}
+  brew: {{ $brew | quote }}
+  username: {{ $username | quote }}
+  email: {{ $email | quote }}
+  fullname: {{ $fullname | quote }}
+  shell: "zsh"
+  sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
+  version:
+    commitlint_cli: {{ $commitlint_cli_version | quote }}
+    node: {{ $node_version | quote }}
+    nvm: {{ $nvm_version | quote }}
+    npm: {{ $npm_version | quote }}
+    op_cli: {{ $op_cli_version | quote }}
+    python2: {{ $python2_version | quote }}
+    python3: {{ $python3_version | quote }}
+    rvm: {{ $rvm_version | quote }}
+    ruby: {{ $ruby_version | quote }}
+    terraform: {{ $terraform_version | quote }}
+  package:
+    apt:
+      - package: bash
+      - package: build-essential
+      - package: curl
+      - package: file
+      - package: git
+      - package: procps
+      - package: sudo
+      - package: zsh
+    apk:
+      - package: bash
+      - package: build-base
+      - package: curl
+      - package: file
+      - package: git
+      - package: procps
+      - package: sudo
+      - package: zsh
+    yum:
+      
+    git:
+      - path: ".oh-my-zsh"
+        url: "https://github.com/ohmyzsh/ohmyzsh.git"
+        ref: "master"
+      - path: ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        url: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+        ref: "master"
+      - path: ".oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        url: "https://github.com/zsh-users/zsh-autosuggestions.git"
+        ref: "master"
+      - path: ".oh-my-zsh/custom/themes/powerlevel10k"
+        url: "https://github.com/romkatv/powerlevel10k.git"
+        ref: "master"
+      - path: ".nvm"
+        url: "https://github.com/nvm-sh/nvm.git"
+        ref: "v{{ $nvm_version }}"
+      - path: ".rvm"
+        url: "https://github.com/rvm/rvm.git"
+        ref: "{{ $rvm_version }}"
+      {{- if and (eq .chezmoi.os "linux") (not (eq .chezmoi.username "root")) }}
+      - path: ".linuxbrew"
+        url: "https://github.com/Homebrew/brew"
+        ref: "master"
+      {{- end }}
     brew:
-        common:
-            - package: age
-              use_system: true
-            - package: awscli@1
-            - package: aws-vault
-            - package: expect
-            - package: gh
-            - package: git
-            - package: gpg2
-            - package: gradle
-            - package: jq
-            - package: maven
-            - package: mosh
-            - package: nvim
-            - package: openjdk
-            - package: pipenv
-            - package: pyenv
-            - package: syncthing
-              service: true
-              use_system: true
-            - package: terraform@{{ $terraform_version }}
-            - package: unzip
-              use_system: true
-            - package: zellij
-        darwin:
-            - package: 1password-cli
-              cask: true
-            - package: telnet
-            - package: vagrant
-              cask: true
-            - package: 1password
-              cask: true
-            - package: iterm2
-              cask: true
-            - package: google-chrome
-              cask: true
-            - package: firefox
-              cask: true
-            - package: virtualbox
-              cask: true
-            - package: virtualbox-extension-pack
-              cask: true
-            - package: sequel-pro
-              cask: true
-            - package: rectangle
-              cask: true
-            - package: docker
-              cask: true
-            - package: visual-studio-code
-              cask: true
-            - package: slack
-              cask: true
-            - package: flycut
-              cask: true
-            - package: jetbrains-toolbox
-              cask: true
-            - package: kitty
-              cask: true
-        linux: []
+      - package: age
+        use_system: true
+      - package: awscli@1
+      - package: aws-vault
+      - package: expect
+      - package: gh
+      - package: git
+      - package: gpg2
+      - package: gradle
+      - package: jq
+      - package: maven
+      - package: mosh
+      - package: nvim
+      - package: openjdk
+      - package: pipenv
+      - package: pyenv
+      - package: syncthing
+        service: true
+        use_system: true
+      - package: terraform@{{ $terraform_version }}
+      - package: unzip
+        use_system: true
+      - package: zellij
+      {{- if eq .chezmoi.os "darwin" }}
+      - package: 1password-cli
+        cask: true
+      - package: telnet
+      - package: vagrant
+        cask: true
+      - package: 1password
+        cask: true
+      - package: iterm2
+        cask: true
+      - package: google-chrome
+        cask: true
+      - package: firefox
+        cask: true
+      - package: virtualbox
+        cask: true
+      - package: virtualbox-extension-pack
+        cask: true
+      - package: sequel-pro
+        cask: true
+      - package: rectangle
+        cask: true
+      - package: docker
+        cask: true
+      - package: visual-studio-code
+        cask: true
+      - package: slack
+        cask: true
+      - package: flycut
+        cask: true
+      - package: jetbrains-toolbox
+        cask: true
+      - package: kitty
+        cask: true
+      {{- else if eq .chezmoi.os "linux"  }}
+      {{- end }}
+

@@ -2,7 +2,7 @@
 #!/bin/sh
 
 >&2 echo "Installing APK dependencies"
-{{.sudo}} apk add --update bash build-base curl file git procps sudo zsh
-which git
+{{.sudo}} apk add --update bash {{ .package.apk | join " " }}
 
 {{- end }}
+
