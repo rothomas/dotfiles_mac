@@ -1,19 +1,20 @@
 #!/bin/sh
 
-{{- if eq .chezmoi.os "linux"                                                      -}}
-{{-   define "package_names"                                                       -}}
-{{-     $result := dict "packages" (list) "groups" (list)                          -}}
-{{-     range .                                                                    -}}
-{{-       if or (not (hasKey . "if_distro")) (eq .if_distro .chezmoi.osRelease.id) -}}
-{{-         if and (hasKey . "group") .group                                       -}}
-{{-           set $result "groups" (append $result.groups (.package | quote))      -}}
-{{-         else                                                                   -}}
-{{-           set $result "packages" (append $result.packages (.package | quote))  -}}
-{{-         end                                                                    -}}
+{{- define "package_names"                                                         -}}
+{{-   $result := dict "packages" (list) "groups" (list)                            -}}
+{{-   range .                                                                      -}}
+{{-     if or (not (hasKey . "if_distro")) (eq .if_distro .chezmoi.osRelease.id)   -}}
+{{-       if and (hasKey . "group") .group                                         -}}
+{{-         set $result "groups" (append $result.groups (.package | quote))        -}}
+{{-       else                                                                     -}}
+{{-         set $result "packages" (append $result.packages (.package | quote))    -}}
 {{-       end                                                                      -}}
 {{-     end                                                                        -}}
-{{-     $result                                                                    -}}
 {{-   end                                                                          -}}
+{{-   $result                                                                      -}}
+{{- end                                                                            -}}
+
+{{- if eq .chezmoi.os "linux"                                                      -}}
 {{-   $processed := template "package_names" (index .package .package_manager)     -}}
 {{-   $packages  := index $processed "packages"                                    -}}
 {{-   $groups    := index $processed "groups"                                       }}
