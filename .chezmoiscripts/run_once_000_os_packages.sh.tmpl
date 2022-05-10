@@ -1,19 +1,12 @@
 #!/bin/sh
 
 {{- if eq .chezmoi.os "linux"                                                         -}}
-{{-   $processed := dict "packages" (list) "groups" (list)                            -}}
+{{-   $packages := list                                                               -}}
+{{-   $groups   := list                                                               -}}
 {{-   $package_list := get .package .package_manager                                  -}}
 {{-   range $package_list                                                             -}}
-{{-     if or (not (hasKey . "if_distro")) (eq .if_distro .chezmoi.osRelease.id)      -}}
-{{-       if and (hasKey . "group") .group                                            -}}
-{{-         set $processed "groups" (append $processed.groups (.package | quote))     -}}
-{{-       else                                                                        -}}
-{{-         set $processed "packages" (append $processed.packages (.package | quote)) -}}
-{{-       end                                                                         -}}
-{{-     end                                                                           -}}
+{{-     $packages = append $packages .package                                         -}}
 {{-   end                                                                             -}}
-{{-   $packages := index $processed "packages"                                        -}}
-{{-   $groups   := index $processed "groups"                                           }}
 
 {{    if eq .package_manager "apk"                                                    -}}
 {{.sudo}} apk add --update bash {{ $packages | join " " }}
