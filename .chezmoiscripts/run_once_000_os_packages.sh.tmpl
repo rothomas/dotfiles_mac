@@ -38,7 +38,7 @@ adduser --group --system --gecos "Linuxbrew User" linuxbrew
 
 
 {{ range .package.git                                         }}
-{{   if or (not (hasKey "if_os")) (eq .chezmoi.os .if_os)     }}
+{{   if or (not (hasKey . "if_os")) (eq .chezmoi.os .if_os)   }}
 
 if [[ -d "{{ .path }}/.git" ]]; then
   cd "{{ .path }}"
@@ -58,7 +58,7 @@ fi
 
 
 {{ range .package.curl                                        }}
-{{   if or (not (hasKey "if_os")) (eq .chezmoi.os .if_os)     }}
+{{   if or (not (hasKey . "if_os")) (eq .chezmoi.os .if_os)   }}
 
 mkdir -p "$(dirname {{ .path }})"
 curl -LSso "{{ .path }}" "{{ .url }}"
