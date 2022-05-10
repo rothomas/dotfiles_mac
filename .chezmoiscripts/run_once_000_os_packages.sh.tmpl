@@ -6,7 +6,7 @@
 {{-   $package_list := get .package .package_manager                                  -}}
 {{-   range $package_list                                                             -}}
 {{-     $packages = append $packages .package                                         -}}
-{{-   end                                                                             -}}
+{{-   end                                                                              }}
 
 {{    if eq .package_manager "apk"                                                    -}}
 {{.sudo}} apk add --update bash {{ $packages | join " " }}
