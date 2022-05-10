@@ -2,7 +2,8 @@
 
 {{- if eq .chezmoi.os "linux"                                                         -}}
 {{-   $processed := dict "packages" (list) "groups" (list)                            -}}
-{{-   range (index .package .package_manager)                                         -}}
+{{-   $package_list := get .package .package_manager                                  -}}
+{{-   range $package_list                                                             -}}
 {{-     if or (not (hasKey . "if_distro")) (eq .if_distro .chezmoi.osRelease.id)      -}}
 {{-       if and (hasKey . "group") .group                                            -}}
 {{-         set $processed "groups" (append $processed.groups (.package | quote))     -}}
