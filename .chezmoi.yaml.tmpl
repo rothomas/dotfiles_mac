@@ -1,65 +1,65 @@
-{{-   $commitlint_cli_version := "16.2.4"                                 -}}
-{{-   $node_version           := "14.19.0"                                -}}
-{{-   $nvm_version            := "0.39.1"                                 -}}
-{{-   $npm_version            := "8.9.0"                                  -}}
-{{-   $op_cli_version         := "2.1.0"                                  -}}
-{{-   $python2_version        := "2.7.18"                                 -}}
-{{-   $python3_version        := "3.9.10"                                 -}}
-{{-   $rvm_version            := "stable"                                 -}}
-{{-   $ruby_version           := "ruby-3.0.0"                             -}}
-{{-   $terraform_version      := "0.12"                                   -}}
+{{-   $commitlint_cli_version := "16.2.4"                                                  -}}
+{{-   $node_version           := "14.19.0"                                                 -}}
+{{-   $nvm_version            := "0.39.1"                                                  -}}
+{{-   $npm_version            := "8.9.0"                                                   -}}
+{{-   $op_cli_version         := "2.1.0"                                                   -}}
+{{-   $python2_version        := "2.7.18"                                                  -}}
+{{-   $python3_version        := "3.9.10"                                                  -}}
+{{-   $rvm_version            := "stable"                                                  -}}
+{{-   $ruby_version           := "ruby-3.0.0"                                              -}}
+{{-   $terraform_version      := "0.12"                                                    -}}
 
-{{- $package_manager := ""                                                -}}
-{{- if eq .chezmoi.osRelease.id "centos" "fedora" "rhel"                  -}}
-{{-   $package_manager = "yum"                                            -}}
-{{- else if eq .chezmoi.osRelease.id "debian" "ubuntu"                    -}}
-{{-   $package_manager = "apt"                                            -}}
-{{- else if eq .chezmoi.osRelease.id "alpine"                             -}}
-{{-   $package_manager = "apk"                                            -}}
-{{- else if eq .chezmoi.osRelease.id "arch"                               -}}
-{{-   fail "Arch Linux does not currently support Homebrew."              -}}
-{{-   $package_manager = "pacman"                                         -}}
-{{- end                                                                   -}}
+{{- $package_manager := ""                                                                 -}}
+{{- if eq .chezmoi.osRelease.id "centos" "fedora" "rhel"                                   -}}
+{{-   $package_manager = "yum"                                                             -}}
+{{- else if eq .chezmoi.osRelease.id "debian" "ubuntu"                                     -}}
+{{-   $package_manager = "apt"                                                             -}}
+{{- else if eq .chezmoi.osRelease.id "alpine"                                              -}}
+{{-   $package_manager = "apk"                                                             -}}
+{{- else if eq .chezmoi.osRelease.id "arch"                                                -}}
+{{-   fail "Arch Linux does not currently support Homebrew."                               -}}
+{{-   $package_manager = "pacman"                                                          -}}
+{{- end                                                                                    -}}
 
-{{- $brew_install_location := ""                                          -}}
-{{- if eq .chezmoi.os "linux"                                             -}}
-{{-   $brew_user := .chezmoi.username                                     -}}
-{{-   if eq $brew_user "root"                                             -}}
-{{-     $brew_user = "linuxbrew"                                          -}}
-{{-   end                                                                 -}}
-{{-   $brew_install_location := $brew_user | printf "/home/%s/.linuxbrew" -}}
-{{- else if eq .chezmoi.os "darwin"                                       -}}
-{{-   if eq .chezmoi.arch "arm64"                                         -}}
-{{-     $brew_install_location = "/opt/homebrew"                          -}}
-{{-   else                                                                -}}
-{{-     $brew_install_location = "/usr/local"                             -}}
-{{-   end                                                                 -}}
-{{- else                                                                  -}}
-{{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail           -}}
-{{- end                                                                   -}}
+{{- $brew_install_location := ""                                                           -}}
+{{- if eq .chezmoi.os "linux"                                                              -}}
+{{-   $brew_user := .chezmoi.username                                                      -}}
+{{-   if eq $brew_user "root"                                                              -}}
+{{-     $brew_user = "linuxbrew"                                                           -}}
+{{-   end                                                                                  -}}
+{{-   $brew_install_location := $brew_user | printf "/home/%s/.linuxbrew"                  -}}
+{{- else if eq .chezmoi.os "darwin"                                                        -}}
+{{-   if eq .chezmoi.arch "arm64"                                                          -}}
+{{-     $brew_install_location = "/opt/homebrew"                                           -}}
+{{-   else                                                                                 -}}
+{{-     $brew_install_location = "/usr/local"                                              -}}
+{{-   end                                                                                  -}}
+{{- else                                                                                   -}}
+{{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail                            -}}
+{{- end                                                                                    -}}
 
-{{ $username := "" }}
-{{ if hasKey . "username" }}
-  {{ $username = .username }}
-{{ else }}
-  {{ $username = .chezmoi.username | printf "username [%s]" | promptString }}
-  {{ if eq $username "" }}{{ $username = .chezmoi.username }}{{ end }}
-{{ end }}
+{{- $username := ""                                                                        -}}
+{{- if hasKey . "username"                                                                 -}}
+{{-   $username = .username                                                                -}}
+{{- else                                                                                   -}}
+{{-   $username = .chezmoi.username | printf "username [%s]" | promptString                -}}
+{{-   if eq $username "" }}{{ $username = .chezmoi.username }}{{ end                       -}}
+{{- end                                                                                    -}}
 
-{{ $email := "" }}
-{{ if hasKey . "email" }}
-  {{ $email = .email }}
-{{ else }}
-  {{ $email = $username | printf "email [%s@formswift.com]" | promptString }}
-  {{ if eq $email "" }}{{ $email = .chezmoi.username | printf "%s@formswift.com" }}{{ end }}
-{{ end }}
+{{- $email := ""                                                                           -}}
+{{- if hasKey . "email"                                                                    -}}
+{{-   $email = .email                                                                      -}}
+{{- else                                                                                   -}}
+{{-   $email = $username | printf "email [%s@formswift.com]" | promptString                -}}
+{{-   if eq $email "" }}{{ $email = .chezmoi.username | printf "%s@formswift.com" }}{{ end -}}
+{{- end                                                                                    -}}
 
-{{ $fullname := "" }}
-{{ if hasKey . "fullname" }}
-  {{ $fullname = .fullname }}
-{{ else }}
-  {{ $fullname = printf "full name []" | promptString }}
-{{ end }}
+{{- $fullname := ""                                                                        -}}
+{{- if hasKey . "fullname"                                                                 -}}
+{{-   $fullname = .fullname                                                                -}}
+{{- else                                                                                   -}}
+{{-   $fullname = printf "full name []" | promptString                                     -}}
+{{- end                                                                                    -}}
 
 data:
   username: {{ $username }}
@@ -125,6 +125,9 @@ data:
       - path: ".installers/install_rvm.sh"
         url: "https://get.rvm.io"
     git:
+      - path: ".oh-my-zsh"
+        url: "https://github.com/ohmyzsh/ohmyzsh.git"
+        ref: "master"
       - path: ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         url: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
         ref: "master"
