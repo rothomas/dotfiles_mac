@@ -38,26 +38,12 @@
 {{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail           -}}
 {{- end                                                                   -}}
 
-{{- $local := dict                                                        -}}
-{{- define "prompt"                                                       -}}
-{{-   $response := ""                                                     -}}
-{{-   if hasKey .data .name                                               -}}
-{{-     set .local .name (index .data .name)                              -}}
-{{-   else                                                                -}}
-{{-     $response = .default | printf .prompt | promptString              -}}
-{{-     if eq (len $response) 0                                           -}}
-{{-       set .local .name .default                                       -}}
-{{-     end                                                               -}}
-{{-   end                                                                 -}}
-{{-   get .local .name                                                    -}}
-{{- end                                                                   -}}
-
 {{ $username := "" }}
 {{ if hasKey . "username" }}
   {{ $username = .username }}
 {{ else }}
   {{ $username = .chezmoi.username | printf "username [%s]" | promptString }}
-  {{ if eq username "" }}{{ $username = .chezmoi.username }}{{ end }}
+  {{ if eq $username "" }}{{ $username = .chezmoi.username }}{{ end }}
 {{ end }}
 
 {{ $email := "" }}
