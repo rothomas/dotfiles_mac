@@ -1,4 +1,3 @@
-{{-/* PACKAGE VERSION DEFINITIONS                                       */-}}
 {{-   $commitlint_cli_version := "16.2.4"                                 -}}
 {{-   $node_version           := "14.19.0"                                -}}
 {{-   $nvm_version            := "0.39.1"                                 -}}
@@ -13,7 +12,7 @@
 {{- $local := dict                                                        -}}
 {{- define "prompt"                                                       -}}
 {{-   $response := ""                                                     -}}
-{{-   if haskey .data .name                                               -}}
+{{-   if hasKey .data .name                                               -}}
 {{-     set .local .name (index .data .name)                              -}}
 {{-   else                                                                -}}
 {{-     $response = .default | printf .prompt | promptString              -}}
@@ -54,30 +53,24 @@
 {{- end                                                                   -}}
 
 data:
-  username: {{ template "prompt" dict
+  username: {{ template "prompt" (dict
     "data"    .
     "local"   $local
     "name"    "username"
     "default" .chezmoi.username
-    "prompt"  "username [%s]"
-    | quote
-  }}
-  email:    {{ template "prompt" dict
+    "prompt"  "username [%s]") | quote }}
+  email:    {{ template "prompt" (dict
     "data"    .
     "local"   $local
     "name"    "email"
     "default" ($local.username | printf "%s@formswift.com")
-    "prompt"  ($local.username | printf "email [%s@formswift.com]")
-    | quote
-  }}
-  fullname: {{ template "prompt" dict
+    "prompt"  ($local.username | printf "email [%s@formswift.com]")) | quote }}
+  fullname: {{ template "prompt" (dict
     "data"    .
     "local"   $local
     "name"    "fullname"
     "default" ""
-    "prompt"  "full name"
-    | quote
-  }}
+    "prompt"  "full name") | quote }}
   package_manager: {{ $package_manager | quote }}
   brew_install_location: {{ $brew_install_location | quote }}
   use_homebrew: {{ $brew_install_location | printf "eval \"$(%s/bin/brew shellenv)\"" | quote }}
