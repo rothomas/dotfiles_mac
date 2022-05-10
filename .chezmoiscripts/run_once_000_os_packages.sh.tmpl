@@ -1,35 +1,35 @@
 #!/bin/sh
 
-{{- if eq .chezmoi.os "linux"                                                       -}}
-{{-   $processed := dict "packages" (list) "groups" (list)                          -}}
-{{-   range (index .package .package_manager)                                       -}}
-{{-     if or (not (hasKey . "if_distro")) (eq .if_distro .chezmoi.osRelease.id)    -}}
-{{-       if and (hasKey . "group") .group                                          -}}
-{{-         set $processed "groups" (append $processed.groups (.package | quote))   -}}
-{{-       else                                                                      -}}
-{{-         set processed "packages" (append processed.packages (.package | quote)) -}}
-{{-       end                                                                       -}}
-{{-     end                                                                         -}}
-{{-   end                                                                           -}}
-{{-   $packages := index $processed "packages"                                      -}}
-{{-   $groups   := index $processed "groups"                                         }}
+{{- if eq .chezmoi.os "linux"                                                        -}}
+{{-   $processed := dict "packages" (list) "groups" (list)                           -}}
+{{-   range (index .package .package_manager)                                        -}}
+{{-     if or (not (hasKey . "if_distro")) (eq .if_distro .chezmoi.osRelease.id)     -}}
+{{-       if and (hasKey . "group") .group                                           -}}
+{{-         set $processed "groups" (append $processed.groups (.package | quote))    -}}
+{{-       else                                                                       -}}
+{{-         set $processed "packages" (append processed.packages (.package | quote)) -}}
+{{-       end                                                                        -}}
+{{-     end                                                                          -}}
+{{-   end                                                                            -}}
+{{-   $packages := index $processed "packages"                                       -}}
+{{-   $groups   := index $processed "groups"                                          }}
 
-{{    if eq .package_manager "apk"                                                  -}}
+{{    if eq .package_manager "apk"                                                   -}}
 {{.sudo}} apk add --update bash {{ $packages | join " " }}
 
-{{    else if eq .package_manager "apt"                                             -}}
+{{    else if eq .package_manager "apt"                                              -}}
 {{.sudo}} apt-get update -yq
 {{.sudo}} apt-get install -yqq {{ $packages | join " " }}
 
-{{    else if eq .package_manager "pacman"                                          -}}
+{{    else if eq .package_manager "pacman"                                           -}}
 {{.sudo}} pacman -Sy {{ $packages | join " " }}
 
-{{    else if eq .package_manager "yum"                                             -}}
+{{    else if eq .package_manager "yum"                                              -}}
 {{.sudo}} yum groupinstall -y {{ $groups | join " " }}
 {{.sudo}} yum install -y {{ $packages | join " " }}
 
-{{-    end                                                                          -}}
-{{- end                                                                             -}}
+{{-    end                                                                           -}}
+{{- end                                                                              -}}
 
 gpg --recv-keys {{ .gpg_keys | join " " }}
 
