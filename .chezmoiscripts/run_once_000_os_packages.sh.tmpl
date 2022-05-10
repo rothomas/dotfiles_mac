@@ -35,7 +35,7 @@ gpg --recv-keys {{ .gpg_keys | join " " }}
 
 bash -s <<EOF
 
-{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root" }}
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") }}
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{- end }}
 
