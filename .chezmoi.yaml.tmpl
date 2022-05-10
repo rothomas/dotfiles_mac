@@ -169,7 +169,7 @@ data:
       - package: unzip
         use_system: true
       - package: zellij
-      {{- if eq .chezmoi.os "darwin" }}
+{{- if eq .chezmoi.os "darwin" }}
       - package: 1password-cli
         cask: true
       - package: telnet
@@ -203,8 +203,8 @@ data:
         cask: true
       - package: kitty
         cask: true
-      {{- else if eq .chezmoi.os "linux"  }}
-      {{- end }}
+{{- else if eq .chezmoi.os "linux"  }}
+{{- end }}
     npm:
       - npm@{{ $npm_version }}
       - @commitlint/cli@{{ $commitlint_cli_version }}
