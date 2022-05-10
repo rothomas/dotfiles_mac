@@ -38,7 +38,7 @@ adduser --group --system --gecos "Linuxbrew User" linuxbrew
 
 {{ $git_packages := get .package "git"                             }}
 {{ range $git_packages                                             }}
-{{   $if_os := get . "if_os"                                       }}
+{{   $if_os := index . "if_os"                                     }}
 {{   if eq .chezmoi.os $if_os                                      }}
 
 if [[ -d "{{ .path }}/.git" ]]; then
