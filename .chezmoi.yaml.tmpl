@@ -169,42 +169,56 @@ data:
       - package: unzip
         use_system: true
       - package: zellij
-{{ if eq .chezmoi.os "darwin" }}
+      - package: telnet
+        if_os: darwin
       - package: 1password-cli
+        if_os: darwin
         cask: true
       - package: vagrant
+        if_os: darwin
         cask: true
       - package: 1password
+        if_os: darwin
         cask: true
       - package: iterm2
+        if_os: darwin
         cask: true
       - package: google-chrome
+        if_os: darwin
         cask: true
       - package: firefox
+        if_os: darwin
         cask: true
       - package: virtualbox
+        if_os: darwin
         cask: true
       - package: virtualbox-extension-pack
+        if_os: darwin
         cask: true
       - package: sequel-pro
+        if_os: darwin
         cask: true
       - package: rectangle
+        if_os: darwin
         cask: true
       - package: docker
+        if_os: darwin
         cask: true
       - package: visual-studio-code
+        if_os: darwin
         cask: true
       - package: slack
+        if_os: darwin
         cask: true
       - package: flycut
+        if_os: darwin
         cask: true
       - package: jetbrains-toolbox
+        if_os: darwin
         cask: true
       - package: kitty
+        if_os: darwin
         cask: true
-{{ else if eq .chezmoi.os "linux"  }}
-{{ end }}
     npm:
-      - npm@{{ $npm_version }}
-      - @commitlint/cli@{{ $commitlint_cli_version }}
-
+      - "npm@{{ $npm_version }}"
+      - "@commitlint/cli@{{ $commitlint_cli_version }}"

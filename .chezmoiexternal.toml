@@ -8,11 +8,6 @@ refreshPeriod = "168h"
 
 {{- else if .chezmoi.os "darwin" -}}
 
-[".installers/install_homebrew.sh"]
-type = "file"
-url = "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
-exact = true
-
 [".config/bash/.iterm2_shell_integration.bash"]
 type = "file"
 url = "https://iterm2.com/shell_integration/bash"

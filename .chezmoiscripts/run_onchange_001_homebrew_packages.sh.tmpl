@@ -1,11 +1,13 @@
-{{- define "brew_install" }}
-{{ if .use_system }}if ! command -v {{ .package }} > /dev/null; then{{ end }}
+{{- define "brew_install"                                                   -}}
+{{- if .use_system }}if ! command -v {{ .package }} > /dev/null; then{{ end -}}
+{{- if or (not (hasKey . "if_os")) (eq .if_os .chezmoi.os)                  -}}
 if ! brew list -q {{ .package }} >& /dev/null
   brew install {{if .cask}}--cask {{end}}{{ .package }}
 fi
-{{ if .service }}brew services start {{ .package }}{{ end }}
-{{ if .use_system }}fi{{ end }}
-{{ end -}}
+{{- if .service }}brew services start {{ .package }}{{ end                  -}}
+{{- end                                                                     -}}
+{{- if .use_system }}fi{{ end                                               -}}
+{{- end                                                                     -}}
 
 #!/usr/bin/env bash
 
@@ -15,13 +17,9 @@ fi
 su - linuxbrew -s /bin/bash <<EOS
 {{- end }}
 
-eval "$({{ .brew_install_location }} shellenv)"
+{{ .use_homebrew }}
 
-{{ range .brew.common }}
-{{ template "brew_install" . }}
-{{ end }}
-
-{{ range (index .brew .chezmoi.os) }}
+{{ range .brew }}
 {{ template "brew_install" . }}
 {{ end }}
 
