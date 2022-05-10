@@ -12,8 +12,8 @@
 {{.sudo}} apk add --update bash {{ $packages | join " " }}
 
 {{    else if eq .package_manager "apt"                                               -}}
-{{.sudo}} apt-get update -yq
-{{.sudo}} apt-get install -yqq {{ $packages | join " " }}
+{{.sudo}} apt-get -yq update
+{{.sudo}} apt-get -yqq install {{ $packages | join " " }}
 
 {{    else if eq .package_manager "pacman"                                            -}}
 {{.sudo}} pacman -Sy {{ $packages | join " " }}
