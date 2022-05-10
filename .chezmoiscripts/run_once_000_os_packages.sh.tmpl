@@ -34,4 +34,70 @@ adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{- end }}
 
 
+
+
+
+{{ range .package.git                                         }}
+{{   if or (not (hasKey "if_os")) (eq .chezmoi.os .if_os)     }}
+
+if [[ -d "{{ .path }}/.git" ]]; then
+  cd "{{ .path }}"
+  git pull
+  cd -
+else
+  mkdir -p "$(dirname {{ .path }})"
+  git clone -b "{{ .ref }}" "{{ .url }}" "{{ .path }}"
+fi
+
+{{   end                                                      }}
+{{ end                                                        }}
+
+
+
+
+
+
+{{ range .package.curl                                        }}
+{{   if or (not (hasKey "if_os")) (eq .chezmoi.os .if_os)     }}
+
+mkdir -p "$(dirname {{ .path }})"
+curl -LSso "{{ .path }}" "{{ .url }}"
+
+{{   end                                                      }}
+{{ end                                                        }}
+
+
+
+
+
+{{ if eq .chezmoi.os "darwin"                                      }}
+
+# Install homebrew on Darwin via downloaded install script.
+echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
+
+
+
+
+
+{{ else                                                            }}
+
+# Install homebrew on Linux from git clone.
+mkdir -p "{{ .brew_install_location }}/share/zsh"
+
+{{   if eq .chezmoi.username "root"                                }}
+chown -R linuxbrew:linuxbrew {{ .brew_install_location | quote }}
+su - linuxbrew -s /bin/bash <<EOS
+{{   end                                                           }}
+
+{{ .use_homebrew }}
+
+brew update --force --quiet
+chmod -R go-w "{{ .brew_install_location }}/share/zsh"
+
+{{   if eq .chezmoi.username "root"                                }}
+EOS
+{{   end                                                           }}
+
+{{ end                                                             }}
+
 EOF
