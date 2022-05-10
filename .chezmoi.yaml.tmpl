@@ -9,20 +9,6 @@
 {{-   $ruby_version           := "ruby-3.0.0"                             -}}
 {{-   $terraform_version      := "0.12"                                   -}}
 
-{{- $local := dict                                                        -}}
-{{- define "prompt"                                                       -}}
-{{-   $response := ""                                                     -}}
-{{-   if hasKey .data .name                                               -}}
-{{-     set .local .name (index .data .name)                              -}}
-{{-   else                                                                -}}
-{{-     $response = .default | printf .prompt | promptString              -}}
-{{-     if eq (len $response) 0                                           -}}
-{{-       set .local .name .default                                       -}}
-{{-     end                                                               -}}
-{{-   end                                                                 -}}
-{{-   get .local .name                                                    -}}
-{{- end                                                                   -}}
-
 {{- $package_manager := ""                                                -}}
 {{- if eq .chezmoi.osRelease.id "centos" "fedora" "rhel"                  -}}
 {{-   $package_manager = "yum"                                            -}}
@@ -52,25 +38,47 @@
 {{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail           -}}
 {{- end                                                                   -}}
 
+{{- $local := dict                                                        -}}
+{{- define "prompt"                                                       -}}
+{{-   $response := ""                                                     -}}
+{{-   if hasKey .data .name                                               -}}
+{{-     set .local .name (index .data .name)                              -}}
+{{-   else                                                                -}}
+{{-     $response = .default | printf .prompt | promptString              -}}
+{{-     if eq (len $response) 0                                           -}}
+{{-       set .local .name .default                                       -}}
+{{-     end                                                               -}}
+{{-   end                                                                 -}}
+{{-   get .local .name                                                    -}}
+{{- end                                                                   -}}
+
+{{ $username := "" }}
+{{ if hasKey . "username" }}
+  {{ $username = .username }}
+{{ else }}
+  {{ $username = .chezmoi.username | printf "username [%s]" | promptString }}
+  {{ if eq username "" }}{{ $username = .chezmoi.username }}{{ end }}
+{{ end }}
+
+{{ $email := "" }}
+{{ if hasKey . "email" }}
+  {{ $email = .email }}
+{{ else }}
+  {{ $email = $username | printf "email [%s@formswift.com]" | promptString }}
+  {{ if eq $email "" }}{{ $email = .chezmoi.username | printf "%s@formswift.com" }}{{ end }}
+{{ end }}
+
+{{ $fullname := "" }}
+{{ if hasKey . "fullname" }}
+  {{ $fullname = .fullname }}
+{{ else }}
+  {{ $fullname = printf "full name []" | promptString }}
+{{ end }}
+
 data:
-  username: {{ template "prompt" (dict
-    "data"    .
-    "local"   $local
-    "name"    "username"
-    "default" .chezmoi.username
-    "prompt"  "username [%s]") | quote }}
-  email:    {{ template "prompt" (dict
-    "data"    .
-    "local"   $local
-    "name"    "email"
-    "default" ($local.username | printf "%s@formswift.com")
-    "prompt"  ($local.username | printf "email [%s@formswift.com]")) | quote }}
-  fullname: {{ template "prompt" (dict
-    "data"    .
-    "local"   $local
-    "name"    "fullname"
-    "default" ""
-    "prompt"  "full name") | quote }}
+  username: {{ $username }}
+  email:    {{ $email }}
+  fullname: {{ $fullname }}
   package_manager: {{ $package_manager | quote }}
   brew_install_location: {{ $brew_install_location | quote }}
   use_homebrew: {{ $brew_install_location | printf "eval \"$(%s/bin/brew shellenv)\"" | quote }}
