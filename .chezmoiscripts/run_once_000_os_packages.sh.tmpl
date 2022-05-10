@@ -1,10 +1,6 @@
 #!/bin/sh
 
-{{- if eq .chezmoi.os "linux" -}}
-
-{{- /* ======================================================================== */ -}}
-{{- /* PROCESS YAML PACKAGE DEFINITION                                          */ -}}
-{{- /* ======================================================================== */ -}}
+{{- if eq .chezmoi.os "linux"                                                      -}}
 {{-   define "package_names"                                                       -}}
 {{-     $result := dict "packages" (list) "groups" (list)                          -}}
 {{-     range .                                                                    -}}
@@ -20,53 +16,33 @@
 {{-   end                                                                          -}}
 {{-   $processed := template "package_names" (index .package .package_manager)     -}}
 {{-   $packages  := index $processed "packages"                                    -}}
-{{-   $groups    := index $processed "groups"                                      -}}
+{{-   $groups    := index $processed "groups"                                       }}
 
-{{- if eq .package_manager "apk" }}
-{{- /*==============================================================*/ }}
-{{- /* INSTALL PACKAGES ON ALPINE LINUX                             */ }}
-{{- /*==============================================================*/ }}
+{{-   if eq .package_manager "apk"                                                  }}
 {{.sudo}} apk add --update bash {{ $packages | join " " }}
-{{- /*==============================================================*/ }}
 
-{{- else if eq .package_manager "apt" }}
-{{- /*==============================================================*/ }}
-{{- /* INSTALL PACKAGES ON DEBIAN-LIKE DISTROS                      */ }}
-{{- /*==============================================================*/ }}
+{{- else if eq .package_manager "apt"                                               }}
 {{.sudo}} apt-get update -yq
 {{.sudo}} apt-get install -yqq {{ $packages | join " " }}
-{{- /*==============================================================*/ }}
 
-{{- else if eq .package_manager "pacman" }}
-{{- /*==============================================================*/ }}
-{{- /* INSTALL PACKAGES ON ARCH LINUX                               */ }}
-{{- /*==============================================================*/ }}
+{{- else if eq .package_manager "pacman"                                            }}
 {{.sudo}} pacman -Sy {{ $packages | join " " }}
-{{- /*==============================================================*/ -}}
 
-{{- else if eq .package_manager "yum" }}
-{{- /*==============================================================*/ }}
-{{- /* INSTALL PACKAGES ON REDHAT-LIKE DISTROS                      */ }}
-{{- /*==============================================================*/ }}
+{{- else if eq .package_manager "yum"                                               }}
 {{.sudo}} yum groupinstall -y {{ $groups | join " " }}
 {{.sudo}} yum install -y {{ $packages | join " " }}
-{{- /*==============================================================*/ }}
 
-{{- end }}
-{{- end }}
+{{- end                                                                             }}
+{{- end                                                                             }}
 
-{{- /* INSTALL NEEDED GPG KEYS */ }}
 gpg --recv-keys {{ .gpg_keys | join " " }}
 
-{{ /* After this point we should have bash and curl available on all platforms. Use them to run subsequent steps. */ }}
 bash -s <<EOF
 
-{{- /* SET UP LINUXBREW USER IF APPROPRIATE */ }}
 {{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root" }}
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{- end }}
 
-{{- /* CLONE GIT REPOS */ }}
 {{- range .package.git }}
 {{- if or (not (hasKey "if_os")) (eq .chezmoi.os .if_os) }}
 if [[ -d "{{ .path }}/.git" ]]; then
@@ -79,7 +55,6 @@ else
 fi
 {{- end }}
 
-{{- /* GET CURL FILES */ }}
 {{- range .package.curl }}
 {{- if or (not (hasKey "if_os")) (eq .chezmoi.os .if_os) }}
 mkdir -p "$(dirname {{ .path }})"
@@ -87,18 +62,12 @@ curl -LSso "{{ .path }}" "{{ .url }}"
 {{- end }}
 {{- end }}
 
-{{- /* INSTALL HOMEBREW */ }}
-
 {{- if eq .chezmoi.os "darwin" }}
-{{- /*==============================================================*/ }}
-{{- /* INSTALL HOMEBREW ON DARWIN                                   */ }}
-{{- /*==============================================================*/ }}
+# Install homebrew on Darwin via downloaded install script.
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 
 {{- else }}
-{{- /*==============================================================*/ }}
-{{ -/* INSTALL HOMEBREW ON LINUX                                    */ }}
-{{ -/*==============================================================*/ }}
+# Install homebrew on Linux from git clone.
 mkdir -p "{{ .brew_install_location }}/share/zsh"
 {{- if eq .chezmoi.username "root" }}
 chown -R linuxbrew:linuxbrew {{ .brew_install_location | quote }}
