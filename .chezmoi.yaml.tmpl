@@ -1,66 +1,91 @@
-{{- 
-$commitlint_cli_version := "16.2.4"
-$node_version           := "14.19.0"
-$nvm_version            := "0.39.1"
-$npm_version            := "8.9.0"
-$op_cli_version         := "2.1.0"
-$python2_version        := "2.7.18"
-$python3_version        := "3.9.10"
-$rvm_version            := "stable"
-$ruby_version           := "ruby-3.0.0"
-$terraform_version      := "0.12"
--}}
+{{-/* PACKAGE VERSION DEFINITIONS                                       */-}}
+{{-   $commitlint_cli_version := "16.2.4"                                 -}}
+{{-   $node_version           := "14.19.0"                                -}}
+{{-   $nvm_version            := "0.39.1"                                 -}}
+{{-   $npm_version            := "8.9.0"                                  -}}
+{{-   $op_cli_version         := "2.1.0"                                  -}}
+{{-   $python2_version        := "2.7.18"                                 -}}
+{{-   $python3_version        := "3.9.10"                                 -}}
+{{-   $rvm_version            := "stable"                                 -}}
+{{-   $ruby_version           := "ruby-3.0.0"                             -}}
+{{-   $terraform_version      := "0.12"                                   -}}
 
-{{-
-$username := ""
-if (hasKey . "username")
-  $username = .username
-else
-  $username = .chezmoi.username | printf "username [%s]" | promptString
-  if (eq (len $username) 0)
-    $username = .chezmoi.username
-  end
-end
-$email := ""
-if (hasKey . "email")
-  $email = .email
-else
-  $email = $username | printf "email [%s@formswift.com]" | promptString
-  if (eq (len $email) 0)
-    $email = $username | printf "%s@formswift.com"
-  end
-end
-$fullname := ""
-if (hasKey . "fullname")
-  $fullname = .fullname
-else
-  $fullname = promptString "full name"
-end
-$brew := ""
-if eq .chezmoi.os "linux"
-  if eq .chezmoi.username "root"
-    $brew = "/root/.linuxbrew/bin/brew"
-  else
-    $brew = .chezmoi.username | printf "/home/%s/.linuxbrew/bin/brew"
-  end
-else if eq .chezmoi.os "darwin"
-  $brew = "/usr/local/bin/brew"
-else
-  .chezmoi.os | printf "Unsupported OS platform: %s" | fail
-end
--}}
+{{- $local := dict                                                        -}}
+{{- define "prompt"                                                       -}}
+{{-   $response := ""                                                     -}}
+{{-   if haskey .data .name                                               -}}
+{{-     set .local .name (index .data .name)                              -}}
+{{-   else                                                                -}}
+{{-     $response = .default | printf .prompt | promptString              -}}
+{{-     if eq (len $response) 0                                           -}}
+{{-       set .local .name .default                                       -}}
+{{-     end                                                               -}}
+{{-   end                                                                 -}}
+{{-   get .local .name                                                    -}}
+{{- end                                                                   -}}
 
-{{ define "test" }}
-echo TEST: {{.}}
-{{ end }}
+{{- $package_manager := ""                                                -}}
+{{- if eq .chezmoi.osRelease.id "centos" "fedora" "rhel"                  -}}
+{{-   $package_manager = "yum"                                            -}}
+{{- else if eq .chezmoi.osRelease.id "debian" "ubuntu"                    -}}
+{{-   $package_manager = "apt"                                            -}}
+{{- else if eq .chezmoi.osRelease.id "alpine"                             -}}
+{{-   $package_manager = "apk"                                            -}}
+{{- else if eq .chezmoi.osRelease.id "arch"                               -}}
+{{-   fail "Arch Linux does not currently support Homebrew."              -}}
+{{-   $package_manager = "pacman"                                         -}}
+{{- end                                                                   -}}
+
+{{- $brew_install_location := ""                                          -}}
+{{- if eq .chezmoi.os "linux"                                             -}}
+{{-   $brew_user := .chezmoi.username                                     -}}
+{{-   if eq $brew_user "root"                                             -}}
+{{-     $brew_user = "linuxbrew"                                          -}}
+{{-   end                                                                 -}}
+{{-   $brew_install_location := $brew_user | printf "/home/%s/.linuxbrew" -}}
+{{- else if eq .chezmoi.os "darwin"                                       -}}
+{{-   if eq $chezmoi.arch "arm64"                                         -}}
+{{-     $brew_install_location = "/opt/homebrew"                          -}}
+{{-   else                                                                -}}
+{{-     $brew_install_location = "/usr/local"                             -}}
+{{-   end                                                                 -}}
+{{- else                                                                  -}}
+{{-   .chezmoi.os | printf "Unsupported OS platform: %s" | fail           -}}
+{{- end                                                                   -}}
 
 data:
-  brew: {{ $brew | quote }}
-  username: {{ $username | quote }}
-  email: {{ $email | quote }}
-  fullname: {{ $fullname | quote }}
+  username: {{ template "prompt" dict
+    "data"    .
+    "local"   $local
+    "name"    "username"
+    "default" .chezmoi.username
+    "prompt"  "username [%s]"
+    | quote
+  }}
+  email:    {{ template "prompt" dict
+    "data"    .
+    "local"   $local
+    "name"    "email"
+    "default" ($local.username | printf "%s@formswift.com")
+    "prompt"  ($local.username | printf "email [%s@formswift.com]")
+    | quote
+  }}
+  fullname: {{ template "prompt" dict
+    "data"    .
+    "local"   $local
+    "name"    "fullname"
+    "default" ""
+    "prompt"  "full name"
+    | quote
+  }}
+  package_manager: {{ $package_manager | quote }}
+  brew_install_location: {{ $brew_install_location | quote }}
+  use_homebrew: {{ $brew_install_location | printf "eval \"$(%s/bin/brew shellenv)\"" | quote }}
   shell: "zsh"
   sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
+  gpg_keys:
+    - "409B6B1796C275462A1703113804BB82D39DC0E3"
+    - "7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
   version:
     commitlint_cli: {{ $commitlint_cli_version | quote }}
     node: {{ $node_version | quote }}
@@ -79,6 +104,7 @@ data:
       - package: curl
       - package: file
       - package: git
+      - package: gpg
       - package: procps
       - package: sudo
       - package: zsh
@@ -88,11 +114,30 @@ data:
       - package: curl
       - package: file
       - package: git
+      - package: gpg
       - package: procps
       - package: sudo
       - package: zsh
     yum:
-      
+      - package: "Development Tools"
+        group: true
+      - package: bash
+      - package: curl
+      - package: file
+      - package: git
+      - package: gpg
+      - package: libxcrypt-compat
+        if_distro: fedora
+      - procps-ng
+      - sudo
+      - zsh
+    curl:
+      - path: ".installers/install_homebrew.sh"
+        if_os: "darwin"
+        url: "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
+      - path: ".installers/install_rvm.sh"
+        url: "https://get.rvm.io"
+        command: "bash -s {{ $rvm_version }} < .installers/install_rvm.sh"
     git:
       - path: ".oh-my-zsh"
         url: "https://github.com/ohmyzsh/ohmyzsh.git"
@@ -109,19 +154,16 @@ data:
       - path: ".nvm"
         url: "https://github.com/nvm-sh/nvm.git"
         ref: "v{{ $nvm_version }}"
-      - path: ".rvm"
-        url: "https://github.com/rvm/rvm.git"
-        ref: "{{ $rvm_version }}"
-      {{- if and (eq .chezmoi.os "linux") (not (eq .chezmoi.username "root")) }}
-      - path: ".linuxbrew"
+      - path: {{ $brew_install_location | quote }}
+        if_os: "linux"
         url: "https://github.com/Homebrew/brew"
         ref: "master"
-      {{- end }}
     brew:
       - package: age
         use_system: true
       - package: awscli@1
       - package: aws-vault
+      - package: chezmoi
       - package: expect
       - package: gh
       - package: git
@@ -177,4 +219,7 @@ data:
         cask: true
       {{- else if eq .chezmoi.os "linux"  }}
       {{- end }}
+    npm:
+      - npm@{{ $npm_version }}
+      - @commitlint/cli@{{ $commitlint_cli_version }}
 

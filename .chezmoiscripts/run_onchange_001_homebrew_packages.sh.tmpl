@@ -7,19 +7,24 @@ fi
 {{ if .use_system }}fi{{ end }}
 {{ end -}}
 
-{{ if not (eq .chezmoi.username "root") -}}
 #!/usr/bin/env bash
 
 >&2 echo "Installing Homebrew Packages"
 
-eval "$({{ .brew }} shellenv)"
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") }}
+su - linuxbrew -s /bin/bash <<EOS
+{{- end }}
+
+eval "$({{ .brew_install_location }} shellenv)"
 
 {{ range .brew.common }}
 {{ template "brew_install" . }}
 {{ end }}
 
-{{ range (get .brew .chezmoi.os) }}
+{{ range (index .brew .chezmoi.os) }}
 {{ template "brew_install" . }}
 {{ end }}
+
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") }}EOS{{ end }}
 
 {{- end }}

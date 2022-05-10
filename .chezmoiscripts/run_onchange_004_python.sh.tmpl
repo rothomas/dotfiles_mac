@@ -3,7 +3,9 @@
 
 >&2 echo "Installing Python"
 
-eval "$({{ .brew }} shellenv)"
+{{ .use_homebrew }}
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
 
 if ! pyenv versions | grep -sqF "{{ .version.python2 }}"; then
   pyenv install {{ .version.python2 }}

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
->&2 echo "Setting Up Node Packages"
-
 export NVM_DIR="$HOME/.nvm"
 . "${NVM_DIR}/nvm.sh"
 
 nvm install {{ .version.node }}
 nvm alias default v{{ .version.node }}
-npm install -g npm@{{ .version.npm }}
-npm install -g @commitlint/cli@{{ .version.commitlint_cli }}
+
+{{ range .package.npm }}
+npm install -g {{ . }}
+{{ end }}
