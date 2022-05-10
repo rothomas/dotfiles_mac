@@ -169,41 +169,41 @@ data:
       - package: unzip
         use_system: true
       - package: zellij
-{{- if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" }}
       - package: 1password-cli
-        cask: 1
+        cask: true
       - package: vagrant
-        cask: 1
+        cask: true
       - package: 1password
-        cask: 1
+        cask: true
       - package: iterm2
-        cask: 1
+        cask: true
       - package: google-chrome
-        cask: 1
+        cask: true
       - package: firefox
-        cask: 1
+        cask: true
       - package: virtualbox
-        cask: 1
+        cask: true
       - package: virtualbox-extension-pack
-        cask: 1
+        cask: true
       - package: sequel-pro
-        cask: 1
+        cask: true
       - package: rectangle
-        cask: 1
+        cask: true
       - package: docker
-        cask: 1
+        cask: true
       - package: visual-studio-code
-        cask: 1
+        cask: true
       - package: slack
-        cask: 1
+        cask: true
       - package: flycut
-        cask: 1
+        cask: true
       - package: jetbrains-toolbox
-        cask: 1
+        cask: true
       - package: kitty
-        cask: 1
-{{- else if eq .chezmoi.os "linux"  }}
-{{- end }}
+        cask: true
+{{ else if eq .chezmoi.os "linux"  }}
+{{ end }}
     npm:
       - npm@{{ $npm_version }}
       - @commitlint/cli@{{ $commitlint_cli_version }}
