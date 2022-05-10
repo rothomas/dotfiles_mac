@@ -43,7 +43,7 @@
 {{-   end                                                                 -}}
 {{-   $brew_install_location := $brew_user | printf "/home/%s/.linuxbrew" -}}
 {{- else if eq .chezmoi.os "darwin"                                       -}}
-{{-   if eq $chezmoi.arch "arm64"                                         -}}
+{{-   if eq .chezmoi.arch "arm64"                                         -}}
 {{-     $brew_install_location = "/opt/homebrew"                          -}}
 {{-   else                                                                -}}
 {{-     $brew_install_location = "/usr/local"                             -}}
