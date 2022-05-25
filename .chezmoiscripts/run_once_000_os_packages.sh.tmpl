@@ -59,7 +59,7 @@ mkdir -p "{{$brew_install_location}}/share/zsh"
 {{-   if eq $username "root"                                                           }}
 chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
 chmod -R go-w "{{$brew_install_location}}/share/zsh"
-{{-   end                                                                              }}G
+{{-   end                                                                              }}
 
 {{- range $curl_packages                                                               }}
 {{-   $if_os := index . "if_os"                                                        }}
