@@ -17,7 +17,7 @@ fi
 su - linuxbrew -s /bin/bash <<EOS
 {{- end }}
 
-{{- range .brew }}
+{{- range $.package.brew }}
 {{ template "brew_install" . }}
 {{- end }}
 
