@@ -75,8 +75,10 @@ echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{-  if eq $username "root"                                                            }}
 su - linuxbrew -s /bin/bash <<EOS
 {{-  end                                                                               }}
-{{ .use_homebrew }}
-brew update --force --quiet
+{{$brew_install_location}}/bin/brew shellenv
+eval "$({{$brew_install_location}}/bin/brew shellenv)"
+env
+brew update --force
 {{-   if eq $username "root"                                                           }}
 EOS
 {{-   end                                                                              }}
