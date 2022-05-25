@@ -33,7 +33,7 @@ bash -s <<EOF
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{- end }}
 
-
+{{ $chezmoi = .chezmoi }}
 
 
 {{ $git_packages := get .package "git"                             }}
@@ -59,10 +59,10 @@ fi
 
 
 {{ range .package.curl                                             }}
-{{   if or (not (hasKey . "if_os")) (eq .chezmoi.os .if_os)        }}
+{{   if or (not (hasKey . "if_os")) (eq $chezmoi.os .if_os)        }}
 
 mkdir -p "$(dirname {{ .path }})"
-curl -LSso "{{ .path }}" "{{ .url }}"
+curl -LSso --create-dirs "{{ .path }}" "{{ .url }}"
 
 {{   end                                                           }}
 {{ end                                                             }}
@@ -85,7 +85,7 @@ echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 # Install homebrew on Linux from git clone.
 mkdir -p "{{ .brew_install_location }}/share/zsh"
 
-{{   if eq .chezmoi.username "root"                                }}
+{{   if eq $chezmoi.username "root"                                }}
 chown -R linuxbrew:linuxbrew {{ .brew_install_location | quote }}
 su - linuxbrew -s /bin/bash <<EOS
 {{   end                                                           }}

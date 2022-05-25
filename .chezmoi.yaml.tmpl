@@ -94,6 +94,7 @@ data:
       - package: gpg
       - package: procps
       - package: sudo
+      - package: sysstat
       - package: zsh
     apk:
       - package: bash
@@ -117,6 +118,7 @@ data:
         if_distro: fedora
       - procps-ng
       - sudo
+      - sysstat
       - zsh
     curl:
       - path: ".installers/install_homebrew.sh"
@@ -125,6 +127,9 @@ data:
       - path: ".installers/install_rvm.sh"
         url: "https://get.rvm.io"
     git:
+      - path: ".config/tmux/plugins/tpm"
+        url: "https://github.com/tmux-plugins/tpm.git"
+        ref: "master"
       - path: ".oh-my-zsh"
         url: "https://github.com/ohmyzsh/ohmyzsh.git"
         ref: "master"
@@ -144,6 +149,9 @@ data:
         if_os: "linux"
         url: "https://github.com/Homebrew/brew"
         ref: "master"
+      - path: ".local/share/nvim/site/pack/packer/start/packer.nvim"
+        url: "https://github.com/wbthomason/packer.nvim"
+        ref: "master"
     brew:
       - package: age
         use_system: true
@@ -151,6 +159,7 @@ data:
       - package: aws-vault
       - package: chezmoi
       - package: expect
+      - package: fd
       - package: gh
       - package: git
       - package: gpg2
@@ -162,6 +171,7 @@ data:
       - package: openjdk
       - package: pipenv
       - package: pyenv
+      - package: ripgrep
       - package: syncthing
         service: true
         use_system: true

@@ -4,8 +4,12 @@
 #          same changes again later. Recommend using your own .zprofile, which
 #          runs before your .zshrc.
 
+# Make sure that utilities that can respect a .config dir see it (tmux, notably).
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # Store zsh dotfiles (apart from this one) in a directory instead of HOME
-export ZDOTDIR="$HOME/.config/zsh"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
 
 export DISPLAY=localhost:0.0 
 export SSH_KEY_PATH="~/.ssh/id_rsa"
