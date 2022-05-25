@@ -23,18 +23,18 @@ chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
 {{-   end                                                                              }}
 
 {{-   if eq $package_manager "apk"                                                     }}
-{{.sudo}} apk add --update bash {{ $packages | join " " }}
+{{.sudo}}apk add --update bash {{ $packages | join " " }}
 
 {{-   else if eq $package_manager "apt"                                                }}
-{{.sudo}} apt-get -yq update
-{{.sudo}} apt-get -yqq install {{ $packages | join " " }}
+{{.sudo}}apt-get -yq update
+{{.sudo}}apt-get -yqq install {{ $packages | join " " }}
 
 {{-   else if eq $package_manager "pacman"                                             }}
-{{.sudo}} pacman -Sy {{ $packages | join " " }}
+{{.sudo}}pacman -Sy {{ $packages | join " " }}
 
 {{-   else if eq $package_manager "yum"                                                }}
-{{.sudo}} yum groupinstall -y {{ $groups | join " " }}
-{{.sudo}} yum install -y {{ $packages | join " " }}
+{{.sudo}}yum groupinstall -y {{ $groups | join " " }}
+{{.sudo}}yum install -y {{ $packages | join " " }}
 
 {{-   end                                                                              }}
 {{- end                                                                                }}

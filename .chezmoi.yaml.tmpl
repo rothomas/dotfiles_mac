@@ -69,21 +69,21 @@ data:
   brew_install_location: {{ $brew_install_location | quote }}
   use_homebrew: {{ $brew_install_location | printf "eval \"$(%s/bin/brew shellenv)\"" | quote }}
   shell: "zsh"
-  sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo"{{end}}
+  sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo "{{end}}
   gpg_keys:
     - "409B6B1796C275462A1703113804BB82D39DC0E3"
     - "7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
   version:
     commitlint_cli: {{ $commitlint_cli_version | quote }}
-    node: {{ $node_version | quote }}
-    nvm: {{ $nvm_version | quote }}
-    npm: {{ $npm_version | quote }}
-    op_cli: {{ $op_cli_version | quote }}
-    python2: {{ $python2_version | quote }}
-    python3: {{ $python3_version | quote }}
-    rvm: {{ $rvm_version | quote }}
-    ruby: {{ $ruby_version | quote }}
-    terraform: {{ $terraform_version | quote }}
+    node:           {{ $node_version           | quote }}
+    nvm:            {{ $nvm_version            | quote }}
+    npm:            {{ $npm_version            | quote }}
+    op_cli:         {{ $op_cli_version         | quote }}
+    python2:        {{ $python2_version        | quote }}
+    python3:        {{ $python3_version        | quote }}
+    rvm:            {{ $rvm_version            | quote }}
+    ruby:           {{ $ruby_version           | quote }}
+    terraform:      {{ $terraform_version      | quote }}
   package:
     apt:
       - package: bash
