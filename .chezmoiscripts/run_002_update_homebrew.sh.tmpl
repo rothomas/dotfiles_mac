@@ -1,11 +1,12 @@
-{{ $chezmoi := .chezmoi -}}
 #!/usr/bin/env bash
 
-
-{{ if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}su - linuxbrew -s /bin/bash <<EOS{{ end }}
-{{ .use_homebrew }}
-
+{{- if $.as_linuxbrew }}
+su - linuxbrew -s /bin/bash <<EOS
+{{- else }}
+eval "$({{$.brew_install_location}}/bin/brew shellenv)"
+{{- end }}
 brew update
 brew upgrade
 brew cleanup
-{{- if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}EOS{{ end }}
+{{- if $.as_linuxbrew }}EOS{{ end }}
+

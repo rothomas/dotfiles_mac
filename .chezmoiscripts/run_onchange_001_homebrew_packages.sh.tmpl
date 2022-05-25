@@ -1,7 +1,6 @@
-{{- $chezmoi := .chezmoi                                                    -}}
 {{- define "brew_install"                                                   -}}
 {{- if .use_system }}if ! command -v {{ .package }} > /dev/null; then{{ end -}}
-{{- if or (not (hasKey . "if_os")) (eq .if_os $chezmoi.os)                  -}}
+{{- if or (not (hasKey . "if_os")) (eq .if_os $.chezmoi.os)                 -}}
 if ! brew list -q {{ .package }} >& /dev/null
   brew install {{if .cask}}--cask {{end}}{{ .package }}
 fi
@@ -14,16 +13,13 @@ fi
 
 >&2 echo "Installing Homebrew Packages"
 
-{{- if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}
+{{- if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}
 su - linuxbrew -s /bin/bash <<EOS
 {{- end }}
 
-{{ .use_homebrew }}
-
-{{ range .brew }}
+{{- range .brew }}
 {{ template "brew_install" . }}
-{{ end }}
-
-{{- if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}EOS{{ end }}
-
 {{- end }}
+
+{{- if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
+

@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-{{ $chezmoi := .chezmoi }}
-
-bash -s stable < .installers/install_rvm.sh
+\bash -s stable < .installers/install_rvm.sh
 source "$HOME/.rvm/scripts/rvm"
 
-rvm install {{ .version.ruby | quote }}
-rvm --default use {{ .version.ruby | quote }}
+rvm install {{ $.version.ruby | quote }}
+rvm --default use {{ $.version.ruby | quote }}
+

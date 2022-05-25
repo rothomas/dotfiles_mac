@@ -1,4 +1,3 @@
-{{ $chezmoi := .chezmoi -}}
 #!/usr/bin/env bash
 
 export NVM_DIR="$HOME/.nvm"
@@ -10,3 +9,4 @@ nvm alias default v{{ .version.node }}
 {{ range .package.npm }}
 npm install -g {{ . }}
 {{ end }}
+

@@ -1,21 +1,20 @@
-{{ $chezmoi := .chezmoi                 -}}
-{{ if not (eq .chezmoi.username "root") -}}
+{{ if not (eq $.chezmoi.username "root") -}}
 #!/usr/bin/env bash
-
 
 >&2 echo "Installing Python"
 
-{{ .use_homebrew }}
+eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 
-if ! pyenv versions | grep -sqF "{{ .version.python2 }}"; then
-  pyenv install {{ .version.python2 }}
+if ! pyenv versions | grep -sqF "{{ $.version.python2 }}"; then
+  pyenv install {{ $.version.python2 }}
 fi
 
-if ! pyenv versions | grep -sqF "{{ .version.python3 }}"; then
-  pyenv install {{ .version.python3 }}
+if ! pyenv versions | grep -sqF "{{ $.version.python3 }}"; then
+  pyenv install {{ $.version.python3 }}
 fi
 
-pyenv global {{ .version.python2 }} {{ .version.python3 }}
+pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
 {{- end }}
+

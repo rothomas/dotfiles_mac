@@ -1,49 +1,71 @@
-{{- $chezmoi               := .chezmoi                                                -}}
-{{- $os                    := $chezmoi.os                                             -}}
-{{- $username              := $chezmoi.username                                       -}}
-{{- $packages              := list                                                    -}}
-{{- $groups                := list                                                    -}}
-{{- $git_packages          := index .package "git"                                    -}}
-{{- $curl_packages         := index .package "curl"                                   -}}
-{{- $package_manager       := index . "package_manager"                               -}} 
-{{- $package_list          := index .package $package_manager                         -}}
-{{- $brew_install_location := index . "brew_install_location"                         -}}
+{{- $packages := list                                                      -}}
+{{- $groups   := list                                                      -}}
+{{- if eq $.chezmoi.os "linux"                                             -}}
+{{-   $package_list := index $.package $.package_manager                   -}}
+{{-   range $package_list                                                  -}}
+{{-     if index . "group"                                                 -}}
+{{-       $groups = append $groups .package                                -}}
+{{-     else                                                               -}}
+{{-       $packages = append $packages .package                            -}}
+{{-     end                                                                -}}
+{{-   end                                                                  -}}
+{{- end                                                                    -}}
+
 #!/bin/sh
 
 cd
-{{- if eq $os "linux"                                                                  }}
-{{-   if eq $username "root"                                                           }}
+{{- if $.as_linuxbrew                                                       }}
+##############################################################################
+# SET UP LINUXBREW USER FOR HOMEBREW
+##############################################################################
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
-{{-   end                                                                              }}
-{{-   range $package_list                                                              }}
-{{-     $packages = append $packages .package                                          }}
-{{-   end                                                                              }}
+{{- end                                                                     }}
 
-{{-   if eq $package_manager "apk"                                                     }}
+{{- if eq $.package_manager "apk"                                           }}
+##############################################################################
+# INSTALL APK PACKAGES
+##############################################################################
 {{.sudo}}apk add --update bash {{ $packages | join " " }}
+{{- end                                                                     }}
 
-{{-   else if eq $package_manager "apt"                                                }}
+{{- if eq $.package_manager "apt"                                           }}
+##############################################################################
+# INSTALL APT PACKAGES
+##############################################################################
 {{.sudo}}apt-get -yq update
 {{.sudo}}apt-get -yqq install {{ $packages | join " " }}
+{{- end                                                                     }}
 
-{{-   else if eq $package_manager "pacman"                                             }}
+{{- if eq $.package_manager "pacman"                                        }}
+##############################################################################
+# INSTALL PACMAN PACKAGES
+##############################################################################
 {{.sudo}}pacman -Sy {{ $packages | join " " }}
+{{- end                                                                     }}
 
-{{-   else if eq $package_manager "yum"                                                }}
+{{- if eq $.package_manager "yum"                                           }}
+##############################################################################
+# INSTALL YUM PACKAGES
+##############################################################################
 {{.sudo}}yum groupinstall -y {{ $groups | join " " }}
 {{.sudo}}yum install -y {{ $packages | join " " }}
+{{- end                                                                     }}
 
-{{-   end                                                                              }}
-{{- end                                                                                }}
+##############################################################################
+# INSTALL GPG KEYS
+##############################################################################
 gpg --recv-keys {{ .gpg_keys | join " " }}
 
 bash -s <<EOF
-{{- range $git_packages                                                                }}
-{{-   $if_os := index . "if_os"                                                        }}
-{{-   $path  := index . "path"                                                         }}
-{{-   $ref   := index . "ref"                                                          }}
-{{-   $url   := index . "url"                                                          }}
-{{-   if or (not $if_os) (eq $os $if_os)                                               }}
+##############################################################################
+# INSTALL GIT REPOS
+##############################################################################
+{{- range $.git_packages                                                    }}
+{{-   $if_os := index . "if_os"                                             }}
+{{-   $path  := index . "path"                                              }}
+{{-   $ref   := index . "ref"                                               }}
+{{-   $url   := index . "url"                                               }}
+{{-   if or (not $if_os) (eq $.chezmoi.os $if_os)                           }}
 if [[ -d "{{$path}}/.git" ]]; then
   cd "{{$path}}"
   git pull
@@ -52,34 +74,45 @@ else
   mkdir -p "$(dirname {{$path}})"
   git clone -b "{{$ref}}" "{{$url}}" "{{$path}}"
 fi
-{{-   end                                                                              }}
-{{- end                                                                                }}
-mkdir -p "{{$brew_install_location}}/share/zsh"
-{{-   if eq $username "root"                                                           }}
-chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
-chmod -R go-w "{{$brew_install_location}}/share/zsh"
-{{-   end                                                                              }}
+{{-   end                                                                   }}
+{{- end                                                                     }}
 
-{{- range $curl_packages                                                               }}
-{{-   $if_os := index . "if_os"                                                        }}
-{{-   $path  := index . "path"                                                         }}
-{{-   $url   := index . "url"                                                          }}
-{{-   if or (not $if_os) (eq $os $if_os)                                               }}
+##############################################################################
+# DOWNLOAD CURL PACKAGES
+##############################################################################
+{{- range $.curl_packages                                                   }}
+{{-   $if_os := index . "if_os"                                             }}
+{{-   $path  := index . "path"                                              }}
+{{-   $url   := index . "url"                                               }}
+{{-   if or (not $if_os) (eq $.chezmoi.os $if_os)                           }}
 curl --create-dirs -LSso "{{$path}}" "{{$url}}"
-{{-   end                                                                              }}
-{{- end                                                                                }}
+{{-   end                                                                   }}
+{{- end                                                                     }}
 
-{{- if eq $os "darwin"                                                                 }}
+{{- if eq $.chezmoi.os "darwin"                                             }}
+##############################################################################
+# SET UP HOMEBREW FOR MAC OS
+##############################################################################
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
-{{- else                                                                               }}
-{{-  if eq $username "root"                                                            }}
-printf 'eval \x22\x24\x28{{$brew_install_location}}/bin/brew shellenv\x29\x22' > /home/linuxbrew/.profile
-chown linuxbrew:linuxbrew /home/linuxbrew/.profile
+{{- else                                                                    }}
+
+{{-   if eq $.chezmoi.username "root"                                       }}
+##############################################################################
+# SET UP HOMEBREW FOR LINUX (as linuxbrew: cannot install as root)
+##############################################################################
+printf 'eval \x22\x24\x28{{$.brew_install_location}}/bin/brew shellenv\x29\x22' > /home/linuxbrew/.profile
+mkdir -p "{{$.brew_install_location}}/share/zsh"
+chmod -R go-w "{{$.brew_install_location}}/share/zsh"
+chown -R linuxbrew:linuxbrew /home/linuxbrew
 su - linuxbrew -s /bin/bash <<< "brew update --force"
-{{-  else                                                                              }}
-eval "$({{$brew_install_location}}/bin/brew shellenv)"
+
+{{-  else                                                                   }}
+##############################################################################
+# SET UP HOMEBREW FOR LINUX (as {{ $.chezmoi.username }})
+##############################################################################
+eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 brew update --force
-{{-  end                                                                               }}
-{{- end                                                                                }}
+{{-  end                                                                    }}
+{{- end                                                                     }}
 EOF
 
