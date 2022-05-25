@@ -1,13 +1,13 @@
-{{- $chezmoi               := .chezmoi                                                 }}
-{{- $os                    := $chezmoi.os                                              }}
-{{- $username              := $chezmoi.username                                        }}
-{{- $packages              := list                                                     }}
-{{- $groups                := list                                                     }}
-{{- $git_packages          := index .package "git"                                     }}
-{{- $curl_packages         := index .package "curl"                                    }}
-{{- $package_manager       := index . "package_manager"                                }} 
-{{- $package_list          := index .package $package_manager                          }}
-{{- $brew_install_location := index . "brew_install_location"                          }}
+{{- $chezmoi               := .chezmoi                                                -}}
+{{- $os                    := $chezmoi.os                                             -}}
+{{- $username              := $chezmoi.username                                       -}}
+{{- $packages              := list                                                    -}}
+{{- $groups                := list                                                    -}}
+{{- $git_packages          := index .package "git"                                    -}}
+{{- $curl_packages         := index .package "curl"                                   -}}
+{{- $package_manager       := index . "package_manager"                               -}} 
+{{- $package_list          := index .package $package_manager                         -}}
+{{- $brew_install_location := index . "brew_install_location"                         -}}
 #!/bin/sh
 
 {{- if eq $os "linux"                                                                  }}
