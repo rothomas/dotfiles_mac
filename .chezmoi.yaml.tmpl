@@ -69,7 +69,7 @@ data:
   package_manager: {{ $package_manager | quote }}
   brew_user: {{ $brew_user | quote }}
   brew_install_location: {{ $brew_install_location | quote }}
-  use_homebrew: {{ $brew_install_location | printf "eval \"\$(%s/bin/brew shellenv)\"" | quote }}
+  use_homebrew: "eval \"{{"$"}}({{$brew_install_location}}/bin/brew shellenv)\""
   shell: "zsh"
   sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo "{{end}}
   gpg_keys:
