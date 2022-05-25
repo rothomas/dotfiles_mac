@@ -11,7 +11,6 @@
 #!/bin/sh
 
 cd
-mkdir .installers
 {{- if eq $os "linux"                                                                  }}
 {{-   if eq $username "root"                                                           }}
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
@@ -65,8 +64,7 @@ chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
 {{-   $path  := index . "path"                                                         }}
 {{-   $url   := index . "url"                                                          }}
 {{-   if or (not $if_os) (eq $os $if_os)                                               }}
-mkdir -p "$(dirname {{$path}})"
-curl -LSso --create-dirs "{{$path}}" "{{$url}}"
+curl --create-dirs -LSso "~/{{$path}}" "{{$url}}"
 {{-   end                                                                              }}
 {{- end                                                                                }}
 
