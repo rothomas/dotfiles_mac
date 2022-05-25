@@ -14,10 +14,6 @@
 {{-   if eq $username "root"                                                           }}
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{-   end                                                                              }}
-mkdir -p "{{$brew_install_location}}/share/zsh"
-{{-   if eq $username "root"                                                           }}
-chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
-{{-   end                                                                              }}
 {{-   range $package_list                                                              }}
 {{-     $packages = append $packages .package                                          }}
 {{-   end                                                                              }}
@@ -55,25 +51,29 @@ else
   mkdir -p "$(dirname {{$path}})"
   git clone -b "{{$ref}}" "{{$url}}" "{{$path}}"
 fi
-{{-   end                                                                             }}
-{{- end                                                                               }}
+{{-   end                                                                              }}
+{{- end                                                                                }}
+mkdir -p "{{$brew_install_location}}/share/zsh"
+{{-   if eq $username "root"                                                           }}
+chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
+{{-   end                                                                              }}
 
-{{- range $curl_packages                                                              }}
-{{-   $if_os := index . "if_os"                                                       }}
-{{-   $path  := index . "path"                                                        }}
-{{-   $url   := index . "url"                                                         }}
-{{-   if or (not $if_os) (eq $os $if_os)                                              }}
+{{- range $curl_packages                                                               }}
+{{-   $if_os := index . "if_os"                                                        }}
+{{-   $path  := index . "path"                                                         }}
+{{-   $url   := index . "url"                                                          }}
+{{-   if or (not $if_os) (eq $os $if_os)                                               }}
 mkdir -p "$(dirname {{$path}})"
 curl -LSso --create-dirs "{{$path}}" "{{$url}}"
-{{-   end                                                                             }}
-{{- end                                                                               }}
+{{-   end                                                                              }}
+{{- end                                                                                }}
 
-{{- if eq $os "darwin"                                                                }}
+{{- if eq $os "darwin"                                                                 }}
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
-{{- else                                                                              }}
-{{-  if eq $username "root"                                                           }}
+{{- else                                                                               }}
+{{-  if eq $username "root"                                                            }}
 su - linuxbrew -s /bin/bash <<EOS
-{{-  end                                                                              }}
+{{-  end                                                                               }}
 {{ .use_homebrew }}
 brew update --force --quiet
 chmod -R go-w "{{$brew_install_location}}/share/zsh"
