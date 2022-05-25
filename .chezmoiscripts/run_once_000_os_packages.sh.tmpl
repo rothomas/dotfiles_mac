@@ -58,7 +58,8 @@ fi
 
 
 {{ range .package.curl                                             }}
-{{   if or (eq .if_os "") (eq $chezmoi.os .if_os)                  }}
+{{   $if_os := index . "if_os"                                     }}
+{{   if or (not $if_os) (eq $chezmoi.os .if_os)                  }}
 
 mkdir -p "$(dirname {{ .path }})"
 curl -LSso --create-dirs "{{ .path }}" "{{ .url }}"
