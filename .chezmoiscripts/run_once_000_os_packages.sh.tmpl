@@ -1,6 +1,7 @@
+{{ $chezmoi := .chezmoi -}}
 #!/bin/sh
 
-{{- if eq .chezmoi.os "linux"                                                         -}}
+{{- if eq $chezmoi.os "linux"                                                         -}}
 {{-   $packages := list                                                               -}}
 {{-   $groups   := list                                                               -}}
 {{-   $package_list := get .package .package_manager                                  -}}
@@ -29,17 +30,15 @@ gpg --recv-keys {{ .gpg_keys | join " " }}
 
 bash -s <<EOF
 
-{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") }}
+{{- if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{- end }}
-
-{{ $chezmoi = .chezmoi }}
 
 
 {{ $git_packages := get .package "git"                             }}
 {{ range $git_packages                                             }}
 {{   $if_os := index . "if_os"                                     }}
-{{   if eq .chezmoi.os $if_os                                      }}
+{{   if eq $chezmoi.os $if_os                                      }}
 
 if [[ -d "{{ .path }}/.git" ]]; then
   cd "{{ .path }}"
@@ -71,7 +70,7 @@ curl -LSso --create-dirs "{{ .path }}" "{{ .url }}"
 
 
 
-{{ if eq .chezmoi.os "darwin"                                      }}
+{{ if eq $chezmoi.os "darwin"                                      }}
 
 # Install homebrew on Darwin via downloaded install script.
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
@@ -95,7 +94,7 @@ su - linuxbrew -s /bin/bash <<EOS
 brew update --force --quiet
 chmod -R go-w "{{ .brew_install_location }}/share/zsh"
 
-{{   if eq .chezmoi.username "root"                                }}
+{{   if eq $chezmoi.username "root"                                }}
 EOS
 {{   end                                                           }}
 

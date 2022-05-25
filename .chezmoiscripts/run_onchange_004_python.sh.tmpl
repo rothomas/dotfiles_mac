@@ -1,5 +1,7 @@
+{{ $chezmoi := .chezmoi                 -}}
 {{ if not (eq .chezmoi.username "root") -}}
 #!/usr/bin/env bash
+
 
 >&2 echo "Installing Python"
 

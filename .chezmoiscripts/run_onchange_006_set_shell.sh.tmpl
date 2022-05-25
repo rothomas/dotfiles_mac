@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+{{ $chezmoi := .chezmoi }}
+
 current=$SHELL proposed="$(command -v {{ .shell }})"
 
 if [[ -x {{ "$proposed" }} ]] && grep -q "$proposed" /etc/shells && [[ "$current" != "$proposed" ]]; then

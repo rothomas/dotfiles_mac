@@ -1,9 +1,11 @@
+{{ $chezmoi := .chezmoi -}}
 #!/usr/bin/env bash
 
-{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") }}su - linuxbrew -s /bin/bash <<EOS{{ end }}
+
+{{ if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}su - linuxbrew -s /bin/bash <<EOS{{ end }}
 {{ .use_homebrew }}
 
 brew update
 brew upgrade
 brew cleanup
-{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") }}EOS{{ end }}
+{{- if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}EOS{{ end }}
