@@ -21,13 +21,14 @@
 {{-   $package_manager = "pacman"                                                          -}}
 {{- end                                                                                    -}}
 
+{{- $brew_user := ""                                                                       -}}
 {{- $brew_install_location := ""                                                           -}}
 {{- if eq .chezmoi.os "linux"                                                              -}}
-{{-   $brew_user := .chezmoi.username                                                      -}}
+{{-   $brew_user = .chezmoi.username                                                       -}}
 {{-   if eq $brew_user "root"                                                              -}}
 {{-     $brew_user = "linuxbrew"                                                           -}}
 {{-   end                                                                                  -}}
-{{-   $brew_install_location := $brew_user | printf "/home/%s/.linuxbrew"                  -}}
+{{-   $brew_install_location = $brew_user | printf "/home/%s/.linuxbrew"                   -}}
 {{- else if eq .chezmoi.os "darwin"                                                        -}}
 {{-   if eq .chezmoi.arch "arm64"                                                          -}}
 {{-     $brew_install_location = "/opt/homebrew"                                           -}}
