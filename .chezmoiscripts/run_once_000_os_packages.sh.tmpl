@@ -64,7 +64,7 @@ chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
 {{-   $path  := index . "path"                                                         }}
 {{-   $url   := index . "url"                                                          }}
 {{-   if or (not $if_os) (eq $os $if_os)                                               }}
-curl --create-dirs -LSso "~/{{$path}}" "{{$url}}"
+curl --create-dirs -LSso "{{$path}}" "{{$url}}"
 {{-   end                                                                              }}
 {{- end                                                                                }}
 
