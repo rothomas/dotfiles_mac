@@ -10,6 +10,8 @@
 {{- $brew_install_location := index . "brew_install_location"                         -}}
 #!/bin/sh
 
+cd
+mkdir .installers
 {{- if eq $os "linux"                                                                  }}
 {{-   if eq $username "root"                                                           }}
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
