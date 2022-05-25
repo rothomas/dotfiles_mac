@@ -8,7 +8,6 @@
 {{- $package_manager       := index . "package_manager"                               -}} 
 {{- $package_list          := index .package $package_manager                         -}}
 {{- $brew_install_location := index . "brew_install_location"                         -}}
-{{- $use_homebrew          := index . "use_homebrew"                                  -}}
 #!/bin/sh
 
 cd
@@ -74,7 +73,7 @@ curl --create-dirs -LSso "{{$path}}" "{{$url}}"
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                               }}
 {{-  if eq $username "root"                                                            }}
-echo '{{$use_homebrew}}' > /home/linuxbrew/.profile
+echo 'eval "$({{$brew_install_location}}/bin/brew shellenv)"' > /home/linuxbrew/.profile
 chown linuxbrew:linuxbrew /home/linuxbrew/.profile
 su - linuxbrew -s /bin/bash <<< "brew update --force"
 {{-  else                                                                              }}
