@@ -8,6 +8,7 @@
 {{- $package_manager       := index . "package_manager"                               -}} 
 {{- $package_list          := index .package $package_manager                         -}}
 {{- $brew_install_location := index . "brew_install_location"                         -}}
+{{- $use_homebrew          := index . "use_homebrew"                                  -}}
 #!/bin/sh
 
 cd
@@ -58,7 +59,7 @@ mkdir -p "{{$brew_install_location}}/share/zsh"
 {{-   if eq $username "root"                                                           }}
 chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
 chmod -R go-w "{{$brew_install_location}}/share/zsh"
-{{-   end                                                                              }}
+{{-   end                                                                              }}G
 
 {{- range $curl_packages                                                               }}
 {{-   $if_os := index . "if_os"                                                        }}
@@ -73,7 +74,7 @@ curl --create-dirs -LSso "{{$path}}" "{{$url}}"
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                               }}
 {{-  if eq $username "root"                                                            }}
-echo '{{.use_homebrew}}' > /home/linuxbrew/.profile
+echo '{{$use_homebrew}}' > /home/linuxbrew/.profile
 chown linuxbrew:linuxbrew /home/linuxbrew/.profile
 su - linuxbrew -s /bin/bash <<< "brew update --force"
 {{-  else                                                                              }}
