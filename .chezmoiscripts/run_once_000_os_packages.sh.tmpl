@@ -57,6 +57,7 @@ fi
 mkdir -p "{{$brew_install_location}}/share/zsh"
 {{-   if eq $username "root"                                                           }}
 chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
+chmod -R go-w "{{$brew_install_location}}/share/zsh"
 {{-   end                                                                              }}
 
 {{- range $curl_packages                                                               }}
@@ -76,7 +77,6 @@ su - linuxbrew -s /bin/bash <<EOS
 {{-  end                                                                               }}
 {{ .use_homebrew }}
 brew update --force --quiet
-chmod -R go-w "{{$brew_install_location}}/share/zsh"
 {{-   if eq $username "root"                                                           }}
 EOS
 {{-   end                                                                              }}
