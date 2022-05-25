@@ -73,7 +73,7 @@ curl --create-dirs -LSso "{{$path}}" "{{$url}}"
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                               }}
 {{-  if eq $username "root"                                                            }}
-echo 'eval "$({{$brew_install_location}}/bin/brew shellenv)"' > /home/linuxbrew/.profile
+printf 'eval \x22\x24\x28{{$brew_install_location}}/bin/brew shellenv\x29\x22' > /home/linuxbrew/.profile
 chown linuxbrew:linuxbrew /home/linuxbrew/.profile
 su - linuxbrew -s /bin/bash <<< "brew update --force"
 {{-  else                                                                              }}
