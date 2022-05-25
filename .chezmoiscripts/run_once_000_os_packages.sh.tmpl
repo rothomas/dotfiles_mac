@@ -1,104 +1,84 @@
-{{ $chezmoi := .chezmoi -}}
+{{- $chezmoi               := .chezmoi                                                 }}
+{{- $os                    := $chezmoi.os                                              }}
+{{- $username              := $chezmoi.username                                        }}
+{{- $packages              := list                                                     }}
+{{- $groups                := list                                                     }}
+{{- $git_packages          := index .package "git"                                     }}
+{{- $curl_packages         := index .package "curl"                                    }}
+{{- $package_manager       := index . "package_manager"                                }} 
+{{- $package_list          := index .package $package_manager                          }}
+{{- $brew_install_location := index . "brew_install_location"                          }}
 #!/bin/sh
 
-{{- if eq $chezmoi.os "linux"                                                         -}}
-{{-   $packages := list                                                               -}}
-{{-   $groups   := list                                                               -}}
-{{-   $package_list := get .package .package_manager                                  -}}
-{{-   range $package_list                                                             -}}
-{{-     $packages = append $packages .package                                         -}}
+{{- if eq $os "linux"                                                                  }}
+{{-   if eq $username "root"                                                           }}
+adduser --group --system --gecos "Linuxbrew User" linuxbrew
+{{-   end                                                                              }}
+mkdir -p "{{$brew_install_location}}/share/zsh"
+{{-   if eq $username "root"                                                           }}
+chown -R linuxbrew:linuxbrew {{$brew_install_location | quote}}
+{{-   end                                                                              }}
+{{-   range $package_list                                                              }}
+{{-     $packages = append $packages .package                                          }}
 {{-   end                                                                              }}
 
-{{    if eq .package_manager "apk"                                                    -}}
+{{-   if eq $package_manager "apk"                                                     }}
 {{.sudo}} apk add --update bash {{ $packages | join " " }}
 
-{{    else if eq .package_manager "apt"                                               -}}
+{{-   else if eq $package_manager "apt"                                                }}
 {{.sudo}} apt-get -yq update
 {{.sudo}} apt-get -yqq install {{ $packages | join " " }}
 
-{{    else if eq .package_manager "pacman"                                            -}}
+{{-   else if eq $package_manager "pacman"                                             }}
 {{.sudo}} pacman -Sy {{ $packages | join " " }}
 
-{{    else if eq .package_manager "yum"                                               -}}
+{{-   else if eq $package_manager "yum"                                                }}
 {{.sudo}} yum groupinstall -y {{ $groups | join " " }}
 {{.sudo}} yum install -y {{ $packages | join " " }}
 
-{{-    end                                                                            -}}
-{{- end                                                                               -}}
-
+{{-   end                                                                              }}
+{{- end                                                                                }}
 gpg --recv-keys {{ .gpg_keys | join " " }}
 
 bash -s <<EOF
-
-{{- if and (eq $chezmoi.os "linux") (eq $chezmoi.username "root") }}
-adduser --group --system --gecos "Linuxbrew User" linuxbrew
-{{- end }}
-
-
-{{ $git_packages := get .package "git"                             }}
-{{ range $git_packages                                             }}
-{{   $if_os := index . "if_os"                                     }}
-{{   if eq $chezmoi.os $if_os                                      }}
-
-if [[ -d "{{ .path }}/.git" ]]; then
-  cd "{{ .path }}"
+{{- range $git_packages                                                                }}
+{{-   $if_os := index . "if_os"                                                        }}
+{{-   $path  := index . "path"                                                         }}
+{{-   $ref   := index . "ref"                                                          }}
+{{-   $url   := index . "url"                                                          }}
+{{-   if or (not $if_os) (eq $os $if_os)                                               }}
+if [[ -d "{{$path}}/.git" ]]; then
+  cd "{{$path}}"
   git pull
   cd -
 else
-  mkdir -p "$(dirname {{ .path }})"
-  git clone -b "{{ .ref }}" "{{ .url }}" "{{ .path }}"
+  mkdir -p "$(dirname {{$path}})"
+  git clone -b "{{$ref}}" "{{$url}}" "{{$path}}"
 fi
+{{-   end                                                                             }}
+{{- end                                                                               }}
 
-{{   end                                                           }}
-{{ end                                                             }}
+{{- range $curl_packages                                                              }}
+{{-   $if_os := index . "if_os"                                                       }}
+{{-   $path  := index . "path"                                                        }}
+{{-   $url   := index . "url"                                                         }}
+{{-   if or (not $if_os) (eq $os $if_os)                                              }}
+mkdir -p "$(dirname {{$path}})"
+curl -LSso --create-dirs "{{$path}}" "{{$url}}"
+{{-   end                                                                             }}
+{{- end                                                                               }}
 
-
-
-
-
-
-{{ range .package.curl                                             }}
-{{   $if_os := index . "if_os"                                     }}
-{{   if or (not $if_os) (eq $chezmoi.os .if_os)                  }}
-
-mkdir -p "$(dirname {{ .path }})"
-curl -LSso --create-dirs "{{ .path }}" "{{ .url }}"
-
-{{   end                                                           }}
-{{ end                                                             }}
-
-
-
-
-
-{{ if eq $chezmoi.os "darwin"                                      }}
-
-# Install homebrew on Darwin via downloaded install script.
+{{- if eq $os "darwin"                                                                }}
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
-
-
-
-
-
-{{ else                                                            }}
-
-# Install homebrew on Linux from git clone.
-mkdir -p "{{ .brew_install_location }}/share/zsh"
-
-{{   if eq $chezmoi.username "root"                                }}
-chown -R linuxbrew:linuxbrew {{ .brew_install_location | quote }}
+{{- else                                                                              }}
+{{-  if eq $username "root"                                                           }}
 su - linuxbrew -s /bin/bash <<EOS
-{{   end                                                           }}
-
+{{-  end                                                                              }}
 {{ .use_homebrew }}
-
 brew update --force --quiet
-chmod -R go-w "{{ .brew_install_location }}/share/zsh"
-
-{{   if eq $chezmoi.username "root"                                }}
+chmod -R go-w "{{$brew_install_location}}/share/zsh"
+{{-   if eq $username "root"                                                           }}
 EOS
-{{   end                                                           }}
-
-{{ end                                                             }}
-
+{{-   end                                                                              }}
+{{- end                                                                                }}
 EOF
