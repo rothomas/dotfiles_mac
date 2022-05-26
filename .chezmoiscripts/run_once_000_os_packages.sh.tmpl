@@ -15,7 +15,7 @@
 
 cd
 
-{{- if eq $.chezmoi.os-release.id "ubuntu"                                  }}
+{{- if eq $.chezmoi.osRelease.id "ubuntu"                                  }}
 if command -v unminimize; then
   y | unminimize
 fi
