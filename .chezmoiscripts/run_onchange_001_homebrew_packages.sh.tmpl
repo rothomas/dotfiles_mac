@@ -5,7 +5,7 @@
 {{- if $use_system                                                          -}}
 if ! command -v {{ .package }} > /dev/null; then
 {{- end                                                                      }}
-if ! brew list -q {{ .package }} >& /dev/null
+if ! brew list -q {{ .package }} >& /dev/null; then
   brew install {{if $cask}}--cask {{end}}{{ .package }}
 fi
 {{- if $service                                                              }}
