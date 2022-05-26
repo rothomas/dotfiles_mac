@@ -8,5 +8,5 @@ eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 brew update
 brew upgrade
 brew cleanup
-{{- if $.as_linuxbrew }}EOS{{ end }}
+{{ if $.as_linuxbrew }}EOS{{ end }}
 
