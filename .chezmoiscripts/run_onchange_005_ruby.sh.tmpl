@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
+{{ if eq $.chezmoi.username "root"    }}
+groupadd rvm
+usermod -G rvm root
+{{  $rvm_location := '/usr/local/rvm' }}
+{{ else }}
+{{  $rvm_location := '${HOME}/.rvm'   }}
+{{ end }}
+
 \bash -s stable < .installers/install_rvm.sh
-source "$HOME/.rvm/scripts/rvm"
+
+source "{{$rvm_location}}/scripts/rvm"
 
 rvm install {{ $.version.ruby | quote }}
 rvm --default use {{ $.version.ruby | quote }}
