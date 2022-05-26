@@ -18,12 +18,12 @@ fi
 su - linuxbrew -s /bin/bash <<EOS
 {{- end }}
 
-{{- range $.package.brew }}
-{{- $if_os := index . "if_os"                                               -}}
-{{- if or (not $if_os) (eq $if_os $.chezmoi.os)                             -}}
-{{ template "brew_install" . }}
-{{- end                                                                     -}}
-{{- end }}
+{{  range $.package.brew                                                    }}
+{{-   $if_os := index . "if_os"                                             }}
+{{-   if or (not $if_os) (eq $if_os $.chezmoi.os)                           }}
+{{      template "brew_install" .                                           }}
+{{-   end                                                                   }}
+{{- end                                                                     }}
 
 {{- if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
 
