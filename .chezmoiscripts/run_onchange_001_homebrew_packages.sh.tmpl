@@ -1,15 +1,12 @@
 {{- define "brew_install"                                                   -}}
-{{- $if_os := index . "if_os"                                               -}}
 {{- $cask := index . "cask"                                                 -}}
 {{- $service := index . "service"                                           -}}
 {{- $use_system := index . "use_system"                                     -}}
 {{- if $use_system }}if ! command -v {{ .package }} > /dev/null; then{{ end -}}
-{{- if or (not $if_os) (eq $if_os $.chezmoi.os)                             -}}
 if ! brew list -q {{ .package }} >& /dev/null
   brew install {{if $cask}}--cask {{end}}{{ .package }}
 fi
 {{- if $service }}brew services start {{ .package }}{{ end                  -}}
-{{- end                                                                     -}}
 {{- if $use_system }}fi{{ end                                               -}}
 {{- end                                                                     -}}
 
@@ -22,7 +19,10 @@ su - linuxbrew -s /bin/bash <<EOS
 {{- end }}
 
 {{- range $.package.brew }}
+{{- $if_os := index . "if_os"                                               -}}
+{{- if or (not $if_os) (eq $if_os $.chezmoi.os)                             -}}
 {{ template "brew_install" . }}
+{{- end                                                                     -}}
 {{- end }}
 
 {{- if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
