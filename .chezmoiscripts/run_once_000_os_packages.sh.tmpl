@@ -14,6 +14,13 @@
 #!/bin/sh
 
 cd
+
+{{- if eq $.chezmoi.os-release.id "ubuntu"                                  }}
+if command -v unminimize; then
+  y | unminimize
+fi
+{{- end                                                                     }}
+
 {{- if $.as_linuxbrew                                                       }}
 ##############################################################################
 # SET UP LINUXBREW USER FOR HOMEBREW
