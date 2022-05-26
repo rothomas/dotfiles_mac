@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
+{{ $rvm_location := "${HOME}/.rvm"    }}
 {{ if eq $.chezmoi.username "root"    }}
 groupadd rvm
 usermod -aG rvm root
-{{  $rvm_location := "/usr/local/rvm" }}
-{{ else }}
-{{  $rvm_location := "${HOME}/.rvm"   }}
+{{  $rvm_location = "/usr/local/rvm" }}
 {{ end }}
 
 \bash -s stable < .installers/install_rvm.sh
