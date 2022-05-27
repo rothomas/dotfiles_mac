@@ -31,5 +31,5 @@ su - linuxbrew -s /bin/bash <<EOS
 {{-   end                                                                   }}
 {{- end                                                                     }}
 
-{{- if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
+{{ if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
 
