@@ -128,6 +128,9 @@ data:
         url: "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
       - path: ".installers/install_rvm.sh"
         url: "https://get.rvm.io"
+      - path: ".installers/terminfo.src.gz"
+        unzip: true
+        url: "http://invisible-island.net/datafiles/current/terminfo.src.gz"
     git:
       - path: ".config/tmux/plugins/tpm"
         url: "https://github.com/tmux-plugins/tpm.git"
@@ -154,6 +157,12 @@ data:
       - path: ".local/share/nvim/site/pack/packer/start/packer.nvim"
         url: "https://github.com/wbthomason/packer.nvim"
         ref: "master"
+    terminfo:
+      - alacritty
+      - alacritty-direct
+      - kitty
+      - iTerm2.app
+      - tmux-256color
     brew:
       - package: libyaml
       - package: gdbm
