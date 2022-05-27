@@ -258,9 +258,9 @@ data:
         service: true
         use_system: true
       - package: terraform@{{ $terraform_version }}
+      - package: tmux
       - package: unzip
         use_system: true
-      - package: zellij
       - package: telnet
         if_os: darwin
       - package: 1password-cli
@@ -306,9 +306,6 @@ data:
         if_os: darwin
         cask: true
       - package: jetbrains-toolbox
-        if_os: darwin
-        cask: true
-      - package: kitty
         if_os: darwin
         cask: true
     npm:

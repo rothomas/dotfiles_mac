@@ -15,22 +15,43 @@ fi
 # Clean up the bootstrap hook.
 rm -- "$0"
 
+function prompt() {
+  local trusted='n'
+  if [[ -f "${DOT_GIT}/trusted" ]]; then
+    trusted="$(cat "${DOT_GIT}/trusted")"
+  else
+    cat <<EOF
+===========================================================================================
+ ${REPO}
+ This repo contains a self-initialization script in .git-init-repo/initialize 
+ Automatically running unknown code can pose a security risk.
+===========================================================================================
+EOF
+    # Redirect stdin from the terminal inside the hook.
+    exec < /dev/tty
+    read -p "Do you trust \"$(basename "${REPO}")\" to self-initialize? [yN] " trusted
+    # Restore standard input.
+    exec <&-
+    cat > "${DOT_GIT}/trusted" <<< "${trusted}"
+  fi
+  trusted="$(tr '[:upper:]' '[:lower:]' <<< "${trusted}")"
+  [[ "${trusted}" == 'y' || "${trusted}" == 'yes' ]]
+}
+
 if [[ ! -z "${DOT_GIT}" ]]; then
   export HOOKS_DEST="${DOT_GIT}/hooks"
   # By convention, any one-time initialization content lives in $REPO/.git-init-repo and is
   # kicked off by the initialize script inside. Install hooks and such from here.
-  if [[ -d "${REPO}/.git-init-repo" ]] && [[ -x "${REPO}/.git-init-repo/initialize" ]]; then
-    if [[ -f "${DOT_GIT}/trusted" ]]; then
-      trusted=$(cat "${DOT_GIT}/trusted")
-    else
-      echo 'This repository contains initialization scripts in .git-init-repo.'
-      echo 'Running untrusted code automatically can pose a security risk.'
-      read -p 'Trust this project? [y/N]' trusted
-      echo "${trusted}" > "${DOT_GIT}/trusted"
-    fi
-    if [[ "${trusted}" == 'y' || "${trusted}" == 'Y' ]]; then
-      ${REPO}/.git-init-repo/initialize
-    fi
+  if [[ -d "${REPO}/.git-init-repo" ]] && [[ -x "${REPO}/.git-init-repo/initialize" ]] && prompt; then
+    ${REPO}/.git-init-repo/initialize
+  else
+    cat <<EOF
+===========================================================================================
+ Skipping automatic initialization of the repo.
+ After examining the contents, you may initialize manually by running
+ ${REPO}/.git-init-repo/initialize
+===========================================================================================
+EOF
   fi
 fi
 
