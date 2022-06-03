@@ -2,6 +2,7 @@
 {{- if eq $.chezmoi.os "darwin" -}}
 {{-   $date = "/usr/local/bin/gdate" -}}
 {{- end -}}
+eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export ZSH_BUNDLES="${XDG_CONFIG_HOME}/zsh/bundles"
 alias debug_enabled="[[ -f \"${ZSH_BUNDLES}/000debug/zshenv\" ]]"
