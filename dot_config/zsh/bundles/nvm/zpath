@@ -3,7 +3,7 @@ eval "$START_PROFILE"
 # NVM takes longer to load than everything else put together,
 # so we need to make sure we run it only once.
 function should_load_nvm() {
-  if interactive; then
+  if is_interactive; then
     [[ "${FROM_DOTFILE}" == 'zprofile' ]] && return 0
   else
     [[ "${FROM_DOTFILE}" == 'zshenv' ]] && return 0

@@ -11,8 +11,6 @@ export DISPLAY=localhost:0.0
 
 alias -g path="${HOME}/bin/path"
 
-alias interactive="[[ "$-" =~ 'i' ]]"
-
 # Let IDEs declare themselves so we can shut off some fancy
 # features that might not work in the IDE's shell window.
 export IDE_TERMINAL=0
