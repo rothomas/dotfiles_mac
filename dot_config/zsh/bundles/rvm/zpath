@@ -8,6 +8,7 @@ elif [[ -f "${HOME}/.rvm/scripts/rvm" ]]; then
 fi
 
 if [[ -f "${rvm_path}" ]]; then
+  ls -1 /usr/local/rvm
   echo "Source ${rvm_path}"
   source "${rvm_path}"
 
