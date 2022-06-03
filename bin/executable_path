@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+CONFIG_PATH="${XDG_CONFIG_HOME:-${HOME}/.config}/path"
+PATH_STACK="${CONFIG_PATH}/.path_stack"
+PLATFORM_PROFILE="$(uname | tr '[A-Z]' '[a-z]')_default"
+PLATFORM_DEFAULT_PATH="${CONFIG_PATH}/${PLATFORM_PROFILE}"
+DEFAULT_PATH="${CONFIG_PATH}/default"
+
 declare -a default_paths=(
   # the nvm initialization needs to add the path itself
   /bin
@@ -10,18 +16,20 @@ declare -a default_paths=(
   /usr/local/bin
   /usr/local/games
   /usr/local/sbin
-{{ if (eq .chezmoi.os "linux") -}}
-  /home/linuxbrew/.linuxbrew/bin
-{{ end }}                          
   /snap/bin
   ${HOME}/bin
   ${HOME}/.local/bin
+  ${HOME}/.pyenv/bin
   ${HOME}/go/bin
   ${HOME}/.cargo/bin
   ${HOME}/.rvm/bin # rvm prefers to go last
 )
 
-IFS=':' read -r -a current_path <<< "${PATH}"
+if [ "${1}" = 'test' ]; then
+  current_path=(a b c d e f)
+else
+  IFS=':' read -r -a current_path <<< "${PATH}"
+fi
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
@@ -37,8 +45,8 @@ remove() {
       new_path+=( $existing_path )
     fi
   done
-  current_path=${new_path[@]}
-  echo export PATH=$(build)
+  current_path=(${new_path[@]})
+  echo "export PATH=\"$(build)\""
 }
 
 append() {
@@ -50,8 +58,8 @@ append() {
     fi
   done
   new_path+=( $path )
-  current_path=${new_path[@]}
-  echo export PATH=$(build)
+  current_path=(${new_path[@]})
+  echo "export PATH=\"$(build)\""
 }
 
 prepend() {
@@ -62,28 +70,37 @@ prepend() {
       new_path+=( $existing_path )
     fi
   done
-  current_path=${new_path[@]}
-  echo export PATH=$(build)
+  current_path=(${new_path[@]})
+  echo "export PATH=\"$(build)\""
 }
 
 init() {
-  current_path=()
-  current_path="${default_paths[@]}"
-  echo export PATH=$(build)
+  if [ -f "${PLATFORM_DEFAULT_PATH}" ]; then
+    restore "${PLATFORM_PROFILE}"
+  elif [ -f "${DEFAULT_PATH}" ]; then
+    restore "default"
+  else  
+    current_path=()
+    current_path=(${default_paths[@]})
+    echo "export PATH=\"$(build)\""
+  fi
 }
 
 test() {
-  default_paths=(a b c d e f)
-  init
   build
+  echo 'remove c'
   remove c
   build
+  echo 'prepend d'
   prepend d
   build
+  echo 'append b'
   append b
   build
+  echo 'prepend g'
   prepend g
   build
+  echo 'append h'
   append h
   build
   if [[ "$(build)" == "g:d:a:e:f:b:h" ]]; then
@@ -91,44 +108,44 @@ test() {
   else
     >&2 echo FAIL: $(build) != g:d:a:e:f:b:h
   fi
-  echo export PATH=$(build)
+  echo "export PATH=\"$(build)\""
 }
 
 save() {
   local profile=${1:-default}
-  mkdir -p "${HOME}/.config/path"
-  cat > "${HOME}/.config/path/${profile}" <<< $(build)
-  >&2 echo "Saved current path to ${profile}."
+  local save_file="${CONFIG_PATH}/${profile}"
+  mkdir -p "${CONFIG_PATH}"
+  cat > "${save_file}" <<< $(build | tr ':' '\n')
 }
 
 restore() {
   local profile=${1:-default}
-  mkdir -p "${HOME}/.config/path"
-  if [ -f "${HOME}/.config/path/${profile}" ]; then
-    IFS=':' read -r -a current_path < "${HOME}/.config/path/${profile}"
-    echo export PATH=$(build)
-  else
-    >&2 echo "Profile ${profile} does not exist."
+  local save_file="${CONFIG_PATH}/${profile}"
+  mkdir -p "${CONFIG_PATH}"
+  if [[ -f "${save_file}" ]]; then
+    echo "export PATH=\"$(cat "${save_file}" | tr '\n' ':' | sed 's/:*$//')\""
+    return 0
   fi
+  >&2 echo "Profile ${profile} does not exist."
+  return 1
 }
 
 push() {
-  mkdir -p "${HOME}/.config/path"
-  touch "${HOME}/.config/path/.path_stack"
-  echo $PATH >> "${HOME}/.config/path/.path_stack"
-  >&2 echo "Pushed current path onto the path stack."
+  mkdir -p "${CONFIG_PATH}"
+  echo $PATH >> "${PATH_STACK}"
 }
 
 pop() {
-  mkdir -p "${HOME}/.config/path"
-  touch "${HOME}/.config/path/.path_stack"
-  local path=$(tail -1 "${HOME}/.config/path/.path_stack")
-  if [ -z "${path}" ]; then
-    >&2 echo "Path stack is empty."
-  else
-    echo export PATH=${path}
-    sed -i '$ d' "${HOME}/.config/path/.path_stack"
+  if [ -f "${PATH_STACK}" ]; then
+    local path = "$(tail -1 "${PATH_STACK}")"
+    if [ ! -z "${path}" ]; then
+      echo "export PATH=\"${path}\""
+      sed -i '$ d' "${PATH_STACK}"
+      return 0
+    fi
   fi
+  >&2 echo "Path stack is empty."
+  return 1
 }
 
 declare -a valid_commands=(

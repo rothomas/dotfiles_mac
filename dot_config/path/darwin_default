@@ -1,0 +1,11 @@
+/bin
+/sbin
+/usr/bin
+/usr/games
+/usr/sbin
+/usr/local/bin
+/usr/local/games
+/usr/local/sbin
+${HOME}/bin
+${HOME}/.local/bin
+
