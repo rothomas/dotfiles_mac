@@ -1,4 +1,4 @@
 eval "$START_PROFILE"
-eval "$(path init)"
+eval "$("${HOME}/bin/path" init)"
 eval "$END_PROFILE"
 

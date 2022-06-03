@@ -1,8 +1,5 @@
 eval "$START_PROFILE"
 
-alias -g path="${HOME}/bin/path"
-eval "$(path init)"
-
 # Install zsh's bash completion script support.
 autoload bashcompinit
 bashcompinit
