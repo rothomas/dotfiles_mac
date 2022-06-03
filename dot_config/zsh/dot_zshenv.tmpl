@@ -1,4 +1,4 @@
-{{- $date := date -}}
+{{- $date := "date" -}}
 {{- if eq $.chezmoi.os "darwin" -}}
 {{-   $date = "/usr/local/bin/gdate" -}}
 {{- end -}}
