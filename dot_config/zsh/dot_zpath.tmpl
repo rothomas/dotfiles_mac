@@ -1,5 +1,4 @@
-export DOTFILE="zpath"
 debug_enabled && start="$(timestamp)"
 eval "$(zsh_bundles zpath)"
-debug_enabled && profile_end "${DOTFILE}"
+(debug_enabled && profile_end "zpath") || true
 

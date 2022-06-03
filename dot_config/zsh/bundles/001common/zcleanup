@@ -1,0 +1,9 @@
+unset IDE_TERMINAL
+unset OMZ_PLUGINS
+unset OMZ_THEME
+unalias in_ide
+unalias is_ide
+unalias omz_plugin
+unalias set_omz_theme
+unalias path
+

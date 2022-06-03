@@ -1,10 +1,10 @@
-export DOTFILE="zprofile"
-
 debug_enabled && start="$(timestamp)"
-
 eval "$(zsh_bundles zprofile)"
-export FROM_DOTFILE="${DOTFILE}"
-source "${XDG_CONFIG_HOME}/zsh/.zpath"
+(debug_enabled && profile_end "zprofile") || true
 
-debug_enabled && profile_end "${DOTFILE}"
+export DOTFILE="${DOTFILE}"
+source "${XDG_CONFIG_HOME}/zsh/.zpath"
+unset DOTFILE
+
+source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
 

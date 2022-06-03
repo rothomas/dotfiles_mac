@@ -4,9 +4,9 @@ eval "$START_PROFILE"
 # so we need to make sure we run it only once.
 function should_load_nvm() {
   if is_interactive; then
-    [[ "${FROM_DOTFILE}" == 'zprofile' ]] && return 0
+    [[ "${DOTFILE}" == 'zprofile' ]] && return 0
   else
-    [[ "${FROM_DOTFILE}" == 'zshenv' ]] && return 0
+    [[ "${DOTFILE}" == 'zshenv' ]] && return 0
   fi
   return 1
 }

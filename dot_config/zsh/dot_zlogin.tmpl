@@ -1,8 +1,4 @@
-export DOTFILE=zlogin
 debug_enabled && start="$(timestamp)"
 eval "$(zsh_bundles zlogin)"
-debug_enabled && profile_end "${DOTFILE}"
-# if debug is not enabled, reset the exit code to 0
-# so we don't start the shell with an error code.
-true
+(debug_enabled && profile_end "zlogin") || true
 

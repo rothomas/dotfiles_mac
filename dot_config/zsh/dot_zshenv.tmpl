@@ -1,8 +1,11 @@
-export DOTFILE="zshenv"
+{{- $date := date -}}
+{{- if eq $.chezmoi.os "darwin" -}}
+{{-   $date = "/usr/local/bin/gdate" -}}
+{{- end -}}
 export XDG_CONFIG_HOME="${HOME}/.config"
 export ZSH_BUNDLES="${XDG_CONFIG_HOME}/zsh/bundles"
 alias debug_enabled="[[ -f \"${ZSH_BUNDLES}/000debug/zshenv\" ]]"
-alias timestamp="/usr/local/bin/gdate +'%s%N'"
+alias timestamp="{{ $date }} +'%s%N'"
 function profile_end() {
   local end="$(timestamp)"
   delta="$(bc <<< "scale=3; ($end-$start)/1000000000")"
@@ -18,12 +21,14 @@ function zsh_bundles() { find "${ZSH_BUNDLES}" -name "${1}" | sort | xargs -I X 
 alias is_interactive="[[ -o interactive ]]"
 alias is_login="[[ -o login ]]"
 
-eval "$(zsh_bundles zshenv)"
-export FROM_DOTFILE="${DOTFILE}"
+export DOTFILE="zshenv"
 source "${XDG_CONFIG_HOME}/zsh/.zpath"
+unset DOTFILE
 
-debug_enabled && profile_end "${DOTFILE}"
-# If debug is not enabled, reset the status code to 0
-# so we don't start the shell with an error code.
-true
+eval "$(zsh_bundles zshenv)"
+(debug_enabled && profile_end "zshenv") || true
+
+if [[ ! is_interactive ]]; then
+  source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
+fi
 

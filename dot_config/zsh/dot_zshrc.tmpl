@@ -1,9 +1,10 @@
-export DOTFILE="zshrc"
 debug_enabled && start="$(timestamp)"
 eval "$(zsh_bundles zshrc)"
+(debug_enabled && profile_end "zshrc") || true
+
 source "${XDG_CONFIG_HOME}/zsh/.zalias"
-debug_enabled && profile_end "${DOTFILE}"
-# If debug is not enabled, reset the status code to 0
-# so we don't start the shell with an error code.
-true
+
+if [[ ! is_login ]]; then
+  source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
+fi
 

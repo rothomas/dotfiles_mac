@@ -1,15 +1,11 @@
 eval "$START_PROFILE"
 
-alias path="${HOME}/bin/path"
+alias -g path="${HOME}/bin/path"
 eval "$(path init)"
 
 # Install zsh's bash completion script support.
 autoload bashcompinit
 bashcompinit
-
-export DISPLAY=localhost:0.0
-
-alias -g path="${HOME}/bin/path"
 
 # Let IDEs declare themselves so we can shut off some fancy
 # features that might not work in the IDE's shell window.
