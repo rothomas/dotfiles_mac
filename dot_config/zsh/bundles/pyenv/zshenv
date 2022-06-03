@@ -1,0 +1,4 @@
+eval "$START_PROFILE"
+omz_plugin pyenv
+eval "$END_PROFILE"
+

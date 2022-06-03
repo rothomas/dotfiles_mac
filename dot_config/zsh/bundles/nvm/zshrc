@@ -1,0 +1,9 @@
+eval "$START_PROFILE"
+
+if [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ]; then
+  # This loads nvm bash_completion, supported by zsh's bashcompinit
+  source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+fi
+
+eval "$END_PROFILE"
+

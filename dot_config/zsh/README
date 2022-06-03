@@ -1,0 +1,149 @@
+This is an isolated zsh configuration. To use it, first
+let's assume this configuration is deployed in ~/.config/zsh.
+Your ~/.zshrc file should look like this:
+
+    export XDG_CONFIG_HOME="${HOME}/.config"
+    export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+    source "${ZDOTDIR}/.zshenv"
+
+In order:
+- The XDG_CONFIG_HOME variable is something of a standard
+  you can use to define a place applications can store their
+  configuration information. Many apps respect this variable
+  and will use their own directory under $XDG_CONFIG_HOME
+  in preference to putting dotfiles in your home directory.
+- The ZDOTDIR variable tells ZSH to look for its own dotfiles
+  in an alternate location. In this case, .config/zsh.
+- Once .zshenv has set your ZDOTDIR variable, all other zsh
+  dotfiles are loaded from that directory, but in order to keep
+  a totally centralized configuration, you should keep the
+  functional contents of .zshenv as just the above, then source
+  .config/zsh/.zshenv and keep the actual useful lines there.
+
+BUNDLES
+=======
+There is a "bundles" directory underneath this one, with several
+subdirectories. This setup is designed to encapsulate configuration
+for particular programs, so that they can be enabled or disabled
+as appropriate for your use case.
+
+Each bundle subdirectory contains one or more equivalents of the
+zsh configuration dotfiles, without the leading dot. The standard
+.config/zsh/.zshenv (which you sourced from your own ~/.zshenv)
+defines a function, "zsh_bundles," that crawls the
+subdirectories of .config/zsh/bundles in alphabetical order.
+For each subdirectory, if there is a filename matching the
+argument supplied to "zsh_bundles" then that file will be
+added to a list of files to source.
+
+For example, the standard .config/zsh/.zshenv contains this line:
+
+    eval "$(zsh_bundles zshenv)"
+
+When that line is hit, zsh_bundles will crawl through all the
+bundle subdirectories.  For each of them that has a "zshenv" file,
+it will output "source .config/zsh/bundles/my_bundle/zshenv".
+Running "eval" on that output will then load the contents of all
+those files as if they were inlined into the original script. Each
+of the zsh config files (described below) is handled similarly.
+
+The bundles are all run in lexical directory order. This will be
+fine in most cases, but you can use numerical prefixes that
+define an explicit order if that's important. It's even fair to
+split a bundle into multiple parts if the pieces need to run
+in different order across different files.
+
+DISABLING BUNDLES
+=================
+There is a "bundles-disabled" directory here as well. To disable
+a bundle without trashing it completely, move it here and
+"zsh_bundles" will ignore it.
+
+ZSH CONFIGURATION PRIMER
+========================
+In order to understand the purpose and order of the zsh config
+files, particularly what statements go where, it is helpful to
+understand a couple of ideas:
+
+INTERACTIVE SHELL: An interactive shell is one that interacts with
+the user. It expects stdin and stdout to be connected to a TTY.
+You get an interactive shell by running zsh without flags that
+run a script, like "-s <file>" or "-c <string>".
+
+LOGIN SHELL: Every login shell is an interactive shell. A login 
+shell is, traditionally, the shell that is spawned for the user
+from the "login" program (the one that prompts for username and
+password). This isn't necessarily true today because people usually
+ssh to a server, but the result is still a login shell. Running, 
+e.g., "su - otheruser" (or su -l ...) will start the new
+shell as a login shell, where omitting the "-" or "-f" creates
+a non-login shell. You use the flag if you want a full environment
+for "otheruser," or omit it if you just need a basic run-as shell.
+
+The following files are used to configure zsh, in the following
+order:
+
+zshenv:   Sets up the environment, including setting ZDOTDIR. This 
+          is the first thing run on launching a new zsh instance.
+          This file, if it exists, is evaluated on every new shell
+          instance, however invoked, so the contents evaluate as
+          fast as you can get away with. Typically you will just
+          set common environment variables here.
+          NOTE: The base zprofile (in /etc) on macOS overwrites 
+          the PATH, so you should not count on setting PATH here.
+
+zprofile: This script is run only for login shells, and should
+          contain configuration that typically runs once per
+          session and is inherited by subshells.
+
+zshrc:    This script is run only for interactive shells. It is the
+          most common file used for setting up your shell
+          environment. Shell enhancements like .oh-my-zsh are
+          set up here. You'll also set up things like visual
+          editors here.
+
+zlogin:   This script is exactly like zprofile (only for login
+          shells), except it runs after zshrc instead of before.
+
+zlogout:  Run only when a login shell exits.
+
+EXAMPLES:
+
+ssh myserver: creates an interactive login shell at myserver,
+              runs zshenv, zprofile, zshrc, zlogin
+
+zsh:          spawns a new zsh instance at the command line, not
+              a login shell, runs zshenv and zshrc, with all the
+              login shell bits inherited from the original shell.
+
+zsh -c "...": runs the script from the command line, neither
+              login nor interactive, runs only zshenv
+
+zsh -s file:  runs file, neither login nor interactive, runs only
+              zshenv
+
+./my_script:  assuming a zsh shebang at the top of the file, is
+              exactly like running "zsh -s ./my_script"
+
+ssh myserver ./my_script: this is also neither interactive nor
+                          a login shell, runs only zshenv
+
+tmux:         When using a terminal multiplexer, the shells spawned
+              in individual tabs/panes/windows controlled by the
+              multiplexer are started as login shells.
+
+Your zshenv, because it runs for every shell, should contain things
+you need to be available in every session no matter how it is
+started. You might need to use this file to set up homebrew or
+interpreter selectors like pyenv or rvm if you'll be running
+non-interactive scripts that need a particular interpreter.
+
+Your zprofile can be used for setting things you need interactively,
+particularly PATH modifications, that will be needed for further
+initialization.
+
+Your zlogin should be used for login shell things that depend on
+common interactive shell initialization in zshrc. The zlogin
+scripts are run last when logging in, and so are good for launching
+things like terminal multiplexers (tmux, screen, zellij).
+

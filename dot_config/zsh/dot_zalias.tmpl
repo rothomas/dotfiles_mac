@@ -1,0 +1,5 @@
+export DOTFILE=zalias
+debug_enabled && start="$(timestamp)"
+eval "$(zsh_bundles zalias)"
+debug_enabled && profile_end "${DOTFILE}"
+

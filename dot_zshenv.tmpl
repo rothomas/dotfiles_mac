@@ -1,31 +1,4 @@
-# WARNING: Any changes you make to PATH here will be overwritten by Darwin's
-#          /etc/zprofile, which is executed after this. Set up paths as needed
-#          here for prerequisites, but expect that you'll need to make the
-#          same changes again later. Recommend using your own .zprofile, which
-#          runs before your .zshrc.
-
-# Make sure that utilities that can respect a .config dir see it (tmux, notably).
 export XDG_CONFIG_HOME="$HOME/.config"
-
-# Store zsh dotfiles (apart from this one) in a directory instead of HOME
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-
-
-export DISPLAY=localhost:0.0 
-export SSH_KEY_PATH="~/.ssh/id_rsa"
-
-{{ if eq .chezmoi.os "linux" -}}
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-{{ end -}}
-{{ if eq .chezmoi.os "darwin" -}}
-eval "$(/usr/local/bin/brew shellenv)"
-{{ end }}
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-eval "$(pyenv init -)"
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+source "${XDG_CONFIG_HOME}/zsh/.zshenv"
 

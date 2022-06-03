@@ -1,0 +1,42 @@
+eval "$START_PROFILE"
+
+alias path="${HOME}/bin/path"
+eval "$(path init)"
+
+# Install zsh's bash completion script support.
+autoload bashcompinit
+bashcompinit
+
+export DISPLAY=localhost:0.0
+
+alias -g path="${HOME}/bin/path"
+
+alias interactive="[[ "$-" =~ 'i' ]]"
+
+# Let IDEs declare themselves so we can shut off some fancy
+# features that might not work in the IDE's shell window.
+export IDE_TERMINAL=0
+function is_ide() { [[ "${IDE_TERMINAL}" != '0' ]] }
+function in_ide() { IDE_TERMINAL='1' }
+
+# OH-MY-ZSH PLUGIN ARRAY
+# This is in common instead of the omz config because
+# other bundles won't need to know if the OMZ bundle is
+# enabled in order to add plugins.
+# The base array only contains the git plugin.
+export OMZ_PLUGINS=(git)
+# Use omz_plugin to add new plugins in other modules.
+function omz_plugin() {
+  OMZ_PLUGINS+=("${1}")
+}
+
+# OH-MY-ZSH THEME
+# Set a default theme bundled with OMZ. Other bundles may
+# change this (see p10k).
+export OMZ_THEME=agnoster
+function set_omz_theme() {
+  OMZ_THEME="${1}"
+}
+
+eval "$END_PROFILE"
+

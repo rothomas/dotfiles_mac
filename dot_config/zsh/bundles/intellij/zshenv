@@ -1,0 +1,7 @@
+eval "$START_PROFILE"
+
+[[ "${TERMINAL_EMULATOR}" == "JetBrains-JediTerm" ]] && in_ide
+[[ ! -z "${INTELLIJ_ENVIRONMENT_READER}" ]] && in_ide
+
+eval "$END_PROFILE"
+

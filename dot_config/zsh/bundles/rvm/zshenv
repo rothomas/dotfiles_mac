@@ -1,0 +1,4 @@
+eval "$START_PROFILE"
+source "$HOME/.rvm/scripts/rvm"
+eval "$END_PROFILE"
+

@@ -1,0 +1,10 @@
+eval "$START_PROFILE"
+
+function is_tmux() { [[ ! -z "${TMUX_SESSION}" ]] }
+
+if ! is_ide && ! is_tmux; then
+  eval "$(tmux-wrapper)"
+fi
+
+eval "$END_PROFILE"
+

@@ -1,0 +1,5 @@
+eval "$START_PROFILE"
+# Load the complete environment with shell integration.
+eval "$(pyenv init -)"
+eval "$END_PROFILE"
+

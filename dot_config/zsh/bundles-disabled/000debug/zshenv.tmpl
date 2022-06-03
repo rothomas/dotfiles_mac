@@ -1,0 +1,9 @@
+{{- $date := "date" -}}
+{{- if eq $.chezmoi.os "darwin" -}}
+{{-   $date = "/usr/local/bin/gdate" -}}
+{{- endif -}}
+export START_PROFILE='start="$({{ $date }} +%s%N)"; printf "${(%):-%x}: "'
+export END_PROFILE='end="$({{ $date }} +%s%N)"; printf "%.3f\n" $(bc <<< "scale=3; ($end-$start)/1000000000")'
+eval "${START_PROFILE}"
+eval "${END_PROFILE}"
+

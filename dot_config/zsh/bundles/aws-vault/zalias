@@ -1,0 +1,11 @@
+eval "$START_PROFILE"
+
+alias -g ldev='local-developer'
+alias -g lprod='legacy-staging-terraform'
+alias -g lstaging='legacy-staging-terraform'
+
+alias avet='MFA_TOKEN=$(id_mfa) AWS_ROLE=$1 ave -t $MFA_TOKEN $AWS_ROLE -- $@'
+alias avlt='MFA_TOKEN=$(id_mfa) AWS_ROLE=$1 avl -t $MFA_TOKEN $AWS_ROLE'
+
+eval "$END_PROFILE"
+

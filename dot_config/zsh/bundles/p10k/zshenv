@@ -1,0 +1,4 @@
+eval "$START_PROFILE"
+set_omz_theme 'powerlevel10k/powerlevel10k'
+eval "$END_PROFILE"
+

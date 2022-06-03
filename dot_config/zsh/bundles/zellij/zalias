@@ -1,0 +1,4 @@
+eval "$START_PROFILE"
+alias zellij="${HOME}/bin/zellij-wrapper"
+eval "$END_PROFILE"
+

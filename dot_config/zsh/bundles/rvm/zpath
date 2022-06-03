@@ -1,0 +1,10 @@
+eval "$START_PROFILE"
+
+ruby="$(rvm current)"
+eval "$(path prepend "${HOME}/.rvm/bin")"
+eval "$(path prepend "${HOME}/.rvm/rubies/${ruby}/bin")"
+eval "$(path prepend "${HOME}/.rvm/gems/${ruby}@global/bin")"
+eval "$(path prepend "${HOME}/.rvm/gems/${ruby}/bin")"
+
+eval "$END_PROFILE"
+

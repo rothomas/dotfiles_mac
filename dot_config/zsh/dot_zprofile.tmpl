@@ -1,7 +1,10 @@
-{{ if eq .chezmoi.os "linux" -}}
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-{{ end -}}
-{{ if eq .chezmoi.os "darwin" -}}
-eval "$(/usr/local/bin/brew shellenv)"
-{{ end }}
+export DOTFILE="zprofile"
+
+debug_enabled && start="$(timestamp)"
+
+eval "$(zsh_bundles zprofile)"
+export FROM_DOTFILE="${DOTFILE}"
+source "${XDG_CONFIG_HOME}/zsh/.zpath"
+
+debug_enabled && profile_end "${DOTFILE}"
 

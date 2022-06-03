@@ -1,0 +1,5 @@
+export DOTFILE="zlogout"
+debug_enabled && start="$(timestamp)"
+eval "$(zsh_bundles zlogout)"
+debug_enabled && profile_end "${DOTFILE}"
+

@@ -1,0 +1,6 @@
+eval "$START_PROFILE"
+
+alias docker-compose="docker compose"
+
+eval "$END_PROFILE"
+
