@@ -1,4 +1,6 @@
 debug_enabled && start="$(timestamp)"
+alias path="${HOME}/bin/path"
 eval "$(zsh_bundles zpath)"
+unalias path
 (debug_enabled && profile_end "zpath") || true
 
