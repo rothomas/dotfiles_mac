@@ -1,7 +1,27 @@
-export DOTFILE="zshrc"
+export DOTFILE="zshenv"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export ZSH_BUNDLES="${XDG_CONFIG_HOME}/zsh/bundles"
+alias debug_enabled="[[ -f \"${ZSH_BUNDLES}/000debug/zshenv\" ]]"
+alias timestamp="/usr/local/bin/gdate +'%s%N'"
+function profile_end() {
+  local end="$(timestamp)"
+  delta="$(bc <<< "scale=3; ($end-$start)/1000000000")"
+  printf "Total ${1}: %.3fs\n" "$delta"
+}
+
 debug_enabled && start="$(timestamp)"
-eval "$(zsh_bundles zshrc)"
-source "${XDG_CONFIG_HOME}/zsh/.zalias"
+
+export TZ="America/Denver"
+export COLORTERM=truecolor
+function zsh_bundles() { find "${ZSH_BUNDLES}" -name "${1}" | sort | xargs -I X echo "source X" }
+
+alias is_interactive="[[ -o interactive ]]"
+alias is_login="[[ -o login ]]"
+
+eval "$(zsh_bundles zshenv)"
+export FROM_DOTFILE="${DOTFILE}"
+source "${XDG_CONFIG_HOME}/zsh/.zpath"
+
 debug_enabled && profile_end "${DOTFILE}"
 # If debug is not enabled, reset the status code to 0
 # so we don't start the shell with an error code.
