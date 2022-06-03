@@ -1,10 +1,21 @@
 eval "$START_PROFILE"
 
-ruby="$(rvm current)"
-eval "$(path prepend "${HOME}/.rvm/bin")"
-eval "$(path prepend "${HOME}/.rvm/rubies/${ruby}/bin")"
-eval "$(path prepend "${HOME}/.rvm/gems/${ruby}@global/bin")"
-eval "$(path prepend "${HOME}/.rvm/gems/${ruby}/bin")"
+rvm_path=''
+if [[ -f "/usr/local/rvm/scripts/rvm" ]]; then
+  rvm_path="/usr/local/rvm/scripts/rvm"
+elif [[ -f "${HOME}/.rvm/scripts/rvm" ]]; then
+  rvm_path="${HOME}/.rvm/scripts/rvm"
+fi
+
+if [[ ! -z "${rvm_path}" ]]; then
+  source "${rvm_path}"
+
+  ruby="$(rvm current)"
+  eval "$(path prepend "${HOME}/.rvm/bin")"
+  eval "$(path prepend "${HOME}/.rvm/rubies/${ruby}/bin")"
+  eval "$(path prepend "${HOME}/.rvm/gems/${ruby}@global/bin")"
+  eval "$(path prepend "${HOME}/.rvm/gems/${ruby}/bin")"
+fi
 
 eval "$END_PROFILE"
 
