@@ -1,4 +1,4 @@
-debug_enabled && start="$(timestamp)"
+is_debug && dotfile_start="$(timestamp)"
 eval "$(zsh_bundles zlogout)"
-(debug_enabled && profile_end "zlogout") || true
+is_debug && echo "Total zlogout: $(duration_since $dotfile_start)" || true
 

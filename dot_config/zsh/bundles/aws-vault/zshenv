@@ -1,7 +1,3 @@
-eval "$START_PROFILE"
-
 export AWS_VAULT_PL_MFA=inline
 omz_plugin zsh-aws-vault
-
-eval "$END_PROFILE"
 

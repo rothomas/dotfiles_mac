@@ -1,4 +1,28 @@
-debug_enabled && start="$(timestamp)"
+is_debug && dotfile_start="$(timestamp)"
+
+function cleanup_alias() {
+  if type -a "${1}" &> /dev/null; then
+    unalias "${1}"
+  fi
+}
+
+function cleanup_function() {
+  if type -a "${1}" &> /dev/null; then
+    unset -f "${1}"
+  fi
+}
+
+function cleanup_variable() {
+  if [[ ! -z "${1}" ]]; then
+    unset -v "${1}"
+  fi
+}
+
 eval "$(zsh_bundles zcleanup)"
-(debug_enabled && profile_end "zcleanup") || true
+
+is_debug && echo "Total zcleanup: $(duration_since $dotfile_start)" || true
+
+clenup_function "cleanup_alias"
+cleanup_function "cleanup_variable"
+cleanup_function "cleanup_function"
 

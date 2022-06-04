@@ -1,3 +1,0 @@
-eval "$START_PROFILE"
-eval "$END_PROFILE"
-

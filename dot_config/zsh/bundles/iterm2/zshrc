@@ -1,4 +1,2 @@
-eval "$START_PROFILE"
 source "${ZSH_BUNDLES}/iterm2/.iterm2_shell_integration.zsh"
-eval "$END_PROFILE"
 

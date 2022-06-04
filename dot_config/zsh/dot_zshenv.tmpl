@@ -2,34 +2,46 @@
 {{- if eq $.chezmoi.os "darwin" -}}
 {{-   $date = "/usr/local/bin/gdate" -}}
 {{- end -}}
-eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export ZSH_BUNDLES="${XDG_CONFIG_HOME}/zsh/bundles"
-alias debug_enabled="[[ -f \"${ZSH_BUNDLES}/000debug/zshenv\" ]]"
+
+alias is_debug="[[ -n $ZSH_DEBUG ]]"
+alias is_interactive="[[ -o interactive ]]"
+alias is_login="[[ -o login ]]"
+alias is_batch="! is_interactive && ! is_login"
 alias timestamp="{{ $date }} +'%s%N'"
-function profile_end() {
-  local end="$(timestamp)"
+
+is_debug && dotfile_start="$(timestamp)"
+
+eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
+
+function duration_since() {
+  local start="${1}" end="$(timestamp)"
   delta="$(bc <<< "scale=3; ($end-$start)/1000000000")"
-  printf "Total ${1}: %.3fs\n" "$delta"
+  printf "%.3fs" "$delta"
 }
 
-debug_enabled && start="$(timestamp)"
+function include_bundle_script() {
+  if is_debug; then
+    echo "printf \"Including ${1}...\""
+    echo "fragment_start=\"$(timestamp)\""
+  fi
+  echo "source ${1}"
+  if is_debug; then
+    echo "echo \" $(duration_since \$fragment_start)\""
+  fi
+}
 
 export TZ="America/Denver"
 export COLORTERM=truecolor
-function zsh_bundles() { find "${ZSH_BUNDLES}" -name "${1}" | sort | xargs -I X echo "source X" }
+function zsh_bundles() {
+  find "${ZSH_BUNDLES}" -name "${1}" | sort | xargs include_bundle_script
+}
 
-alias is_interactive="[[ -o interactive ]]"
-alias is_login="[[ -o login ]]"
-
-export DOTFILE="zshenv"
-source "${XDG_CONFIG_HOME}/zsh/.zpath"
-unset DOTFILE
+DOTFILE="zshenv" source "${XDG_CONFIG_HOME}/zsh/.zpath"
 
 eval "$(zsh_bundles zshenv)"
-(debug_enabled && profile_end "zshenv") || true
+is_debug && echo "Total zshenv: $(duration_since $dotfile_start)" || true
 
-if [[ ! is_interactive ]]; then
-  source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
-fi
+is_batch && source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
 

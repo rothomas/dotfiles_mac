@@ -1,4 +1,2 @@
-eval "$START_PROFILE"
 export NVM_DIR="$HOME/.nvm"
-eval "$END_PROFILE"
 

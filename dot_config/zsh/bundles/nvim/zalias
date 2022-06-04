@@ -1,4 +1,2 @@
-eval "$START_PROFILE"
 alias vi=nvim
-eval "$END_PROFILE"
 

@@ -1,5 +1,3 @@
-eval "$START_PROFILE"
 # Load only the paths, not the shell integration.
 eval "$(pyenv init --path)"
-eval "$END_PROFILE"
 

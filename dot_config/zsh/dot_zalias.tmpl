@@ -1,4 +1,4 @@
-debug_enabled && start="$(timestamp)"
+is_debug && dotfile_start="$(timestamp)"
 eval "$(zsh_bundles zalias)"
-(debug_enabled && profile_end "zalias") || true
+is_debug && echo "Total zalias: $(duration_since $dotfile_start)" || true
 

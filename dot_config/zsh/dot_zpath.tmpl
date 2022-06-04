@@ -1,6 +1,6 @@
-debug_enabled && start="$(timestamp)"
+is_debug && dotfile_start="$(timestamp)"
 alias path="${HOME}/bin/path"
 eval "$(zsh_bundles zpath)"
 unalias path
-(debug_enabled && profile_end "zpath") || true
+is_debug && echo "Total zpath ($DOTFILE): $(duration_since $dotfile_start)" || true
 

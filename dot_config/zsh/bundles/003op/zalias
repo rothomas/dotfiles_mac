@@ -1,4 +1,3 @@
-eval "$START_PROFILE"
 function op_formswift_id() {
   op account ls | grep '^formswift ' | sed 's/.* //'
 }
@@ -22,5 +21,4 @@ function id_mfa() {
     aws_record | jq -r "${JQ_MFA_SELECTOR}" | tr -d "\n"
   fi
 }
-eval "$END_PROFILE"
 

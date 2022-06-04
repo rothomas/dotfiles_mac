@@ -1,4 +1,2 @@
-eval "$START_PROFILE"
 export JQ_MFA_SELECTOR='.fields[] | select(.type == "OTP").totp'
-eval "$END_PROFILE"
 

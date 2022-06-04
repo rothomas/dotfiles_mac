@@ -1,4 +1,2 @@
-eval "$START_PROFILE"
 omz_plugin zsh-autosuggestions
-eval "$END_PROFILE"
 
