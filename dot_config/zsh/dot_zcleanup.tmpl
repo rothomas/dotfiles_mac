@@ -22,7 +22,7 @@ eval "$(zsh_bundles zcleanup)"
 
 is_debug && echo "Total zcleanup: $(duration_since $dotfile_start)" || true
 
-clenup_function "cleanup_alias"
+cleanup_function "cleanup_alias"
 cleanup_function "cleanup_variable"
 cleanup_function "cleanup_function"
 
