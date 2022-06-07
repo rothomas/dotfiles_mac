@@ -5,34 +5,35 @@
 export XDG_CONFIG_HOME="${HOME}/.config"
 export ZSH_BUNDLES="${XDG_CONFIG_HOME}/zsh/bundles"
 
-alias is_debug="[[ -n $ZSH_DEBUG ]]"
-alias is_interactive="[[ -o interactive ]]"
-alias is_login="[[ -o login ]]"
-alias is_batch="! is_interactive && ! is_login"
-alias timestamp="{{ $date }} +'%s%N'"
+alias is_debug='[[ -n "${ZSH_DEBUG}" ]]'
+alias is_interactive='[[ -o interactive ]]'
+alias is_login='[[ -o login ]]'
+alias is_batch='! (is_interactive || is_login)'
 
-is_debug && dotfile_start="$(timestamp)"
+is_debug && dotfile_start="$({{ $date }} +'%s%N')"
 
-eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
-
-function duration_since() {
-  local start="${1}" end="$(timestamp)"
-  delta="$(bc <<< "scale=3; ($end-$start)/1000000000")"
-  printf "%.3fs" "$delta"
-}
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 export TZ="America/Denver"
 export COLORTERM=truecolor
+
 function zsh_bundles() {
   for script in "${(@f)"$(find "${ZSH_BUNDLES}" -name "${1}" | sort)"}"
   {
-    if is_debug; then
-      echo "printf \"Including ${script}\""
-      echo "fragment_start=\"$(timestamp)\""
+    if is_debug; then cat <<EOF
+printf "Including \${script}"
+start="\$(date +'%s%N')"
+EOF
     fi
+
     echo "source \"${script}\""
-    if is_debug; then
-      echo "echo \"$(duration_since \"$fragment_start\")\""
+
+    if is_debug; then cat <<EOF
+end="\$({{ $date }} +'%s%N')"
+delta_ns="\$(bc <<< "\${end}-\${start}")"
+delta_s="\$(bc <<< "scale=3; \$delta_ns/1000000000")"
+printf ' %.3fs\\n' "\${delta_s}"
+EOF
     fi
   }
 }
@@ -40,7 +41,12 @@ function zsh_bundles() {
 DOTFILE="zshenv" source "${XDG_CONFIG_HOME}/zsh/.zpath"
 
 eval "$(zsh_bundles zshenv)"
-is_debug && echo "Total zshenv: $(duration_since $dotfile_start)" || true
+if is_debug; then
+  dotfile_end="$({{ $date }} +'%s%N')"
+  delta_ns="$(bc <<< "${dotfile_end}-${dotfile_start}")"
+  delta_s="$(bc <<< "scale=3; ${delta_ns}/1000000000")"
+  printf "Total zshenv: %.3fs\n" "${delta_s}"
+fi
 
 is_batch && source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
 
