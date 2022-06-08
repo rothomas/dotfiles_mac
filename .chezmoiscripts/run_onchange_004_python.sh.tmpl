@@ -2,24 +2,27 @@
 
 >&2 echo "Installing Python"
 
-export CPPFLAGS="-I{{ $.brew_install_location }}/include/openssl"
-export LDFLAGS="-L{{ $.brew_install_location }}/lib"
-
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
+
+export CC="$(brew --prefix gcc)/bin/gcc-11"
+export CFLAGS="$(pkg-config --cflags libffi)"
+export LDFLAGS="$(pkg-config --libs libffi)"
+pyenv install --verbose 3.10.0
+
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 
 if ! pyenv versions | grep -sqF "{{ $.version.python2 }}"; then
-  pyenv install {{ $.version.python2 }}
+  pyenv install --verbose {{ $.version.python2 }}
 fi
 
 if ! pyenv versions | grep -sqF "{{ $.version.python3 }}"; then
-  pyenv install {{ $.version.python3 }}
+  pyenv install --verbose {{ $.version.python3 }}
 fi
 
 pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
 
 {{ range $.package.pip }}
-  pip3 install .
+  pip3 install {{ . }}
 {{ end }}
 
