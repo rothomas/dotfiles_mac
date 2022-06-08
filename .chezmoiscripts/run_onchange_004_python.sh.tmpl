@@ -2,6 +2,9 @@
 
 >&2 echo "Installing Python"
 
+export CPPFLAGS="-I{{ $.brew_install_location }}/include"
+export LDFLAGS="-L{{ $.brew_install_location }}/lib"
+
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
