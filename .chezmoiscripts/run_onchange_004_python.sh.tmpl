@@ -2,7 +2,7 @@
 
 >&2 echo "Installing Python"
 
-export CPPFLAGS="-I{{ $.brew_install_location }}/include"
+export CPPFLAGS="-I{{ $.brew_install_location }}/include/openssl"
 export LDFLAGS="-L{{ $.brew_install_location }}/lib"
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
