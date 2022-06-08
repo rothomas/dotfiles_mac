@@ -1,4 +1,3 @@
-{{ if not (eq $.chezmoi.username "root") -}}
 #!/usr/bin/env bash
 
 >&2 echo "Installing Python"
@@ -20,6 +19,4 @@ pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
 {{ range $.package.pip }}
   pip3 install .
 {{ end }}
-
-{{- end }}
 
