@@ -16,5 +16,10 @@ if ! pyenv versions | grep -sqF "{{ $.version.python3 }}"; then
 fi
 
 pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
+
+{{ range $.package.pip }}
+  pip3 install .
+{{ end }}
+
 {{- end }}
 
