@@ -1,5 +1,0 @@
-{{ if eq .chezmoi.os "darwin" -}}                                                                                                           
-${HOME}/.nvm/versions/node/$(nvm current)/bin:/bin:/sbin:/usr/bin:/usr/games:/usr/sbin:/usr/local/bin:/usr/local/games:/usr/local/sbin:/snap/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/go/bin:${HOME}/.cargo/bin:${HOME}/.rvm/bin
-{{ else }}
-${HOME}/.nvm/versions/node/$(nvm current)/bin:/bin:/sbin:/usr/bin:/usr/games:/usr/sbin:/usr/local/bin:/usr/local/games:/usr/local/sbin:/snap/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/go/bin:${HOME}/.cargo/bin:${HOME}/.rvm/bin
-{{ end }}

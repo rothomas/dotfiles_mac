@@ -4,29 +4,29 @@
 {{- end -}}
 
 # Get the name of the script that called this one (less the leading dot)
-caller="$(echo "$(basename "$functrace")" | cut -d':' -f1 | sed 's/^\.//')"
+caller=="$(basename "$(echo "${functrace}" | cut -d' ' -f1 | cut -d':' -f1)" | sed 's/^\.//')"
 
 if is_debug; then
+  echo "Evaluating bundle scripts for ${caller}:"
   dotfile_start="$({{ $date }} +'%s%N')"
 fi
 
 for script in "${(@f)"$(find "${ZSH_BUNDLES}" -name "${caller}" | sort)"}"
 {
-  if is_debug; then cat <<EOF
-printf "Including \${script}"
-start="\$({{ $date }} +'%s%N')"
-EOF
+eval "$(cat <<EOF
+  if is_debug; then
+    printf "Including ${script}"
+    start="\$({{ $date }} +'%s%N')"
   fi
-
-  echo "source \"${script}\""
-
-  if is_debug; then cat <<EOF
-end="\$({{ $date }} +'%s%N')"
-delta_ns="\$(bc <<< "\${end}-\${start}")"
-delta_s="\$(bc <<< "scale=3; \$delta_ns/1000000000")"
-printf ' %.3fs\\n' "\${delta_s}"
-EOF
+  source "\${script}"
+  if is_debug; then
+    end="\$({{ $date }} +'%s%N')"
+    delta_ns="\$(bc <<< "\${end}-\${start}")"
+    delta_s="\$(bc <<< "scale=3; \$delta_ns/1000000000")"
+    printf ' %.3fs\\n' "\${delta_s}"
   fi
+EOF
+)"
 }
 
 if is_debug; then

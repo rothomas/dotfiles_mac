@@ -9,7 +9,7 @@ alias is_interactive='[[ -o interactive ]]'
 alias is_login='[[ -o login ]]'
 alias is_batch='! (is_interactive || is_login)'
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$({{ $brew_install_location}}/bin/brew shellenv)"
 
 source "${ZSH_CONFIG_HOME}/.zpath"
 source "${ZSH_CONFIG_HOME}/zsh_bundle"
