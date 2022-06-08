@@ -4,7 +4,7 @@
 {{- end -}}
 
 # Get the name of the script that called this one (less the leading dot)
-caller=="$(basename "$(echo "${functrace}" | cut -d' ' -f1 | cut -d':' -f1)" | sed 's/^\.//')"
+caller="$(basename "$(echo "${functrace}" | cut -d' ' -f1 | cut -d':' -f1)" | sed 's/^\.//')"
 
 if is_debug; then
   echo "Evaluating bundle scripts for ${caller}:"
