@@ -1,4 +1,2 @@
-is_debug && dotfile_start="$(timestamp)"
-eval "$(zsh_bundles zlogout)"
-is_debug && echo "Total zlogout: $(duration_since $dotfile_start)" || true
+source "${ZSH_CONFIG_HOME}/zsh_bundle"
 

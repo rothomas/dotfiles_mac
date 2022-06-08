@@ -1,28 +1,37 @@
-is_debug && dotfile_start="$(timestamp)"
+dotfile="$(basename "${functrace}" | cut -d':' -f1 | sed 's/^\.//')"
 
-function cleanup_alias() {
-  if type -a "${1}" &> /dev/null; then
-    unalias "${1}"
-  fi
-}
+alias in_zprofile="[[ "${dotfile}" == 'zprofile' ]]"
+alias in_zshenv="[[ "${dotfile}" == 'zshenv' ]]"
+alias in_zshrc="[[ "${dotfile}" == 'zshrc' ]]"
 
-function cleanup_function() {
-  if type -a "${1}" &> /dev/null; then
-    unset -f "${1}"
-  fi
-}
+alias should_run_zprofile="(is_login && in_zprofile)"
+alias should_run_zshenv="(is_batch && in_zshenv)"
+alias should_run_zshrc="(is_interactive && ! is_login && in_zshrc)"
+alias should_run="(should_run_zprofile || should_run_zshenv || should_run_zshrc)"
 
-function cleanup_variable() {
-  if [[ ! -z "${1}" ]]; then
-    unset -v "${1}"
-  fi
-}
+if should_run; then
+  function cleanup_alias() {
+    if type -a "${1}" &> /dev/null; then
+      unalias "${1}"
+    fi
+  }
 
-eval "$(zsh_bundles zcleanup)"
+  function cleanup_function() {
+    if type -a "${1}" &> /dev/null; then
+      unset -f "${1}"
+    fi
+  }
 
-is_debug && echo "Total zcleanup: $(duration_since $dotfile_start)" || true
+  function cleanup_variable() {
+    if [[ ! -z "${1}" ]]; then
+      unset -v "${1}"
+    fi
+  }
 
-cleanup_function "cleanup_alias"
-cleanup_function "cleanup_variable"
-cleanup_function "cleanup_function"
+  source "${ZSH_CONFIG_HOME}/zsh_bundle"
+
+  unset -f "cleanup_alias"
+  unset -f "cleanup_variable"
+  unset -f "cleanup_function"
+fi
 

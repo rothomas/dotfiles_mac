@@ -1,8 +1,4 @@
-is_debug && dotfile_start="$(timestamp)"
-eval "$(zsh_bundles zshrc)"
-is_debug && echo "Total zshrc: $(duration_since $dotfile_start)" || true
-
-source "${XDG_CONFIG_HOME}/zsh/.zalias"
-
-is_login && source "${XDG_CONFIG_HOME}/zsh/.zcleanup" || true
+source "${ZSH_CONFIG_HOME}/zsh_bundle"
+source "${ZSH_CONFIG_HOME}/.zalias"
+source "${ZSH_CONFIG_HOME}/.zcleanup"
 

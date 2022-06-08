@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ "${ITERM_PROFILE}" == "no-tmux" ]]; then
+  exit 0
+fi
+
 HOSTNAME="$(hostname -s)"
 TMUX="$(sed 's/tmux is //' <<< $(type -p tmux))"
 if [[ -z "${SESSION_ID}" ]]; then
@@ -8,13 +12,19 @@ else
   export TMUX_SESSION="${SESSION_ID}"
 fi
 
-if [[ ! -z "${TERM_SESSION_ID}" ]]; then
-  TMUX_FLAGS='-CC'
-fi
+# Uncomment to use iTerm2's tmux control mode.
+#if [[ ! -z "${TERM_SESSION_ID}" ]]; then
+#  TMUX_FLAGS='-CC'
+#fi
 
-if tmux has -t "${TMUX_SESSION}"; then
-  echo "exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} attach -t \"${TMUX_SESSION}\""
+>&2 printf "tmux session: ${TMUX_SESSION}"
+if tmux has -t "${TMUX_SESSION}" &> /dev/null; then
+  >&2 echo " (attaching)"
+  command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} attach -t \"${TMUX_SESSION}\""
 else
-  echo "exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} new -s \"${TMUX_SESSION}\""
+  >&2 echo " (creating)"
+  command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} new -s \"${TMUX_SESSION}\""
 fi
+>&2 echo "${command}"
+echo "${command}"
 

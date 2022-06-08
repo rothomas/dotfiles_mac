@@ -1,52 +1,17 @@
-{{- $date := "date" -}}
-{{- if eq $.chezmoi.os "darwin" -}}
-{{-   $date = "/usr/local/bin/gdate" -}}
-{{- end -}}
 export XDG_CONFIG_HOME="${HOME}/.config"
-export ZSH_BUNDLES="${XDG_CONFIG_HOME}/zsh/bundles"
+export ZSH_CONFIG_HOME="${XDG_CONFIG_HOME}/zsh"
+export ZSH_BUNDLES="${ZSH_CONFIG_HOME}/bundles"
+export TZ="America/Denver"
+export COLORTERM=truecolor
 
 alias is_debug='[[ -n "${ZSH_DEBUG}" ]]'
 alias is_interactive='[[ -o interactive ]]'
 alias is_login='[[ -o login ]]'
 alias is_batch='! (is_interactive || is_login)'
 
-is_debug && dotfile_start="$({{ $date }} +'%s%N')"
-
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-export TZ="America/Denver"
-export COLORTERM=truecolor
-
-function zsh_bundles() {
-  for script in "${(@f)"$(find "${ZSH_BUNDLES}" -name "${1}" | sort)"}"
-  {
-    if is_debug; then cat <<EOF
-printf "Including \${script}"
-start="\$(date +'%s%N')"
-EOF
-    fi
-
-    echo "source \"${script}\""
-
-    if is_debug; then cat <<EOF
-end="\$({{ $date }} +'%s%N')"
-delta_ns="\$(bc <<< "\${end}-\${start}")"
-delta_s="\$(bc <<< "scale=3; \$delta_ns/1000000000")"
-printf ' %.3fs\\n' "\${delta_s}"
-EOF
-    fi
-  }
-}
-
-DOTFILE="zshenv" source "${XDG_CONFIG_HOME}/zsh/.zpath"
-
-eval "$(zsh_bundles zshenv)"
-if is_debug; then
-  dotfile_end="$({{ $date }} +'%s%N')"
-  delta_ns="$(bc <<< "${dotfile_end}-${dotfile_start}")"
-  delta_s="$(bc <<< "scale=3; ${delta_ns}/1000000000")"
-  printf "Total zshenv: %.3fs\n" "${delta_s}"
-fi
-
-is_batch && source "${XDG_CONFIG_HOME}/zsh/.zcleanup"
+source "${ZSH_CONFIG_HOME}/.zpath"
+source "${ZSH_CONFIG_HOME}/zsh_bundle"
+source "${ZSH_CONFIG_HOME}/.zcleanup"
 

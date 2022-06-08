@@ -1,4 +1,3 @@
-is_debug && dotfile_start="$(timestamp)"
-eval "$(zsh_bundles zalias)"
-is_debug && echo "Total zalias: $(duration_since $dotfile_start)" || true
+export DOTFILE="$(basename "${functrace}" | cut -d':' -f1 | sed 's/^\.//')"
+source "${ZSH_CONFIG_HOME}/zsh_bundle"
 

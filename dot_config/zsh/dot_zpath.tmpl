@@ -1,6 +1,8 @@
-is_debug && dotfile_start="$(timestamp)"
+export DOTFILE="$(basename "${(%):-%x}" | cut -d':' -f1 | sed 's/^\.//')"
+
 alias path="${HOME}/bin/path"
-eval "$(zsh_bundles zpath)"
+
+source "${ZSH_CONFIG_HOME}/zsh_bundle"
+
 unalias path
-is_debug && echo "Total zpath ($DOTFILE): $(duration_since $dotfile_start)" || true
 
