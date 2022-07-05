@@ -1,6 +1,7 @@
+eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 {{- $date := "date" -}}
 {{- if eq $.chezmoi.os "darwin" -}}
-{{-   $date = "/usr/local/bin/gdate" -}}
+{{-   $date = printf "%s/bin/gdate" $.brew_install_location -}}
 {{- end -}}
 
 # Get the name of the script that called this one (less the leading dot)
