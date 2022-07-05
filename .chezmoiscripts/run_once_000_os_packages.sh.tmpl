@@ -15,53 +15,50 @@
 
 cd
 
-{{- if eq $.chezmoi.osRelease.id "ubuntu"                                  }}
+{{- if eq $.chezmoi.os "linux"                                              }}
+{{-   if eq $.chezmoi.osRelease.id "ubuntu"                                 }}
 if command -v unminimize; then
   echo 'y' | unminimize
 fi
-{{- end                                                                     }}
+{{-   end                                                                   }}
 
-{{- if $.as_linuxbrew                                                       }}
+{{-   if $.as_linuxbrew                                                     }}
 ##############################################################################
 # SET UP LINUXBREW USER FOR HOMEBREW
 ##############################################################################
 adduser --group --system --gecos "Linuxbrew User" linuxbrew
-{{- end                                                                     }}
+{{-   end                                                                   }}
 
-{{- if eq $.package_manager "apk"                                           }}
+{{-   if eq $.package_manager "apk"                                         }}
 ##############################################################################
 # INSTALL APK PACKAGES
 ##############################################################################
 {{.sudo}}apk add --update bash {{ $packages | join " " }}
-{{- end                                                                     }}
+{{-   end                                                                   }}
 
-{{- if eq $.package_manager "apt"                                           }}
+{{-   if eq $.package_manager "apt"                                         }}
 ##############################################################################
 # INSTALL APT PACKAGES
 ##############################################################################
 {{.sudo}}apt-get -yq update
 {{.sudo}}apt-get -yqq install {{ $packages | join " " }}
-{{- end                                                                     }}
+{{-   end                                                                   }}
 
-{{- if eq $.package_manager "pacman"                                        }}
+{{-   if eq $.package_manager "pacman"                                      }}
 ##############################################################################
 # INSTALL PACMAN PACKAGES
 ##############################################################################
 {{.sudo}}pacman -Sy {{ $packages | join " " }}
-{{- end                                                                     }}
+{{-   end                                                                   }}
 
-{{- if eq $.package_manager "yum"                                           }}
+{{-   if eq $.package_manager "yum"                                         }}
 ##############################################################################
 # INSTALL YUM PACKAGES
 ##############################################################################
 {{.sudo}}yum groupinstall -y {{ $groups | join " " }}
 {{.sudo}}yum install -y {{ $packages | join " " }}
+{{-   end                                                                   }}
 {{- end                                                                     }}
-
-##############################################################################
-# INSTALL GPG KEYS
-##############################################################################
-gpg --recv-keys {{ .gpg_keys | join " " }}
 
 bash -s <<EOF
 ##############################################################################
