@@ -106,6 +106,7 @@ tic -xe {{ $.package.terminfo | join "," }} .installers/terminfo.src
 ##############################################################################
 # SET UP HOMEBREW FOR MAC OS
 ##############################################################################
+chmod 744 .installers/install_homebrew.sh
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                    }}
 
