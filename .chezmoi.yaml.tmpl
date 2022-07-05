@@ -181,16 +181,20 @@ data:
       - package: gradle
       - package: jq
       - package: lbzip2
+      - package: lzip
       - package: maven
       - package: mosh
       - package: nvim
       - package: openjdk
       - package: pipenv
       - package: pyenv
+      - package: readline
       - package: ripgrep
       - package: syncthing
         service: true
         use_system: true
+      - package: zip
+      - package: zlib
       - package: terraform@{{ $terraform_version }}
       - package: tmux
       - package: unzip

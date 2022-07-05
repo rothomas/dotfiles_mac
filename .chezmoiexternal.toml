@@ -6,7 +6,7 @@ url = "https://cache.agilebits.com/dist/1P/op2/pkg/v{{ .version.op_cli }}/op_lin
 exact = true
 refreshPeriod = "168h"
 
-{{- else if .chezmoi.os "darwin" -}}
+{{- else if eq .chezmoi.os "darwin" -}}
 
 [".config/bash/.iterm2_shell_integration.bash"]
 type = "file"
