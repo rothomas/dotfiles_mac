@@ -82,7 +82,7 @@ get_fullname() {
 install_chezmoi() {
   check_prerequisites
   chezmoi_script=`download chezmoi.io/get`
-  sh -c "${chezmoi_script}" -- init --verbose --apply rothomas
+  sh -c "${chezmoi_script}" -- init --use-builtin-git --verbose --apply rothomas
 }
 
 export CHEZMOI_FULLNAME=`get_fullname`
