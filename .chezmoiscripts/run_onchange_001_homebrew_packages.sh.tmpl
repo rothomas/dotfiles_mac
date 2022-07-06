@@ -2,11 +2,12 @@
 {{- $cask := index . "cask"                                                 -}}
 {{- $service := index . "service"                                           -}}
 {{- $use_system := index . "use_system"                                     -}}
+{{- $head := index . "head"                                                 -}}
 {{- if $use_system                                                          -}}
 if ! command -v {{ .package }} > /dev/null; then
 {{- end                                                                      }}
 if ! brew list -q {{ .package }} >& /dev/null; then
-  brew install {{if $cask}}--cask {{end}}{{ .package }}
+  brew install {{if $head}}--HEAD {{end}}{{if $cask}}--cask {{end}}{{ .package }}
 fi
 {{- if $service                                                              }}
 brew services start {{ .package }}
