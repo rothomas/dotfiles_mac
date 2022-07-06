@@ -60,7 +60,7 @@
 {{- if hasKey . "fullname"                                                                 -}}
 {{-   $fullname = .fullname                                                                -}}
 {{- else                                                                                   -}}
-{{-   $fullname = printf "full name []" | promptString                                     -}}
+{{-   $fullname = expandenv "full name [$CHEZMOI_FULLNAME]" | printf | promptString        -}}
 {{- end                                                                                    -}}
 
 data:

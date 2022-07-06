@@ -71,11 +71,24 @@ check_prerequisites() {
   fi
 }
 
+get_fullname() {
+  if [ "${PLATFORM}" = 'Darwin' ]; then
+    id -F  
+  elif [ "${PLATFORM}" = 'Linux' ]; then
+    getent passwd `whoami` | cut -d: -f5
+  fi
+}
+
 install_chezmoi() {
   check_prerequisites
   chezmoi_script=`download chezmoi.io/get`
   sh -c "${chezmoi_script}" -- init --verbose --apply rothomas
 }
 
-installed chezmoi || install_chezmoi
+export CHEZMOI_FULLNAME=`get_fullname`
+if installed chezmoi; then
+  chezmoi update --init
+else
+  install_chezmoi
+fi
 
