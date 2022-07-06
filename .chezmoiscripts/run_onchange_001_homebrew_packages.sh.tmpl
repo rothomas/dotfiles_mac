@@ -28,8 +28,11 @@ eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
 {{  range $.package.brew                                                    }}
 {{-   $if_os := index . "if_os"                                             }}
+{{-   $if_arch := index . "if_arch"                                         }}
 {{-   if or (not $if_os) (eq $if_os $.chezmoi.os)                           }}
-{{      template "brew_install" .                                           }}
+{{-     if or (not $if_arch) (eq $if_arch $.chezmoi.arch)                   }}
+{{        template "brew_install" .                                         }}
+{{-     end                                                                 }}
 {{-   end                                                                   }}
 {{- end                                                                     }}
 
