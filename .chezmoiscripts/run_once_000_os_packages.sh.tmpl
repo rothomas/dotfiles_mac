@@ -59,7 +59,14 @@ adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{.sudo}}yum install -y {{ $packages | join " " }}
 {{-   end                                                                   }}
 {{- else if eq $.chezmoi.os "darwin"                                        }}
-xcode-select --install
+touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress;
+PROD=$(softwareupdate -l |
+  grep "\*.*Command Line" |
+  head -n 1 | awk -F"*" '{print $2}' |
+  sed -e 's/^ *//' |
+  tr -d '\n')
+softwareupdate -i "$PROD" --verbose
+rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 {{- end                                                                     }}
 
 bash -s <<EOF
