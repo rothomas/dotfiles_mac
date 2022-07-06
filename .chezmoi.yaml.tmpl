@@ -61,6 +61,7 @@
 {{-   $fullname = .fullname                                                                -}}
 {{- else                                                                                   -}}
 {{-   $fullname = expandenv "full name [$CHEZMOI_FULLNAME]" | printf | promptString        -}}
+{{-   if eq $fullname "" }}{{ $fullname = env "CHEZMOI_FULLNAME" }}{{ end                  -}}
 {{- end                                                                                    -}}
 
 data:
