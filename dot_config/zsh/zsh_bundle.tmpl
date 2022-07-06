@@ -1,8 +1,9 @@
-eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 {{- $date := "date" -}}
 {{- if eq $.chezmoi.os "darwin" -}}
 {{-   $date = printf "%s/bin/gdate" $.brew_install_location -}}
 {{- end -}}
+
+eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
 # Get the name of the script that called this one (less the leading dot)
 caller="$(basename "$(echo "${functrace}" | cut -d' ' -f1 | cut -d':' -f1)" | sed 's/^\.//')"
