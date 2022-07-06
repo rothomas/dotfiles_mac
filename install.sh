@@ -81,14 +81,18 @@ get_fullname() {
 
 install_chezmoi() {
   check_prerequisites
+  >&2 echo "Prerequisites up-to-date. Downloading chezmoi install script."
   chezmoi_script=`download chezmoi.io/get`
+  >&2 echo "Running chezmoi install script."
   sh -c "${chezmoi_script}" -- init --use-builtin-git --verbose --apply rothomas
 }
 
 export CHEZMOI_FULLNAME=`get_fullname`
 if installed chezmoi; then
+  >&2 echo "Updating chezmoi..."
   chezmoi update --init
 else
+  >&2 echo "Bootstrapping chezmoi..."
   install_chezmoi
 fi
 
