@@ -39,3 +39,14 @@ eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
 {{ if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
 
+{{- if eq $.chezmoi.os "darwin"                              }}
+>&2 echo "Installing Mac App Store Packages"
+{{    range $.package.mas                                    }}
+{{-     $package_name := index . "package"                   }}
+{{-     $package_id := index . "id"                          }}
+if [[ ! -d "/Applications/{{ $package_name }}.app" ]]; then
+  mas install {{ $package_id }}
+fi
+{{-   end                                                    }}
+{{- end                                                      }}
+

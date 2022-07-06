@@ -58,6 +58,8 @@ adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{.sudo}}yum groupinstall -y {{ $groups | join " " }}
 {{.sudo}}yum install -y {{ $packages | join " " }}
 {{-   end                                                                   }}
+{{- else if eq $.chezmoi.os "darwin"                                        }}
+xcode-select --install
 {{- end                                                                     }}
 
 bash -s <<EOF
@@ -107,6 +109,8 @@ tic -xe {{ $.package.terminfo | join "," }} .installers/terminfo.src
 # SET UP HOMEBREW FOR MAC OS
 ##############################################################################
 chmod 744 .installers/install_homebrew.sh
+echo "Getting sudo access for homebrew. May require your password."
+sudo -v
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                    }}
 
