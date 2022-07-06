@@ -88,11 +88,14 @@ install_chezmoi() {
 }
 
 export CHEZMOI_FULLNAME=`get_fullname`
-if installed chezmoi; then
-  >&2 echo "Updating chezmoi..."
-  chezmoi update --init
-else
+if ! installed chezmoi; then
   >&2 echo "Bootstrapping chezmoi..."
   install_chezmoi
+elif [ ! -d ~/.local/share/chezmoi ]; then
+  >&2 echo "Initializing chezmoi..."
+  chezmoi init --use-builtin-git true --verbose --apply rothomas
+else
+  >&2 echo "Updating chezmoi..."
+  chezmoi update --init
 fi
 
