@@ -6,8 +6,8 @@
   exact = true
   refreshPeriod = "168h"
   ["bin/op".filter]
-    command = "tar"
-    args = ["--extract", "--file", "/dev/stdin", "--gzip", "--to-stdout", "op/op"]
+    command = "unzip"
+    args = ["-p", "/dev/stdin", "op"]
 
 {{- else if eq .chezmoi.os "darwin" -}}
 
