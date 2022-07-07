@@ -309,5 +309,6 @@ data:
       - "@commitlint/cli@{{ $commitlint_cli_version }}"
   permissions:
     - path: ./.config/op
-      permissions: "700"
+      initial: "755"
+      final: "700"
 

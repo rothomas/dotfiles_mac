@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
+# Reset permissions to default so that chezmoi doesn't prompt for overwrite.
 {{ range $.permissions }}
 {{   $path := index . "path" }}
-{{   $permissions := index . "permissions" }}
+{{   $permissions := index . "initial" }}
 chmod {{ $permissions }} {{ $path }}
 {{ end }}
 
