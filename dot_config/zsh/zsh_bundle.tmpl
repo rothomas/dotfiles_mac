@@ -13,7 +13,7 @@ if is_debug; then
   dotfile_start="$({{ $date }} +'%s%N')"
 fi
 
-if find "${ZSH_BUNDLES}" | grep "${caller}"; then
+if find "${ZSH_BUNDLES}" | grep -q "${caller}"; then
   for script in "${(@f)"$(find "${ZSH_BUNDLES}" -name "${caller}" | sort)"}"
   {
 eval "$(cat <<EOF
