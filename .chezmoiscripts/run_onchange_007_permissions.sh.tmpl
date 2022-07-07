@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+{{ range keys $.permissions }}
+{{   $permissions := index $.permissions . }}
+chmod {{ $permissions }} {{ . }}
+{{ end }}
+
