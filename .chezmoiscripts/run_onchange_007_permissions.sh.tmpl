@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 {{ range keys $.permissions }}
+{{   $path := . }}
 {{   $permissions := index $.permissions . }}
-chmod {{ $permissions }} {{ . }}
+echo "changing permissions for {{ $path }} to {{ $permissions }}"
+chmod {{ $permissions }} {{ $path }}
 {{ end }}
 
