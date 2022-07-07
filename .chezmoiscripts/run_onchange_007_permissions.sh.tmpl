@@ -3,7 +3,6 @@
 {{ range $.permissions }}
 {{   $path := index . "path" }}
 {{   $permissions := index . "permissions" }}
-echo "changing permissions for {{ $path }} to {{ $permissions }}"
 chmod {{ $permissions }} {{ $path }}
 {{ end }}
 
