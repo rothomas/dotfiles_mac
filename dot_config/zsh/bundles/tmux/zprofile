@@ -54,8 +54,13 @@ theme_megalodon=coral
 theme_knox=crimson
 theme_default=coral
 
-tmux_theme="$(eval "echo \$theme_$(hostname -s)")"
+host=$(hostname -s | tr '[:upper:]' '[:lower:]')
+
+tmux_theme="$(eval "echo \$theme_${host}")"
 [[ -z "$tmux_theme" ]] && tmux_theme="$theme_default"
+
+echo "Theme for host ${host} is ${tmux_theme}"
+
 export TMUX_THEME_BRIGHT="$(eval "echo \$${tmux_theme}_bright")"
 export TMUX_THEME_DARK="$(eval "echo \$${tmux_theme}_dark")"
 export TMUX_THEME_DIM="$(eval "echo \$${tmux_theme}_dim")"
