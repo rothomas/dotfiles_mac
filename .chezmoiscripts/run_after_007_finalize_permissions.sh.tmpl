@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-{{ range $.permissions }}
-{{   $path := index . "path" }}
-{{   $permissions := index . "final" }}
-chmod {{ $permissions }} {{ $path }}
-{{ end }}
-
