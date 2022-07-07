@@ -1,6 +1,72 @@
+eval "$START_PROFILE"
+
+# COLOR THEMES
+aqua_bright="#0097cf"
+aqua_dark="#2c3e45"
+aqua_dim="#397085"
+aqua_light="#8ec1d4"
+aqua_neutral="#558ea3"
+
+coral_bright="#ff7550"
+coral_dark="#4a352f"
+coral_dim="#c9765f"
+coral_light="#fcdfd7"
+coral_neutral="#bda7a0"
+
+crimson_bright="#a31414"
+crimson_dark="#4a0f0f"
+crimson_dim="#802222"
+crimson_light="#f9bdbd"
+crimson_neutral="#a13838"
+
+forest_bright="#148046"
+forest_dark="#24302a"
+forest_dim="#294536"
+forest_light="#b6e3cb"
+forest_neutral="#5ba87f"
+
+gold_bright="#bf9e0a"
+gold_dark="#5a5a00"
+gold_dim="#8c8c00"
+gold_light="#f1f1b1"
+gold_neutral="#9e9e00"
+
+midnight_bright="#1002d4"
+midnight_dark="#040030"
+midnight_dim="#1e1b40"
+midnight_light="#8077fc"
+midnight_neutral="#080163"
+
+periwinkle_bright="#5075ff"
+periwinkle_dark="#2f354a"
+periwinkle_dim="#5f76c9"
+periwinkle_light="#d7dffc"
+periwinkle_neutral="#a0a7bd"
+
+violet_bright="#580abf"
+violet_dark="#2f2f4a"
+violet_dim="#5f5f80"
+violet_light="#d7d7fc"
+violet_neutral="#a0a7bd"
+
+theme_trilby=midnight
+theme_megalodon=coral
+theme_knox=crimson
+theme_default=coral
+
+tmux_theme="$(eval "echo \$theme_$(hostname -s)")"
+[[ -z "$tmux_theme" ]] && tmux_theme="$theme_default"
+export TMUX_THEME_BRIGHT="$(eval "echo \$${tmux_theme}_bright")"
+export TMUX_THEME_DARK="$(eval "echo \$${tmux_theme}_dark")"
+export TMUX_THEME_DIM="$(eval "echo \$${tmux_theme}_dim")"
+export TMUX_THEME_LIGHT="$(eval "echo \$${tmux_theme}_light")"
+export TMUX_THEME_NEUTRAL="$(eval "echo \$${tmux_theme}_neutral")"
+
 function is_tmux() { [[ ! -z "${TMUX_SESSION}" ]] }
 
 if ! is_ide && ! is_tmux; then
   eval "$(tmux-wrapper)"
 fi
+
+eval "$END_PROFILE"
 
