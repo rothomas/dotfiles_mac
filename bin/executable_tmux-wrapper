@@ -1,30 +1,43 @@
 #!/usr/bin/env bash
 
-if [[ "${ITERM_PROFILE}" == "no-tmux" ]]; then
+HOSTNAME="$(hostname -s | tr '[:upper:]' '[:lower:]' )"
+
+# PROFILE SELECTION
+if [[ -n "${TERM_SESSION_ID}" ]]; then
+  # iTerm2
+  if [[ "${ITERM_PROFILE}" == "Default" ]]; then
+    EXEC_PROFILE="tmux"
+  else
+    profile="$(echo "${ITERM_PROFILE}" | tr '[:upper:]' '[:lower:]')"
+    if grep -q "^Host ${profile}" ~/.ssh/config; then
+      EXEC_PROFILE="mosh"
+      MOSH_HOST="${profile}"
+    else
+      EXEC_PROFILE="bare"
+    fi
+  fi
+  # Uncomment to use iTerm2's tmux control mode.
+  # TMUX_FLAGS='-CC'
+fi
+
+case "${EXEC_PROFILE}" in
+"mosh")
+  command="exec mosh --server=\"SESSION_ID=${HOSTNAME} mosh-server\" -- ${MOSH_HOST}"
+  ;;
+"tmux")
+  TMUX_SESSION="${SESSION_ID:-$HOSTNAME}"
+  >&2 printf "tmux session: ${TMUX_SESSION}"
+  if tmux has -t "${TMUX_SESSION}" &> /dev/null; then
+    command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} attach -t \"${TMUX_SESSION}\""
+  else
+    command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} new -s \"${TMUX_SESSION}\""
+  fi
+  ;;
+*)
   exit 0
-fi
+  ;;
+esac
 
-HOSTNAME="$(hostname -s)"
-TMUX="$(sed 's/tmux is //' <<< $(type -p tmux))"
-if [[ -z "${SESSION_ID}" ]]; then
-  export TMUX_SESSION="${HOSTNAME}"
-else
-  export TMUX_SESSION="${SESSION_ID}"
-fi
-
-# Uncomment to use iTerm2's tmux control mode.
-#if [[ ! -z "${TERM_SESSION_ID}" ]]; then
-#  TMUX_FLAGS='-CC'
-#fi
-
->&2 printf "tmux session: ${TMUX_SESSION}"
-if tmux has -t "${TMUX_SESSION}" &> /dev/null; then
-  >&2 echo " (attaching)"
-  command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} attach -t \"${TMUX_SESSION}\""
-else
-  >&2 echo " (creating)"
-  command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} new -s \"${TMUX_SESSION}\""
-fi
 >&2 echo "${command}"
 echo "${command}"
 
