@@ -123,7 +123,7 @@ sudo -v
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                    }}
 
-{{-   if eq $.as_linuxbrew                                                  }}
+{{-   if $.as_linuxbrew                                                     }}
 ##############################################################################
 # SET UP HOMEBREW FOR LINUX (as linuxbrew: cannot install as root)
 ##############################################################################
