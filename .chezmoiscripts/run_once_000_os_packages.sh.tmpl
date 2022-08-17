@@ -26,7 +26,7 @@ fi
 ##############################################################################
 # SET UP LINUXBREW USER FOR HOMEBREW
 ##############################################################################
-adduser --group --system --gecos "Linuxbrew User" linuxbrew
+{{.sudo}}adduser --group --system --gecos "Linuxbrew User" linuxbrew
 {{-   end                                                                   }}
 
 {{-   if eq $.package_manager "apk"                                         }}
@@ -123,7 +123,7 @@ sudo -v
 echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
 {{- else                                                                    }}
 
-{{-   if eq $.chezmoi.username "root"                                       }}
+{{-   if eq $.as_linuxbrew                                                  }}
 ##############################################################################
 # SET UP HOMEBREW FOR LINUX (as linuxbrew: cannot install as root)
 ##############################################################################
@@ -131,7 +131,7 @@ printf 'eval \x22\x24\x28{{$.brew_install_location}}/bin/brew shellenv\x29\x22' 
 mkdir -p "{{$.brew_install_location}}/share/zsh"
 chmod -R go-w "{{$.brew_install_location}}/share/zsh"
 chown -R linuxbrew:linuxbrew /home/linuxbrew
-su - linuxbrew -s /bin/bash <<< "brew update --force"
+{{.sudo}}su - linuxbrew -s /bin/bash <<< "brew update --force"
 
 {{-  else                                                                   }}
 ##############################################################################

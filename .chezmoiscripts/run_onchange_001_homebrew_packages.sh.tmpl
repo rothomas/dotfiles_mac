@@ -21,8 +21,8 @@ fi
 
 >&2 echo "Installing Homebrew Packages"
 
-{{- if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}
-su - linuxbrew -s /bin/bash <<EOS
+{{- if $.as_linuxbrew }}
+{{.sudo}}su - linuxbrew -s /bin/bash <<EOS
 {{- end }}
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
@@ -37,7 +37,7 @@ eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 {{-   end                                                                   }}
 {{- end                                                                     }}
 
-{{ if and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}EOS{{ end }}
+{{ if $.as_linuxbrew }}EOS{{ end }}
 
 {{- if eq $.chezmoi.os "darwin"                              }}
 >&2 echo "Installing Mac App Store Packages"
