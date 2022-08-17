@@ -69,7 +69,7 @@ data:
   email:    {{ $email }}
   fullname: {{ $fullname }}
   package_manager: {{ $package_manager | quote }}
-  as_linuxbrew: {{ and (eq $.chezmoi.os "linux") (eq $.chezmoi.username "root") }}
+  as_linuxbrew: {{ and (eq $.chezmoi.os "linux") (eq $brew_user "linuxbrew") }}
   brew_user: {{ $brew_user | quote }}
   brew_install_location: {{ $brew_install_location | quote }}
   shell: "zsh"
