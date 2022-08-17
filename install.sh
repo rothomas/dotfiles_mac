@@ -75,7 +75,7 @@ get_fullname() {
   if [ "${PLATFORM}" = 'Darwin' ]; then
     id -F  
   elif [ "${PLATFORM}" = 'Linux' ]; then
-    getent passwd `whoami` | cut -d: -f5
+    getent passwd `whoami` | cut -d: -f5 | sed 's/,*$//'
   fi
 }
 
