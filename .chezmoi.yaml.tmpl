@@ -26,7 +26,7 @@
 {{- $brew_install_location := ""                                                           -}}
 {{- if eq .chezmoi.os "linux"                                                              -}}
 {{-   $brew_user = .chezmoi.username                                                       -}}
-{{-   if eq $brew_user "root"                                                              -}}
+{{-   if or (eq $brew_user "root") (eq (env "SUDOER") "1")                                 -}}
 {{-     $brew_user = "linuxbrew"                                                           -}}
 {{-   end                                                                                  -}}
 {{-   $brew_install_location = $brew_user | printf "/home/%s/.linuxbrew"                   -}}
