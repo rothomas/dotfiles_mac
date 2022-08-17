@@ -51,6 +51,22 @@ download() {
   fi
 }
 
+has_sudo() {
+  local user=`whoami`
+  if [ "${user}" = 'root' ]; then
+    return 0
+  elif ! installed sudo; then
+    return 0
+  else
+    >&2 echo "Getting sudo access for ${user} (password may be required)"
+    sudo -v
+  fi
+}
+
+if has_sudo; then
+  export SUDOER=1
+fi
+
 check_prerequisites() {
   # Darwin definitely has curl available.
   [ "${PLATFORM}" = 'Darwin' ] && return 0
@@ -62,12 +78,15 @@ check_prerequisites() {
   installed wget && return 0
   # Can only install curl if we know the package manager.
   [ -z "${package_manager}" ] && "Cannot identify package manager for ${ID}. Cannot continue."
-  # If we're running as root, sudo doesn't need to exist.
-  if [ `whoami` = 'root' ]; then /bin/sh -c "${install_curl}"
-  # If we're running as non-root we'll need to be sudoers.
-  elif installed sudo && sudo -v; then sudo /bin/sh -c "${install_curl}"
-  # Out of options.
-  else fail "Cannot satisfy prerequisites. You must have curl or wget installed, or run as root, or be able to sudo."
+  if [ `whoami` = 'root' ]; then
+    # If we're running as root, sudo doesn't need to exist.
+    /bin/sh -c "${install_curl}"
+  elif [ "${SUDOER}" = 1 ]; then
+    # If we're running as non-root we'll need to be sudoers.
+    sudo /bin/sh -c "${install_curl}"
+  else
+    # Out of options.
+    fail "Cannot satisfy prerequisites. You must have curl or wget installed, or run as root, or be able to sudo."
   fi
 }
 
