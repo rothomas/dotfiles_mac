@@ -157,10 +157,6 @@ data:
       - path: ".nvm"
         url: "https://github.com/nvm-sh/nvm.git"
         ref: "v{{ $nvm_version }}"
-      - path: {{ $brew_install_location | quote }}
-        if_os: "linux"
-        url: "https://github.com/Homebrew/brew"
-        ref: "master"
       - path: ".local/share/nvim/site/pack/packer/start/packer.nvim"
         url: "https://github.com/wbthomason/packer.nvim"
         ref: "master"

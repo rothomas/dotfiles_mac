@@ -1,0 +1,19 @@
+#!/bin/sh
+
+####################################################
+# DOWNLOAD CURL PACKAGES
+####################################################
+{{- range $.package.curl                          }}
+{{-   $if_os := index . "if_os"                   }}
+{{-   $path  := index . "path"                    }}
+{{-   $url   := index . "url"                     }}
+{{-   $unzip := index . "unzip"                   }}
+{{-   if or (not $if_os) (eq $.chezmoi.os $if_os) }}
+
+curl --create-dirs -LSso "{{$path}}" "{{$url}}"
+{{-     if $unzip                                 }}
+gunzip "{{$path}}"
+{{-     end                                       }}
+
+{{   end                                         -}}
+{{ end                                           -}}

@@ -1,0 +1,21 @@
+#!/bin/sh
+{{- if and (eq $.chezmoi.os "linux") (eq $.package_manager "pacman") -}}
+{{-   $packages := list                                              -}}
+{{-   $groups   := list                                              -}}
+{{-   if eq $.chezmoi.os "linux"                                     -}}
+{{-     $package_list := index $.package $.package_manager           -}}
+{{-     range $package_list                                          -}}
+{{-       if index . "group"                                         -}}
+{{-         $groups = append $groups .package                        -}}
+{{-       else                                                       -}}
+{{-         $packages = append $packages .package                    -}}
+{{-       end                                                        -}}
+{{-     end                                                          -}}
+{{-   end                                                             }}
+
+##############################################################################
+# INSTALL PACMAN PACKAGES
+##############################################################################
+{{.sudo}}pacman -Sy {{ $packages | join " " }}
+
+{{ end                                                               -}}

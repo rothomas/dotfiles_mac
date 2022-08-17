@@ -1,0 +1,12 @@
+#!/bin/sh
+{{- if and (eq $.chezmoi.os "linux") (not $.as_linuxbrew) }}
+
+############################################################
+# SET UP HOMEBREW FOR LINUX (as {{ $.chezmoi.username }})
+############################################################
+git clone "https://github.com/Homebrew/brew" "{{$.brew_install_location}}"
+eval "$({{$.brew_install_location}}/bin/brew shellenv)"
+brew update --force
+
+{{   end                                                 -}}
+{{ end                                                   -}}

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+####################################################
+# INSTALL GIT REPOS
+####################################################
+{{- range $.package.git                           }}
+{{-   $if_os := index . "if_os"                   }}
+{{-   $path  := index . "path"                    }}
+{{-   $ref   := index . "ref"                     }}
+{{-   $url   := index . "url"                     }}
+{{-   if or (not $if_os) (eq $.chezmoi.os $if_os) }}
+
+if [[ -d "{{$path}}/.git" ]]; then
+  cd "{{$path}}"
+  git pull
+  cd -
+else
+  mkdir -p "$(dirname {{$path}})"
+  git clone -b "{{$ref}}" "{{$url}}" "{{$path}}"
+fi
+
+{{  end                                          -}}
+{{ end                                           -}}
