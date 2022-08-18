@@ -9,8 +9,8 @@ function should_load_nvm() {
   return 1
 }
 
-if should_load_nvm && [ -s "${NVM_DIR}/nvm.sh" ]; then
+if should_load_nvm && [ -s "{{ $.brew_install_location }}/opt/nvm.sh" ]; then
   # This loads nvm
-  source "${NVM_DIR}/nvm.sh"
+  source "{{ $.brew_install_location }}/opt/nvm.sh"
 fi
 
