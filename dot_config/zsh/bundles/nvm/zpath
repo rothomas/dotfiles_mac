@@ -9,8 +9,8 @@ function should_load_nvm() {
   return 1
 }
 
-if should_load_nvm && [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
+if should_load_nvm && [ -s "${NVM_DIR}/nvm.sh" ]; then
   # This loads nvm
-  source "/usr/local/opt/nvm/nvm.sh"
+  source "${NVM_DIR}/nvm.sh"
 fi
 
