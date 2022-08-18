@@ -21,6 +21,9 @@ if [[ -n "${TERM_SESSION_ID}" ]]; then
 elif [[ -n "${SESSION_ID}" ]]; then
   # Called session (e.g., from blink)
   EXEC_PROFILE="tmux"
+elif [[ -n "${GNOME_TERMINAL_SERVICE}" ]]; then
+  # Gnome Terminal
+  EXEC_PROFILE="tmux"
 fi
 
 case "${EXEC_PROFILE}" in
