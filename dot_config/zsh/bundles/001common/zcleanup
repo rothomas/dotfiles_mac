@@ -1,10 +1,10 @@
 cleanup_variable IDE_TERMINAL
 cleanup_variable OMZ_PLUGINS
 cleanup_variable OMZ_THEME
-cleanup_alias in_ide
-cleanup_alias is_ide
-cleanup_alias omz_plugin
-cleanup_alias set_omz_theme
-cleanup_alias path
+#cleanup_alias in_ide
+#cleanup_alias is_ide
+#cleanup_alias omz_plugin
+#cleanup_alias set_omz_theme
+#cleanup_alias path
 true
 
