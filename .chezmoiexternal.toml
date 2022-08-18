@@ -1,13 +1,13 @@
 {{ if eq .chezmoi.os "linux" -}}
 
-["bin/op"]
-  type = "file"
-  url = "https://cache.agilebits.com/dist/1P/op2/pkg/v{{ .version.op_cli }}/op_linux_amd64_v{{ .version.op_cli }}.zip"
-  exact = true
-  refreshPeriod = "168h"
-  ["bin/op".filter]
-    command = "unzip"
-    args = ["-p", "/dev/stdin", "op"]
+#["bin/op"]
+#  type = "file"
+#  url = "https://cache.agilebits.com/dist/1P/op2/pkg/v{{ .version.op_cli }}/op_linux_amd64_v{{ .version.op_cli }}.zip"
+#  exact = true
+#  refreshPeriod = "168h"
+#  ["bin/op".filter]
+#    command = "unzip"
+#    args = ["-p", "/dev/stdin", "op"]
 
 {{- else if eq .chezmoi.os "darwin" -}}
 
