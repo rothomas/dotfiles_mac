@@ -9,3 +9,8 @@
 
 [init]
 	templatedir = ~/.git-templates
+
+[safe]
+  directory = {{ $.brew_install_location }}
+  directory = {{ $.brew_install_location }}/Library/Taps/homebrew/homebrew-core
+  directory = {{ $.brew_install_location }}/Library/Taps/homebrew/homebrew-services
