@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 {{- if $.as_linuxbrew }}
-su - linuxbrew -s /bin/bash <<EOS
+{{$.sudo}}su - linuxbrew -s /bin/bash <<EOS
 {{- else }}
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 {{- end }}
