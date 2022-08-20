@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
 
+# Request the updated certificate from LetsEncrypt. This uses
+# DNS-01 auth, so be prepared to add the supplied _acme-challenge
+# TXT record in the hosted domain and wait for DNS refresh before
+# proceeding.
 sudo certbot certonly --manual --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory -d "*.sharedsecret.com" -d sharedsecret.com
+
+# After updating the certificate, update the tls-rancher-ingress
+# secret to match.
+sudo microk8s.kubectl -n cattle-system create secret tls tls-rancher-ingress --save-config --cert=/etc/letsencrypt/live/sharedsecret.com-0001/fullchain.pem --key=/etc/letsencrypt/live/sharedsecret.com-0001/privkey.pem --dry-run=client -o yaml | microk8s.kubectl apply -f -
 
