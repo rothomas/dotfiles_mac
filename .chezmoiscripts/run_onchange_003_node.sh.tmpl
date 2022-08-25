@@ -2,11 +2,8 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
-export NVM_DIR="$HOME/.nvm"
-. "${NVM_DIR}/nvm.sh"
-
-nvm install {{ .version.node }}
-nvm alias default v{{ .version.node }}
+fnm install {{ .version.node }}
+fnm use {{ .version.node }}
 
 {{ range .package.npm }}
 npm install -g {{ . }}
