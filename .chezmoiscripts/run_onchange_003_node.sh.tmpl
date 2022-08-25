@@ -2,6 +2,7 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
+eval "$(fnm env)"
 fnm install {{ .version.node }}
 fnm use {{ .version.node }}
 
