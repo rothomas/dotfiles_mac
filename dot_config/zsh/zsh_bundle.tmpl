@@ -13,6 +13,13 @@ if is_debug; then
   dotfile_start="$({{ $date }} +'%s%N')"
 fi
 
+if [[ -f "${ZSH_CONFIG_PRIVATE}/${caller}" ]]; then
+  if is_debug; then
+    echo "  ${ZSH_CONFIG_PRIVATE}/${caller}"
+  fi
+  source "${ZSH_CONFIG_PRIVATE}/${caller}"
+fi
+
 if find "${ZSH_BUNDLES}" | grep -q "${caller}"; then
   for script in "${(@f)"$(find "${ZSH_BUNDLES}" -name "${caller}" | sort)"}"
   {
