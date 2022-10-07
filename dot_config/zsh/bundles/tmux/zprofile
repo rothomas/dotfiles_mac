@@ -54,6 +54,7 @@ theme_trilby2=midnight
 theme_megalodon=coral
 theme_knox=crimson
 theme_eutheria=gold
+theme_frankie=gold
 theme_default=coral
 
 host=$(hostname -s | tr '[:upper:]' '[:lower:]')
