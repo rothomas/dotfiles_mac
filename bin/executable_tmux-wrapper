@@ -10,8 +10,8 @@ if [[ -n "${TERM_SESSION_ID}" ]]; then
   else
     profile="$(echo "${ITERM_PROFILE}" | tr '[:upper:]' '[:lower:]')"
     if grep -q "^Host ${profile}" ~/.ssh/config; then
-      EXEC_PROFILE="mosh"
-      MOSH_HOST="${profile}"
+      EXEC_PROFILE="ssh"
+      SSH_HOST="${profile}"
     else
       EXEC_PROFILE="bare"
     fi
@@ -29,6 +29,9 @@ fi
 case "${EXEC_PROFILE}" in
 "mosh")
   command="exec mosh --server=\"SESSION_ID=${HOSTNAME} mosh-server\" -- ${MOSH_HOST}"
+  ;;
+"ssh")
+  command="exec SESSION_ID=${HOSTNAME} ssh -o SendEnv=SESSION_ID ${SSH_HOST}"
   ;;
 "tmux")
   TMUX_SESSION="${SESSION_ID:-$HOSTNAME}"
