@@ -31,7 +31,7 @@ case "${EXEC_PROFILE}" in
   command="exec mosh --server=\"SESSION_ID=${HOSTNAME} mosh-server\" -- ${MOSH_HOST}"
   ;;
 "ssh")
-  command="exec bash -c \"SESSION_ID=${HOSTNAME} ssh -${SSH_HOST}\""
+  command="exec bash -c \"SESSION_ID=${HOSTNAME} ssh ${SSH_HOST}\""
   ;;
 "tmux")
   TMUX_SESSION="${SESSION_ID:-$HOSTNAME}"
