@@ -31,11 +31,10 @@ case "${EXEC_PROFILE}" in
   command="exec mosh --server=\"SESSION_ID=${HOSTNAME} mosh-server\" -- ${MOSH_HOST}"
   ;;
 "ssh")
-  command="exec SESSION_ID=${HOSTNAME} ssh -o SendEnv=SESSION_ID ${SSH_HOST}"
+  command="exec bash -c \"SESSION_ID=${HOSTNAME} ssh -${SSH_HOST}\""
   ;;
 "tmux")
   TMUX_SESSION="${SESSION_ID:-$HOSTNAME}"
-  >&2 printf "tmux session: ${TMUX_SESSION}"
   if tmux has -t "${TMUX_SESSION}" &> /dev/null; then
     command="exec env TMUX_SESSION=\"${TMUX_SESSION}\" tmux ${TMUX_FLAGS} attach -t \"${TMUX_SESSION}\""
   else
@@ -47,6 +46,5 @@ case "${EXEC_PROFILE}" in
   ;;
 esac
 
->&2 echo "${command}"
 echo "${command}"
 
