@@ -2,8 +2,7 @@
 {{- if eq $.chezmoi.os "darwin" -}}
 {{-   $date = printf "%s/bin/gdate" $.brew_install_location -}}
 {{- end -}}
-
-eval "$({{$.brew_install_location}}/bin/brew shellenv)"
+{{- $bc = printf "%s/bin/bc" $.brew_install_location -}}
 
 # Get the name of the script that called this one (less the leading dot)
 caller="$(basename "$(echo "${functrace}" | cut -d' ' -f1 | cut -d':' -f1)" | sed 's/^\.//')"
@@ -31,8 +30,8 @@ eval "$(cat <<EOF
   source "\${script}"
   if is_debug; then
     end="\$({{ $date }} +'%s%N')"
-    delta_ns="\$(bc <<< "\${end}-\${start}")"
-    delta_s="\$(bc <<< "scale=3; \$delta_ns/1000000000")"
+    delta_ns="\$({{ $bc }} <<< "\${end}-\${start}")"
+    delta_s="\$({{ $bc }} <<< "scale=3; \$delta_ns/1000000000")"
     printf ' %.3fs\\n' "\${delta_s}"
   fi
 EOF
@@ -42,8 +41,8 @@ fi
 
 if is_debug; then
   dotfile_end="$({{ $date }} +'%s%N')"
-  delta_ns="$(bc <<< "${dotfile_end} - ${dotfile_start}")"
-  delta_s="$(bc <<< "scale=3; ${delta_ns} / 1000000000")"
+  delta_ns="$({{ $bc }} <<< "${dotfile_end} - ${dotfile_start}")"
+  delta_s="$({{ $bc }} <<< "scale=3; ${delta_ns} / 1000000000")"
   printf "Total ${caller}: %.3fs\n" "${delta_s}"
 fi
 
