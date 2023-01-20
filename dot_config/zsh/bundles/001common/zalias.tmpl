@@ -1,2 +1,4 @@
-eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
+if [ -z "${HOMEBREW_PREFIX}" ]; then
+  eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
+fi
 
