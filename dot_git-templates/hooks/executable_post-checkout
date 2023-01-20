@@ -42,16 +42,18 @@ if [[ ! -z "${DOT_GIT}" ]]; then
   export HOOKS_DEST="${DOT_GIT}/hooks"
   # By convention, any one-time initialization content lives in $REPO/.git-init-repo and is
   # kicked off by the initialize script inside. Install hooks and such from here.
-  if [[ -d "${REPO}/.git-init-repo" ]] && [[ -x "${REPO}/.git-init-repo/initialize" ]] && prompt; then
-    ${REPO}/.git-init-repo/initialize
-  else
-    cat <<EOF
+  if [[ -d "${REPO}/.git-init-repo" ]] && [[ -x "${REPO}/.git-init-repo/initialize" ]]; then
+    if prompt; then
+      ${REPO}/.git-init-repo/initialize
+    else
+      cat <<EOF
 ===========================================================================================
  Skipping automatic initialization of the repo.
  After examining the contents, you may initialize manually by running
  ${REPO}/.git-init-repo/initialize
 ===========================================================================================
 EOF
+    fi
   fi
 fi
 
