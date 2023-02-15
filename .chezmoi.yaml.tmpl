@@ -10,15 +10,17 @@
 {{-   $terraform_version      := "0.12"                                                    -}}
 
 {{- $package_manager := ""                                                                 -}}
-{{- if eq .chezmoi.osRelease.id "centos" "fedora" "rhel"                                   -}}
-{{-   $package_manager = "yum"                                                             -}}
-{{- else if eq .chezmoi.osRelease.id "debian" "ubuntu"                                     -}}
-{{-   $package_manager = "apt"                                                             -}}
-{{- else if eq .chezmoi.osRelease.id "alpine"                                              -}}
-{{-   $package_manager = "apk"                                                             -}}
-{{- else if eq .chezmoi.osRelease.id "arch"                                                -}}
-{{-   fail "Arch Linux does not currently support Homebrew."                               -}}
-{{-   $package_manager = "pacman"                                                          -}}
+{{- if eq .chezmoi.os "linux"                                                              -}}
+{{-   if eq .chezmoi.osRelease.id "centos" "fedora" "rhel"                                 -}}
+{{-     $package_manager = "yum"                                                           -}}
+{{-   else if eq .chezmoi.osRelease.id "debian" "ubuntu"                                   -}}
+{{-     $package_manager = "apt"                                                           -}}
+{{-   else if eq .chezmoi.osRelease.id "alpine"                                            -}}
+{{-     $package_manager = "apk"                                                           -}}
+{{-   else if eq .chezmoi.osRelease.id "arch"                                              -}}
+{{-     fail "Arch Linux does not currently support Homebrew."                             -}}
+{{-     $package_manager = "pacman"                                                        -}}
+{{-   end                                                                                  -}}
 {{- end                                                                                    -}}
 
 {{- $brew_user := ""                                                                       -}}
