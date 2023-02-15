@@ -4,7 +4,7 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
-export CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl)"
+export CONFIGURE_OPTS="-with-openssl=$(brew --prefix openssl)"
 export CPPFLAGS="-I$(brew --prefix openssl)/include"
 export LDFLAGS="-L$(brew --prefix openssl)/lib"
 
