@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-eval "$({{$.brew_install_location}}/bin/brew shellenv)"
-
-##############################################################################
-# INSTALL GPG KEYS
-##############################################################################
-gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys {{ .gpg_keys | join " " }}
-

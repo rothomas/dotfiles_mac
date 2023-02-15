@@ -2,17 +2,7 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
-{{ $rvm_location := "${HOME}/.rvm"    }}
-{{ if eq $.chezmoi.username "root"    }}
-groupadd rvm
-usermod -aG rvm root
-{{  $rvm_location = "/usr/local/rvm" }}
-{{ end }}
-
-\bash -s stable < .installers/install_rvm.sh
-
-source "{{$rvm_location}}/scripts/rvm"
-
-rvm install {{ $.version.ruby | quote }}
-rvm --default use {{ $.version.ruby | quote }}
+asdf plugin add ruby
+asdf install ruby {{ $.version.ruby }}
+asdf global ruby {{ $.version.ruby }}
 

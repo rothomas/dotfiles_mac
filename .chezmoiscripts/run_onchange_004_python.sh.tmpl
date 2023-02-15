@@ -4,23 +4,27 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
-export CC="$(brew --prefix gcc)/bin/gcc-11"
-export CFLAGS="$(pkg-config --cflags libffi)"
-export LDFLAGS="$(pkg-config --libs libffi)"
-pyenv install --verbose 3.10.0
+#export CC="$(brew --prefix gcc)/bin/gcc-11"
+#export CFLAGS="$(pkg-config --cflags libffi)"
+#export LDFLAGS="$(pkg-config --libs libffi)"
 
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
+asdf plugin add python
+asdf install python {{ $.version.python2 }}
+asdf install python {{ $.version.python3 }}
+asdf global python {{ $.version.python3 }}
 
-if ! pyenv versions | grep -sqF "{{ $.version.python2 }}"; then
-  pyenv install --verbose {{ $.version.python2 }}
-fi
+#export PATH="$HOME/.pyenv/bin:$PATH"
+#eval "$(pyenv init --path)"
 
-if ! pyenv versions | grep -sqF "{{ $.version.python3 }}"; then
-  pyenv install --verbose {{ $.version.python3 }}
-fi
+#if ! pyenv versions | grep -sqF "{{ $.version.python2 }}"; then
+#  pyenv install --verbose {{ $.version.python2 }}
+#fi
 
-pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
+#if ! pyenv versions | grep -sqF "{{ $.version.python3 }}"; then
+#  pyenv install --verbose {{ $.version.python3 }}
+#fi
+
+#pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
 
 {{ range $.package.pip }}
   pip3 install {{ . }}

@@ -1,3 +1,0 @@
-# Load only the paths, not the shell integration.
-eval "$(pyenv init --path)"
-

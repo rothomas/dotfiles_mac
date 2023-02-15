@@ -5,7 +5,6 @@
 {{-   $op_cli_version         := "2.6.1"                                                   -}}
 {{-   $python2_version        := "2.7.18"                                                  -}}
 {{-   $python3_version        := "3.9.10"                                                  -}}
-{{-   $rvm_version            := "stable"                                                  -}}
 {{-   $ruby_version           := "ruby-3.0.4"                                              -}}
 {{-   $terraform_version      := "0.12"                                                    -}}
 
@@ -72,9 +71,6 @@ data:
   brew_install_location: {{ $brew_install_location | quote }}
   shell: "zsh"
   sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo "{{end}}
-  gpg_keys:
-    - "409B6B1796C275462A1703113804BB82D39DC0E3"
-    - "7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
   version:
     commitlint_cli: {{ $commitlint_cli_version | quote }}
     node:           {{ $node_version           | quote }}
@@ -82,7 +78,6 @@ data:
     op_cli:         {{ $op_cli_version         | quote }}
     python2:        {{ $python2_version        | quote }}
     python3:        {{ $python3_version        | quote }}
-    rvm:            {{ $rvm_version            | quote }}
     ruby:           {{ $ruby_version           | quote }}
     terraform:      {{ $terraform_version      | quote }}
   package:
@@ -136,8 +131,6 @@ data:
       - path: ".installers/install_homebrew.sh"
         if_os: "darwin"
         url: "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
-      - path: ".installers/install_rvm.sh"
-        url: "https://get.rvm.io"
       - path: ".iterm2_shell_integration.zsh"
         url: "https://iterm2.com/shell_integration/zsh"
       - path: ".installers/terminfo.src.gz"
@@ -172,6 +165,7 @@ data:
       - iTerm2.app
       - tmux-256color
     brew:
+      - package: asdf
       - package: age
         use_system: true
       - package: svn
@@ -184,6 +178,8 @@ data:
       - package: fnm
       - package: gh
       - package: git
+      - package: gnupg
+        if_os: darwin
       - package: gradle
       - package: jq
       - package: lbzip2
@@ -192,10 +188,8 @@ data:
       - package: mosh
         head: true
       - package: nvim
-      - package: nvm
       - package: openjdk
       - package: pipenv
-      - package: pyenv
       - package: readline
       - package: ripgrep
       - package: syncthing

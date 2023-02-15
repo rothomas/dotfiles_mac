@@ -1,3 +1,0 @@
-# Load the complete environment with shell integration.
-eval "$(pyenv init -)"
-
