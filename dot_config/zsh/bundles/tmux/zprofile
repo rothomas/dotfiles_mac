@@ -49,13 +49,12 @@ violet_dim="#5f5f80"
 violet_light="#d7d7fc"
 violet_neutral="#a0a7bd"
 
-theme_trilby=midnight
-theme_trilby2=midnight
-theme_megalodon=coral
-theme_knox=crimson
-theme_eutheria=gold
-theme_frankie=gold
 theme_default=coral
+theme_frankie=gold
+theme_k79x12cv7g=violet
+theme_knox=crimson
+theme_ny=periwinkle
+theme_pt=forest
 
 host=$(hostname -s | tr '[:upper:]' '[:lower:]')
 
