@@ -5,6 +5,10 @@ HOSTNAME="$(hostname -s | tr '[:upper:]' '[:lower:]' )"
 # PROFILE SELECTION
 if [[ -n "${TERM_SESSION_ID}" ]]; then
   # iTerm2
+  SESSION_ADDRESS="$(echo $TERM_SESSION_ID | sed 's/:.*//' | sed 's/w0//' | sed 's/t0//' | sed 's/p0//')"
+  if [[ -n "${SESSION_ADDRESS}" ]]; then
+    HOSTNAME="${HOSTNAME}-${SESSION_ADDRESS}"
+  fi
   if [[ "${ITERM_PROFILE}" == "Default" ]]; then
     EXEC_PROFILE="tmux"
   else
