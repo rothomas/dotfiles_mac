@@ -8,10 +8,9 @@ export CONFIGURE_OPTS="-with-openssl=$(brew --prefix openssl)"
 export CPPFLAGS="-I$(brew --prefix openssl)/include"
 export LDFLAGS="-L$(brew --prefix openssl)/lib"
 
-asdf plugin add python
-asdf install python {{ $.version.python2 }}
-asdf install python {{ $.version.python3 }}
-asdf global python {{ $.version.python3 }}
+pyenv install {{ $.version.python2 }}
+pyenv install {{ $.version.python3 }}
+pyenv global {{ $.version.python2 }} {{ $.version.python3 }}
 
 {{ range $.package.pip }}
   pip3 install {{ . }}

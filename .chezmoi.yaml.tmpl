@@ -1,11 +1,11 @@
 {{-   $awscli_version         := "1.22.48"                                                 -}}
 {{-   $commitlint_cli_version := "16.2.4"                                                  -}}
-{{-   $node_version           := "16.10.0"                                                 -}}
+{{-   $node_version           := "20.5.0"                                                  -}}
 {{-   $npm_version            := "8.9.0"                                                   -}}
 {{-   $op_cli_version         := "2.6.1"                                                   -}}
 {{-   $python2_version        := "2.7.18"                                                  -}}
-{{-   $python3_version        := "3.9.10"                                                  -}}
-{{-   $ruby_version           := "3.0.4"                                              -}}
+{{-   $python3_version        := "3.11.4"                                                  -}}
+{{-   $ruby_version           := "3.2.2"                                                   -}}
 {{-   $terraform_version      := "0.12"                                                    -}}
 
 {{- $package_manager := ""                                                                 -}}
@@ -165,7 +165,6 @@ data:
       - iTerm2.app
       - tmux-256color
     brew:
-      - package: asdf
       - package: age
         use_system: true
       - package: svn
@@ -190,8 +189,12 @@ data:
       - package: mosh
         head: true
       - package: nvim
+      - package: nvm
       - package: openjdk
       - package: pipenv
+      - package: pyenv
+      - package: rbenv
+      - package: rbenv-gemset
       - package: readline
       - package: ripgrep
       - package: syncthing

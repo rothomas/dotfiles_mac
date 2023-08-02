@@ -2,9 +2,7 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
-asdf plugin add nodejs
-asdf install nodejs {{ .version.node }}
-asdf global nodejs {{ .version.node }}
+nvm install {{ .version.node }}
 
 {{ range .package.npm }}
 npm install -g {{ . }}
