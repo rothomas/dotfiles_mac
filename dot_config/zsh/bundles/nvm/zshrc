@@ -1,3 +1,2 @@
 source $(brew --prefix nvm)/nvm.sh
-source $(brew --prefix nvm)/bash_completion
 
