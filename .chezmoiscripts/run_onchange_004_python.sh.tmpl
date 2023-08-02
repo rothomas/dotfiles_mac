@@ -8,6 +8,9 @@ export CONFIGURE_OPTS="-with-openssl=$(brew --prefix openssl)"
 export CPPFLAGS="-I$(brew --prefix openssl)/include"
 export LDFLAGS="-L$(brew --prefix openssl)/lib"
 
+export PYENV_ROOT="${HOME}/.pyenv"
+eval "$(pyenv init -)"
+
 pyenv install {{ $.version.python2 }}
 pyenv install {{ $.version.python3 }}
 pyenv global {{ $.version.python2 }} {{ $.version.python3 }}

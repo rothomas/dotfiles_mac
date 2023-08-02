@@ -2,6 +2,7 @@
 
 eval "$({{$.brew_install_location}}/bin/brew shellenv)"
 
+eval "$(rbenv init - bash)"
 rbenv install {{ $.version.ruby }}
 rbenv global {{ $.version.ruby }}
 
