@@ -2,7 +2,7 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export ZSH_CONFIG_HOME="${XDG_CONFIG_HOME}/zsh"
 export ZSH_CONFIG_PRIVATE="${ZSH_CONFIG_HOME}/private"
 export ZSH_BUNDLES="${ZSH_CONFIG_HOME}/bundles"
-export TZ="America/Denver"
+export TZ="{{ index $.tz $.chezmoi.host }}"
 export COLORTERM=truecolor
 
 alias is_debug='[[ -n "${ZSH_DEBUG}" ]]'

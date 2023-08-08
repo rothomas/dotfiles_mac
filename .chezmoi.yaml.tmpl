@@ -71,6 +71,11 @@ data:
   brew_install_location: {{ $brew_install_location | quote }}
   shell: "zsh"
   sudo: {{if eq .chezmoi.username "root"}}""{{else}}"sudo "{{end}}
+  tz:
+    frankie: Europe/Lisbon
+    knox: Europe/Lisbon
+    ny: America/New_York
+    pt: Europe/Lisbon
   version:
     commitlint_cli: {{ $commitlint_cli_version | quote }}
     node:           {{ $node_version           | quote }}
