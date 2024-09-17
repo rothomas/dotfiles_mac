@@ -134,6 +134,7 @@ data:
       - zsh
     curl:
       - path: ".installers/install_homebrew.sh"
+        executable: true
         if_os: "darwin"
         url: "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
       - path: ".iterm2_shell_integration.zsh"
@@ -141,6 +142,9 @@ data:
       - path: ".installers/terminfo.src.gz"
         unzip: true
         url: "http://invisible-island.net/datafiles/current/terminfo.src.gz"
+      - path: ".installers/install_bun.sh"
+        executable: true
+        url: "https://bun.sh/install"
     git:
       - path: ".config/tmux/plugins/tpm"
         url: "https://github.com/tmux-plugins/tpm.git"
