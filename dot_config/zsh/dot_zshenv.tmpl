@@ -18,12 +18,12 @@ function debug_printf() {
 }
 
 function load_homebrew() {
-  debug_printf "Checking for homebrew."
+  debug_printf "Checking for homebrew.\n"
   if [[ -z "${HOMEBREW_PREFIX}" ]]; then
-    debug_printf "Loading homebrew at {{ $.brew_install_location }}"
+    debug_printf "Loading homebrew at {{ $.brew_install_location }}.\n"
     eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
   else
-    debug_printf "Homebrew is already loaded."
+    debug_printf "Homebrew is already loaded.\n"
   fi
 }
 
