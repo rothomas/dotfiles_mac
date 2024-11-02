@@ -43,6 +43,6 @@ if is_debug; then
   dotfile_end="$({{ $date }} +'%s%N')"
   delta_ns="$({{ $bc }} <<< "${dotfile_end} - ${dotfile_start}")"
   delta_s="$({{ $bc }} <<< "scale=3; ${delta_ns} / 1000000000")"
-  printf "Total ${caller}: %.3fs\n" "${delta_s}\n"
+  printf "Total ${caller}: %.3fs\n" "${delta_s}"
 fi
 
