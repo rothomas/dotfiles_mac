@@ -24,7 +24,7 @@ if find "${ZSH_BUNDLES}" | grep -q "${caller}"; then
   {
 eval "$(cat <<EOF
   if is_debug; then
-    printf "Including ${script}"
+    printf "Including ${script}\\n"
     start="\$({{ $date }} +'%s%N')"
   fi
   source "\${script}"
@@ -32,7 +32,7 @@ eval "$(cat <<EOF
     end="\$({{ $date }} +'%s%N')"
     delta_ns="\$({{ $bc }} <<< "\${end}-\${start}")"
     delta_s="\$({{ $bc }} <<< "scale=3; \$delta_ns/1000000000")"
-    printf ' %.3fs\\n' "\${delta_s}"
+    printf '...completed in %.3fs\\n' "\${delta_s}"
   fi
 EOF
 )"
@@ -43,6 +43,6 @@ if is_debug; then
   dotfile_end="$({{ $date }} +'%s%N')"
   delta_ns="$({{ $bc }} <<< "${dotfile_end} - ${dotfile_start}")"
   delta_s="$({{ $bc }} <<< "scale=3; ${delta_ns} / 1000000000")"
-  printf "Total ${caller}: %.3fs\n" "${delta_s}"
+  printf "Total ${caller}: %.3fs\n" "${delta_s}\n"
 fi
 
