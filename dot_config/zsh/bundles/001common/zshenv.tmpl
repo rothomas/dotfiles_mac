@@ -1,6 +1,4 @@
-if [ -z "${HOMEBREW_PREFIX}" ]; then
-  eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
-fi
+load_homebrew
 
 # Install zsh's bash completion script support.
 autoload bashcompinit

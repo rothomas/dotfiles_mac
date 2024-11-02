@@ -10,6 +10,12 @@ alias is_interactive='[[ -o interactive ]]'
 alias is_login='[[ -o login ]]'
 alias is_batch='! (is_interactive || is_login)'
 
+function debug_echo() {
+  if is_debug; then
+    echo $@
+  fi
+}
+
 function debug_printf() {
   if is_debug; then
     printf $@
