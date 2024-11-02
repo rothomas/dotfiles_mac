@@ -2,7 +2,9 @@ skip_global_compinit=1
 export ZSH_DISABLE_COMPFIX="true"
 export XDG_CONFIG_HOME="$HOME/.config"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
-#export ZSH_DEBUG=1
+if [[ -f "${HOME}/.zsh_debug" ]]; then
+  export ZSH_DEBUG=1
+fi
 export CHEZMOI_FULLNAME="{{ $.fullname }}"
 source "${ZDOTDIR}/.zshenv"
 
