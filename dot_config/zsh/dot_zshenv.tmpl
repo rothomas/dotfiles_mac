@@ -9,7 +9,7 @@ alias is_debug='[[ -n "${ZSH_DEBUG}" ]]'
 alias is_interactive='[[ -o interactive ]]'
 alias is_login='[[ -o login ]]'
 alias is_batch='! (is_interactive || is_login)'
-alias load_homebrew='eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
+alias load_homebrew='eval "$({{ $.brew_install_location }}/bin/brew shellenv)"'
 
 function debug_printf() {
   if is_debug; then
@@ -19,7 +19,7 @@ function debug_printf() {
 
 function load_homebrew() {
   debug_printf "Checking for homebrew."
-  if [[ -z "${HOMEBREW_}" ]]; then
+  if [[ -z "${HOMEBREW_PREFIX}" ]]; then
     debug_printf "Loading homebrew at {{ $.brew_install_location }}"
     eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
   else
