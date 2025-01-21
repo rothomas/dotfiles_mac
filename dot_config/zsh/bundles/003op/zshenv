@@ -1,2 +1,0 @@
-export JQ_MFA_SELECTOR='.fields[] | select(.type == "OTP").totp'
-

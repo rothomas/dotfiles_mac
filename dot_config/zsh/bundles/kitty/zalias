@@ -1,7 +1,0 @@
-if [[ ! -z "${KITTY_WINDOW_ID}" ]]; then
-  # If using the kitty terminal, this automatically
-  # provides the termcap for its "xterm-kitty" $TERM
-  # to the remote host.
-  #alias ssh="kitty +kitten ssh"
-fi
-

@@ -1,7 +1,0 @@
-{{if eq .chezmoi.os "darwin"}}source ~/.config/bash/.iterm2_shell_integration.bash{{end}}
-
-[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
-
-eval $(ssh-agent -s) > /dev/null
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

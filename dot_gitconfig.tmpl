@@ -1,14 +1,11 @@
 [user]
-	name = {{ .fullname }}
-	email = {{ .email }}
+	name = {{ env "CHEZMOI_FULLNAME" }}
+
 [core]
 	autocrlf = input
 	excludesfile = ~/.gitignore
 [pull]
 	ff = only
-
-[init]
-	templatedir = ~/.git-templates
 
 [safe]
 	directory = {{ $.brew_install_location }}

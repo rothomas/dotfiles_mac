@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-{{- if eq $.chezmoi.os "darwin"                            }}
-
-#############################################################
-# SET UP HOMEBREW FOR MAC OS
-#############################################################
-echo '' | NONINTERACTIVE=1 .installers/install_homebrew.sh
-
-{{ end                                                    -}}

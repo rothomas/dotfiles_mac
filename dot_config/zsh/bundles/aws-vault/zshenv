@@ -1,3 +1,0 @@
-export AWS_VAULT_PL_MFA=inline
-omz_plugin zsh-aws-vault
-
