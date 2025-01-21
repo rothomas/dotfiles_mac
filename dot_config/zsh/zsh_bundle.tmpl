@@ -1,8 +1,5 @@
-{{- $date := "date" -}}
-{{- if eq $.chezmoi.os "darwin" -}}
-{{-   $date = printf "%s/bin/gdate" $.brew_install_location -}}
-{{- end -}}
-{{- $bc := printf "%s/bin/bc" $.brew_install_location -}}
+{{- $date := "/opt/homebrew/bin/gdate" -}}
+{{- $bc := "/opt/homebrew/bin/bc" -}}
 
 # Get the name of the script that called this one (less the leading dot)
 caller="$(basename "$(echo "${functrace}" | cut -d' ' -f1 | cut -d':' -f1)" | sed 's/^\.//')"

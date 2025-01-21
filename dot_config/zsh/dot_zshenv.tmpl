@@ -2,7 +2,7 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export ZSH_CONFIG_HOME="${XDG_CONFIG_HOME}/zsh"
 export ZSH_CONFIG_PRIVATE="${ZSH_CONFIG_HOME}/private"
 export ZSH_BUNDLES="${ZSH_CONFIG_HOME}/bundles"
-export TZ="{{ index $.tz $.chezmoi.hostname }}"
+export TZ="Europe/Lisbon"
 export COLORTERM=truecolor
 
 alias is_debug='[[ -n "${ZSH_DEBUG}" ]]'
@@ -25,8 +25,8 @@ function debug_printf() {
 function load_homebrew() {
   debug_printf "Checking for homebrew.\n"
   if [[ -z "${HOMEBREW_PREFIX}" ]]; then
-    debug_printf "Loading homebrew at {{ $.brew_install_location }}.\n"
-    eval "$({{ $.brew_install_location }}/bin/brew shellenv)"
+    debug_printf "Loading homebrew at /opt/homebrew.\n"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
   else
     debug_printf "Homebrew is already loaded.\n"
   fi
