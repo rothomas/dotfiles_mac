@@ -5,6 +5,6 @@ export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 if [[ -f "${HOME}/.zsh_debug" ]]; then
   export ZSH_DEBUG=1
 fi
-export CHEZMOI_FULLNAME="{{ $.fullname }}"
+export CHEZMOI_FULLNAME="{{ env "CHEZMOI_FULLNAME" }}"
 source "${ZDOTDIR}/.zshenv"
 
