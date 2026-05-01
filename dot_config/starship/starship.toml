@@ -9,7 +9,6 @@ format = """
 [ $os $hostname](bg:white)\
 [](bg:blue fg:white)\
 [ $directory](bg:blue)\
-[](fg:blue bg:black)\
 ${custom.dir_right_git}${custom.dir_right_no_git}\
 $git_branch\
 $git_status"""
