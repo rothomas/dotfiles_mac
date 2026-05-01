@@ -23,7 +23,12 @@ $username\
 [](fg:white bg:black)"""
 
 [directory]
+format = '[$read_only]($read_only_style)[$path]($style)'
 style = "bg:blue fg:bright-white"
+read_only = ' '
+read_only_style = 'bright-white'
+home_symbol = ' ~'
+
 
 [git_branch]
 format = "[$symbol$branch(:$remote_branch) ]($style)"
