@@ -91,7 +91,6 @@ format = "[](fg:green bg:black)"
 
 [custom.exit_status]
 description = "Exit status of the last command"
-prefix = "exit "
 command = "echo ${STATUS}"
 when = """ [ $STATUS -ne 0 ] """
 style = "bold red"
