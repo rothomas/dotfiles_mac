@@ -6,9 +6,8 @@ add_newline = true
 
 format = """
 [](bg:black fg:white)\
-[ $os ](bg:white)\
+[](bg:white)\
 [](bg:black fg:white)\
-$hostname\
 $directory\
 $git_branch\
 $git_status"""
@@ -22,9 +21,14 @@ error_symbol = '[✗](bold red)'
 [directory]
 style = "bg:blue fg:white"
 
+[hostname]
+style = "bg:white fg:black"
+format = "[$hostname ]($style)"
+
 [os]
 disabled = false
 style = "bg:white fg:black"
+format = "[ $os ]($style)"
 [os.symbols]
 Windows = "󰍲"
 Ubuntu = "󰕈"
