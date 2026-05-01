@@ -10,6 +10,7 @@ format = """
 [](bg:blue fg:white)\
 [ $directory](bg:blue)\
 [](fg:blue bg:black)\
+${custom.test}\
 $git_branch\
 $git_status"""
 
@@ -58,3 +59,10 @@ disabled = false
 style = "bg:white fg:black"
 format = '[$time]($style)'
 time_format = '%T'
+
+[custom.test]
+description = "Compound"
+when = true
+format = "[ $os $hostname ]"
+style = "bg:red fg:white"
+
