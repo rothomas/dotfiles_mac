@@ -1,4 +1,4 @@
-# Get editor completions based on the config schema
+## Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Inserts a blank line between shell prompts
@@ -14,7 +14,15 @@ $git_branch\
 $git_status\
 ${custom.git_right} """
 
-right_format = "$character $direnv $package $username"
+right_format = """
+$character \
+[](fg:black bg:blue)\
+[ $package ](fg:black bg:blue)\
+[](fg:blue bg:black)\
+$username
+[](fg:blue bg:white)\
+[ $time ](fg:black bg:white)\
+[](fg:white bg:black)"""
 
 [character]
 success_symbol = '[✔](bold green)'
