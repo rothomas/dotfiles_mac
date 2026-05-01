@@ -17,7 +17,7 @@ ${custom.git_right} """
 right_format = """
 $status\
 [ $package ](fg:black bg:blue)\
-$username \
+$username\
 [](fg:blue bg:white)\
 [ $time ](fg:black bg:white)\
 [](fg:white bg:black)"""
