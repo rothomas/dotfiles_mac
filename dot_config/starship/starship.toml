@@ -28,6 +28,10 @@ format = "[$symbol$branch(:$remote_branch) ]($style)"
 style = "bg:green fg:black"
 symbol = "   "
 
+[git_status]
+style = "bg:green fg:black"
+format = "[$allstatus$ahead_behind ]($style)"
+
 [hostname]
 style = "bg:white fg:black"
 format = "[$hostname ]($style)"
