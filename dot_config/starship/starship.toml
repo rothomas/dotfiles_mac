@@ -15,6 +15,7 @@ $git_status\
 ${custom.git_right} """
 
 right_format = """
+$cmd_duration \
 $status\
 [$python$ruby$nodejs$rust ](fg:black bg:blue)\
 [](fg:white bg:blue)\
@@ -22,11 +23,15 @@ $username\
 [ $time ](fg:black bg:white)\
 [](fg:white bg:black)"""
 
+[cmd_duration]
+format = '[](fg:yellow bg:black)[$duration ]($style)[](fg:yellow bg:black)'
+style = 'fg:black bg:yellow'
+
 [directory]
 format = '[$read_only]($read_only_style)[$path]($style) '
 style = "bg:blue fg:bright-white"
 read_only = ' '
-read_only_style = 'bright-white'
+read_only_style = 'bg:blue fg:bright-white'
 home_symbol = ' ~'
 
 
