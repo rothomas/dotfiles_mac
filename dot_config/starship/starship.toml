@@ -30,7 +30,7 @@ symbol = "   "
 
 [git_status]
 style = "bg:green fg:black"
-format = "[$allstatus$ahead_behind ]($style)"
+format = "[$all_status$ahead_behind ]($style)"
 
 [hostname]
 style = "bg:white fg:black"
