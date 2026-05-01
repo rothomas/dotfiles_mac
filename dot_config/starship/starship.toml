@@ -7,8 +7,8 @@ add_newline = true
 format = """
 [](bg:black fg:white)\
 [ $os $hostname](bg:white)\
-[](bg:black fg:white)\
-$directory\
+[](bg:blue fg:white)\
+[ $directory ](bg:blue)\
 $git_branch\
 $git_status"""
 
