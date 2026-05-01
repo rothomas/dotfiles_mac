@@ -15,7 +15,7 @@ $git_status\
 ${custom.git_right} """
 
 right_format = """
-$character ${env_var.?}\
+$character ${custom.exit_status}\
 [](fg:black bg:blue)\
 [ $package ](fg:black bg:blue)\
 [](fg:blue bg:black)\
@@ -88,3 +88,11 @@ format = "[](fg:blue bg:black)"
 [custom.git_right]
 when = "git rev-parse --is-inside-work-tree"
 format = "[](fg:green bg:black)"
+
+[custom.exit_status]
+description = "Exit status of the last command"
+command = "echo ${STATUS}"
+when = """ [ ${STATUS} -ne 0 ] """
+style = "bold red"
+format = "[\\[$output\\]]($style) "
+
