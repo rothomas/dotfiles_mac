@@ -15,7 +15,7 @@ $git_status\
 ${custom.git_right} """
 
 right_format = """
-$character \
+$character ${env_var.?}\
 [](fg:black bg:blue)\
 [ $package ](fg:black bg:blue)\
 [](fg:blue bg:black)\
