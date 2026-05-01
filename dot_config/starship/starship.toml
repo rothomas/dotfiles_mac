@@ -17,8 +17,8 @@ ${custom.git_right} """
 right_format = """
 $status\
 [$python$ruby$nodejs$rust ](fg:black bg:blue)\
-$username\
 [](fg:blue bg:white)\
+$username\
 [ $time ](fg:black bg:white)\
 [](fg:white bg:black)"""
 
@@ -92,6 +92,11 @@ disabled = false
 style = "bg:white fg:black"
 format = '[$time ]($style)'
 time_format = '%T'
+
+[username]
+style_root = "bg:white fg:bright-red"
+style_user = "bg:white fg:black"
+format = ' [$user]($style)'
 
 [custom.dir_right_git]
 when = "git rev-parse --is-inside-work-tree"
