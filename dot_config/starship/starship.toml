@@ -8,7 +8,7 @@ format = """
 [](bg:black fg:white)\
 [ $os $hostname](bg:white)\
 [](bg:blue fg:white)\
-[ $directory ](bg:blue)\
+[ $directory](bg:blue)\
 [](fg:blue bg:black)\
 $git_branch\
 $git_status"""
