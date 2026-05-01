@@ -6,7 +6,7 @@ add_newline = true
 
 format = """
 [](bg:black fg:white)\
-$os\
+ $os \
 [](bg:black fg:white)\
 $hostname\
 $directory\
