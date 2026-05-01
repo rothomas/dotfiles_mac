@@ -73,8 +73,9 @@ Pop = ""
 
 [status]
 disabled = false
+format = '[$symbol]($style)'
 success_symbol = '[✔](bold green)'
-symbol = '[✗](bold red)'
+symbol = '[✗ $code](bold red)'
 
 [time]
 disabled = false
