@@ -85,7 +85,7 @@ style = "none"
 disabled = false
 format = '[$symbol]($style)'
 success_symbol = '[✔ ](bold green)[](fg:blue bg:black)'
-symbol = '[](fg:red bg:black)[ $status ✗ ](fg:yellow bg:red)[](fg:blue bg:red)'
+symbol = '[](fg:red bg:black)[ $status ✗ ](fg:yellow bg:red)[](fg:blue bg:red)'
 
 [time]
 disabled = false
