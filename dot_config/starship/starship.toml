@@ -74,7 +74,7 @@ Pop = ""
 [time]
 disabled = false
 style = "bg:white fg:black"
-format = '[$time]($style)'
+format = '[$time ]($style)'
 time_format = '%T'
 
 [custom.dir_right_git]
