@@ -9,6 +9,7 @@ format = """
 [ $os $hostname](bg:white)\
 [](bg:blue fg:white)\
 [ $directory ](bg:blue)\
+[](fg:blue bg:black)\
 $git_branch\
 $git_status"""
 
@@ -19,7 +20,7 @@ success_symbol = '[✔](bold green)'
 error_symbol = '[✗](bold red)'
 
 [directory]
-style = "bg:blue fg:white"
+style = "bg:blue fg:bright-white"
 
 [hostname]
 style = "bg:white fg:black"
