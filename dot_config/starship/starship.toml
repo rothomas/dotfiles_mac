@@ -71,6 +71,11 @@ Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 Pop = ""
 
+[status]
+disabled = false
+success_symbol = '[✔](bold green)'
+symbol = '[✗](bold red)'
+
 [time]
 disabled = false
 style = "bg:white fg:black"
