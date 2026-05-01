@@ -10,6 +10,8 @@ export IDE_TERMINAL=0
 function is_ide() { [[ "${IDE_TERMINAL}" != '0' ]] }
 function in_ide() { IDE_TERMINAL='1' }
 
+export STATUS
+
 # OH-MY-ZSH PLUGIN ARRAY
 # This is in common instead of the omz config because
 # other bundles won't need to know if the OMZ bundle is
