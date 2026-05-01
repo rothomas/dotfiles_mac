@@ -7,14 +7,16 @@ add_newline = true
 format = "$os $hostname $directory $git_branch $git_status"
 right_format = "$character $direnv $package $username"
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
+[character]
 success_symbol = '[✔](bold green)'
 error_symbol = '[✗](bold red)'
 
+[directory]
+style = "bg:blue fg:white"
+
 [os]
 disabled = false
-style = "bold white"
+style = "bg:white fg:black"
 [os.symbols]
 Linux = ''
 Macos = ''
@@ -22,5 +24,6 @@ Ubuntu = ''
 
 [time]
 disabled = false
-format = '[$time ]($style)'
+style = "bg:white fg:black"
+format = '[$time]($style)'
 time_format = '%T'
