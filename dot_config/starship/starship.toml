@@ -11,7 +11,8 @@ format = """
 [ $directory](bg:blue)\
 ${custom.dir_right_git}${custom.dir_right_no_git}\
 $git_branch\
-$git_status"""
+$git_status\
+${custom.git_right} """
 
 right_format = "$character $direnv $package $username"
 
@@ -21,6 +22,10 @@ error_symbol = '[✗](bold red)'
 
 [directory]
 style = "bg:blue fg:bright-white"
+
+[git_branch]
+style = "bg:green fg:black"
+symbol = "   "
 
 [hostname]
 style = "bg:white fg:black"
@@ -67,3 +72,6 @@ format = "[](fg:blue bg:green)"
 when = "! git rev-parse --is-inside-work-tree"
 format = "[](fg:blue bg:black)"
 
+[custom.git_right]
+when = "git rev-parse --is-inside-work-tree"
+format = "[](fg:green bg:black)"
