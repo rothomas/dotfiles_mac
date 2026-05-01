@@ -16,7 +16,7 @@ style = "bg:blue fg:white"
 
 [os]
 disabled = false
-style = "bg:white fg:black"
+format = "[](fg:white bg:black)[ $os ](fg:black bg:white)[](fg:white bg:black)" 
 [os.symbols]
 Linux = ''
 Macos = ''
