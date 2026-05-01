@@ -4,7 +4,15 @@
 # Inserts a blank line between shell prompts
 add_newline = true
 
-format = "$os $hostname $directory $git_branch $git_status"
+format = """
+[](bg:black fg:white)\
+$os\
+[](bg:black fg:white)\
+$hostname\
+$directory\
+$git_branch\
+$git_status"""
+
 right_format = "$character $direnv $package $username"
 
 [character]
@@ -16,12 +24,30 @@ style = "bg:blue fg:white"
 
 [os]
 disabled = false
-style = "black"
-format = "[](fg:white bg:black)[ $os ](fg:black bg:white)[](fg:white bg:black)" 
+style = "bg:white fg:black"
 [os.symbols]
-Linux = ''
-Macos = ''
-Ubuntu = ''
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+AOSC = ""
+Arch = "󰣇"
+Artix = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = ""
 
 [time]
 disabled = false
