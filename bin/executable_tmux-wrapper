@@ -4,24 +4,35 @@ HOSTNAME="$(hostname -s | tr '[:upper:]' '[:lower:]' )"
 
 # PROFILE SELECTION
 if [[ -n "${TERM_SESSION_ID}" ]]; then
-  # iTerm2
-  SESSION_ADDRESS="$(echo $TERM_SESSION_ID | sed 's/:.*//' | sed 's/w0//' | sed 's/t0//' | sed 's/p0//')"
-  if [[ -n "${SESSION_ADDRESS}" ]]; then
-    HOSTNAME="${HOSTNAME}-${SESSION_ADDRESS}"
-  fi
-  if [[ "${ITERM_PROFILE}" == "Default" ]]; then
-    EXEC_PROFILE="tmux"
-  else
-    profile="$(echo "${ITERM_PROFILE}" | tr '[:upper:]' '[:lower:]')"
-    if grep -q "^Host ${profile}" ~/.ssh/config; then
-      EXEC_PROFILE="ssh"
-      SSH_HOST="${profile}"
-    else
-      EXEC_PROFILE="bare"
+
+  if echo "${TERM_SESSION_ID}" |  egrep -q 'w[0-9]+t[0-9]+p[0-9]+:.*'; then
+
+    # iTerm2
+    SESSION_ADDRESS="$(echo $TERM_SESSION_ID | sed 's/:.*//' | sed 's/w0//' | sed 's/t0//' | sed 's/p0//')"
+    if [[ -n "${SESSION_ADDRESS}" ]]; then
+      HOSTNAME="${HOSTNAME}-${SESSION_ADDRESS}"
     fi
+
+    if [[ "${ITERM_PROFILE}" == "Default" ]]; then
+      EXEC_PROFILE="tmux"
+    else
+      profile="$(echo "${ITERM_PROFILE}" | tr '[:upper:]' '[:lower:]')"
+      if grep -q "^Host ${profile}" ~/.ssh/config; then
+        echo "$profile is a known ssh host"
+        EXEC_PROFILE="ssh"
+        SSH_HOST="${profile}"
+      else
+        EXEC_PROFILE="bare"
+      fi
+    fi
+    # Uncomment to use iTerm2's tmux control mode.
+    # TMUX_FLAGS='-CC'
+
+  else
+    # Non-iTerm Terminal: has TERM_SESSION_ID, but without iTerm's window/tab/pane information.
+    EXEC_PROFILE="tmux"
   fi
-  # Uncomment to use iTerm2's tmux control mode.
-  # TMUX_FLAGS='-CC'
+
 elif [[ -n "${SESSION_ID}" ]]; then
   # Called session (e.g., from blink)
   EXEC_PROFILE="tmux"
