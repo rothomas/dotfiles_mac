@@ -15,7 +15,7 @@ function in_ide() { IDE_TERMINAL='1' }
 # other bundles won't need to know if the OMZ bundle is
 # enabled in order to add plugins.
 # The base array only contains the git plugin.
-export OMZ_PLUGINS=(git)
+export OMZ_PLUGINS=(git starship)
 # Use omz_plugin to add new plugins in other modules.
 function omz_plugin() {
   OMZ_PLUGINS+=("${1}")
@@ -29,3 +29,4 @@ function set_omz_theme() {
   OMZ_THEME="${1}"
 }
 
+export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
