@@ -39,6 +39,7 @@ style = "bg:white fg:black"
 format = "[$hostname ]($style)"
 
 [nodejs]
+format = "[ $symbol($version )]($style)"
 style = "none"
 
 [os]
@@ -69,12 +70,15 @@ RedHatEnterprise = "󱄛"
 Pop = ""
 
 [python]
+format = "[ ${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)"
 style = "none"
 
 [ruby]
+format = "[ $symbol($version )]($style)"
 style = "none"
 
 [rust]
+format = "[ $symbol($version )]($style)"
 style = "none"
 
 [status]
