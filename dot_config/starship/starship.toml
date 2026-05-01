@@ -24,6 +24,7 @@ error_symbol = '[✗](bold red)'
 style = "bg:blue fg:bright-white"
 
 [git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
 style = "bg:green fg:black"
 symbol = "   "
 
