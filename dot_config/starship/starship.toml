@@ -15,7 +15,7 @@ $git_status\
 ${custom.git_right} """
 
 right_format = """
-$character $status\
+$status\
 [](fg:black bg:blue)\
 [ $package ](fg:black bg:blue)\
 [](fg:blue bg:black)\
@@ -23,10 +23,6 @@ $username
 [](fg:blue bg:white)\
 [ $time ](fg:black bg:white)\
 [](fg:white bg:black)"""
-
-[character]
-success_symbol = '[✔](bold green)'
-error_symbol = '[✗](bold red)'
 
 [directory]
 style = "bg:blue fg:bright-white"
@@ -74,8 +70,8 @@ Pop = ""
 [status]
 disabled = false
 format = '[$symbol]($style)'
-success_symbol = '[✔](bold green)'
-symbol = '[✗ $status](bold red)'
+success_symbol = '[✔ ](bold green)[](fg:blue bg:black)'
+symbol = '[](fg:red bg:black)[ $status ✗ ](fg:yellow bg:red)[](fg:blue bg:red)'
 
 [time]
 disabled = false
