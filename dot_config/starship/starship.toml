@@ -18,8 +18,7 @@ right_format = """
 $status\
 [](fg:black bg:blue)\
 [ $package ](fg:black bg:blue)\
-[](fg:blue bg:black)\
-$username
+$username \
 [](fg:blue bg:white)\
 [ $time ](fg:black bg:white)\
 [](fg:white bg:black)"""
