@@ -10,7 +10,7 @@ format = """
 [](bg:blue fg:white)\
 [ $directory](bg:blue)\
 [](fg:blue bg:black)\
-${custom.test}\
+${custom.dir_right_git}${custom.dir_right_no_git}\
 $git_branch\
 $git_status"""
 
@@ -60,9 +60,11 @@ style = "bg:white fg:black"
 format = '[$time]($style)'
 time_format = '%T'
 
-[custom.test]
-description = "Compound"
-when = true
-format = "[ $os $hostname ]"
-style = "bg:red fg:white"
+[custom.dir_right_git]
+when = "git rev-parse --is-inside-work-tree"
+format = "[](fg:blue bg:green)"
+
+[custom.dir_right_no_git]
+when = "! git rev-parse --is-inside-work-tree"
+format = "[](fg:blue bg:black)"
 
